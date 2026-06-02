@@ -4,17 +4,10 @@ import { X } from "lucide-react";
 import sanixorMark from "@/assets/sanixor-mark.png";
 
 const links = [
-<<<<<<< HEAD
-  { to: "#products", label: "Products", icon: Sparkles },
-  { to: "#services", label: "Services", icon: Briefcase },
-  { to: "#events", label: "Events", icon: Users },
-  { to: "#learn", label: "Learn", icon: GraduationCap },
-=======
   { to: "/", label: "Home" },
   { to: "/products", label: "Products" },
   { to: "/team", label: "Team" },
   { to: "/contact", label: "Contact" },
->>>>>>> origin/main
 ];
 
 export function Navbar() {
@@ -40,27 +33,6 @@ export function Navbar() {
           Sanixor<span className="accent">AI</span>
         </Link>
 
-<<<<<<< HEAD
-          <ul className="hidden items-center gap-1 lg:flex">
-            {links.map((l) => (
-              <li key={l.to}>
-                <a
-                  href={l.to}
-                  className={`rounded-full px-4 py-2 text-sm transition-all duration-300 hover:bg-muted hover:text-foreground text-muted-foreground`}
-                >
-                  {l.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-
-          <a href="#early-access" className="hidden lg:inline-flex rounded-full px-6 py-2 text-sm font-medium bg-primary text-primary-foreground transition-all duration-300 hover:shadow-glow">
-            Get Early Access
-          </a>
-
-          <div className="flex items-center gap-2">
-            <ThemePicker />
-=======
         <ul className="inner-nav-links">
           {links.map((l) => (
             <li key={l.to}>
@@ -77,7 +49,6 @@ export function Navbar() {
         <Link to="/contact" className="inner-nav-cta">
           Get in Touch
         </Link>
->>>>>>> origin/main
 
         <button
           type="button"
