@@ -6,8 +6,6 @@ import { ThemeProvider } from "./components/sanixor/ThemeProvider";
 import Index from "./routes/index";
 import Products from "./routes/products";
 import Team from "./routes/team";
-import Training from "./routes/training";
-import Hiring from "./routes/hiring";
 import Contact from "./routes/contact";
 
 function NotFound() {
@@ -32,8 +30,6 @@ createRoot(document.getElementById("root")!).render(
           <Route path="/" element={<Index />} />
           <Route path="/products" element={<Products />} />
           <Route path="/team" element={<Team />} />
-          <Route path="/training" element={<Training />} />
-          <Route path="/hiring" element={<Hiring />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

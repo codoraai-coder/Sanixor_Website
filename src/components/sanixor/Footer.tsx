@@ -1,6 +1,4 @@
 import { Link } from "react-router-dom";
-import { Github, Linkedin, Twitter } from "lucide-react";
-import { Logo } from "./Logo";
 
 const socialLinks = [
   { label: "Twitter", Icon: Twitter, href: "#" },
@@ -10,6 +8,7 @@ const socialLinks = [
 
 export function Footer() {
   return (
+<<<<<<< HEAD
     <footer className="relative border-t border-border/60 mt-32">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-4">
         <div className="md:col-span-2">
@@ -120,7 +119,19 @@ export function Footer() {
       </div>
       <div className="border-t border-border/60 px-6 py-6 text-center text-xs text-muted-foreground">
         © {new Date().getFullYear()} Sanixor.AI — Automating Intelligence. Eliminating Bias.
+=======
+    <footer className="snx-footer">
+      <Link to="/" className="footer-logo">
+        Sanixor<span>AI</span>
+      </Link>
+      <div className="footer-links">
+        <Link to="/products">Products</Link>
+        <Link to="/team">Team</Link>
+        <Link to="/contact">Contact</Link>
+        <a href="https://sanixor.space" target="_blank" rel="noopener noreferrer">sanixor.space</a>
+>>>>>>> origin/main
       </div>
+      <div className="footer-copy">© 2025 Sanixor AI. Built for the next generation.</div>
     </footer>
   );
 }
