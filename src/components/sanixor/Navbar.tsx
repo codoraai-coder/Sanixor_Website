@@ -1,39 +1,26 @@
-import { Link, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { ArrowUpRight, Menu, X } from "lucide-react";
 import sanixorMark from "@/assets/sanixor-mark.png";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { ArrowUpRight, Menu, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const homeLinks = [
-  { href: "#products", label: "Products" },
-  { href: "#services", label: "Services" },
-  { href: "#event", label: "Events" },
-  { href: "#learn", label: "Learn" },
+  { href: "/#products", label: "Products" },
+  { href: "/#services", label: "Services" },
+  { href: "/#event", label: "Events" },
+  { href: "/#learn", label: "Learn" },
 ];
 
-const pageLinks = [
-  { to: "/", label: "Home" },
-  { to: "/products", label: "Products" },
-  { to: "/team", label: "Team" },
-  { to: "/contact", label: "Contact" },
-];
-
-export function Navbar({ variant = "page" }: { variant?: "home" | "page" }) {
+export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const location = useLocation();
-  const isHome = variant === "home" || location.pathname === "/";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [location]);
 
   return (
     <>
@@ -50,46 +37,34 @@ export function Navbar({ variant = "page" }: { variant?: "home" | "page" }) {
           Sanixor<span className="text-gradient animate-pulse">AI</span>
         </Link>
 
+        {/* Desktop Navigation */}
         <nav className="hidden items-center gap-1 rounded-full border border-primary/30 bg-background/60 px-2 py-1 backdrop-blur-xl shadow-lg md:flex">
-          {(isHome ? homeLinks : pageLinks).map((link) =>
-            "href" in link ? (
-              <a
-                key={link.href}
-                href={link.href}
-                className="rounded-full px-4 py-1.5 text-sm font-medium text-muted-foreground transition-all duration-300 hover:bg-primary/20 hover:text-foreground hover:shadow-md"
-              >
-                {link.label}
-              </a>
-            ) : (
-              <Link
-                key={link.to}
-                to={link.to}
-                className={cn(
-                  "rounded-full px-4 py-1.5 text-sm font-medium transition-colors hover:bg-primary/10 hover:text-foreground",
-                  location.pathname === link.to
-                    ? "bg-primary/10 text-foreground"
-                    : "text-muted-foreground",
-                )}
-              >
-                {link.label}
-              </Link>
-            ),
-          )}
+          {homeLinks.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="rounded-full px-4 py-1.5 text-sm font-medium text-muted-foreground transition-all duration-300 hover:bg-primary/20 hover:text-foreground hover:shadow-md"
+            >
+              {link.label}
+            </a>
+          ))}
         </nav>
 
+        {/* Desktop CTA */}
         <div className="hidden md:block">
           <Button
             asChild
             size="sm"
             className="rounded-full bg-gradient-to-r from-secondary via-primary to-primary-glow shadow-glow"
           >
-            <a href={isHome ? "#cta" : "/contact"}>
-              {isHome ? "Get Early Access" : "Get in Touch"}
+            <a href="#cta">
+              Get Early Access
               <ArrowUpRight className="h-3.5 w-3.5" />
             </a>
           </Button>
         </div>
 
+        {/* Mobile Menu Trigger */}
         <button
           type="button"
           onClick={() => setMenuOpen(true)}
@@ -100,6 +75,7 @@ export function Navbar({ variant = "page" }: { variant?: "home" | "page" }) {
         </button>
       </header>
 
+      {/* Mobile Drawer */}
       {menuOpen && (
         <div className="fixed inset-0 z-[60] bg-background/95 backdrop-blur-xl md:hidden">
           <div className="flex items-center justify-between border-b border-border/40 px-6 py-5">
@@ -116,30 +92,20 @@ export function Navbar({ variant = "page" }: { variant?: "home" | "page" }) {
             </button>
           </div>
           <div className="flex flex-col gap-2 p-6">
-            {(isHome ? homeLinks : pageLinks).map((link) =>
-              "href" in link ? (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="rounded-xl px-4 py-3 text-lg font-medium text-muted-foreground transition-colors hover:bg-primary/10 hover:text-foreground"
-                >
-                  {link.label}
-                </a>
-              ) : (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  onClick={() => setMenuOpen(false)}
-                  className="rounded-xl px-4 py-3 text-lg font-medium text-muted-foreground transition-colors hover:bg-primary/10 hover:text-foreground"
-                >
-                  {link.label}
-                </Link>
-              ),
-            )}
+            {homeLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => setMenuOpen(false)}
+                className="rounded-xl px-4 py-3 text-lg font-medium text-muted-foreground transition-colors hover:bg-primary/10 hover:text-foreground"
+              >
+                {link.label}
+              </a>
+            ))}
+            
             <Button asChild className="mt-4 rounded-full" size="lg">
-              <a href={isHome ? "#cta" : "/contact"} onClick={() => setMenuOpen(false)}>
-                {isHome ? "Get Early Access" : "Get in Touch"}
+              <a href="#cta" onClick={() => setMenuOpen(false)}>
+                Get Early Access
               </a>
             </Button>
           </div>

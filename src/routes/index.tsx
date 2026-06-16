@@ -1,6 +1,6 @@
 import { ScrollReveal } from "@/components/sanixor/ScrollReveal";
 import { AgentVerse2 } from "@/components/sanixor/AgentVerse2";
-import { ArrowUpRight, Cpu, FlaskConical, GraduationCap, Network } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Cpu, FlaskConical, GraduationCap, Network } from "lucide-react";
 import { HeroParallax } from "@/components/sanixor/HeroParallax";
 import { CTASection, Footer } from "@/components/sanixor/Footer";
 import { Navbar } from "@/components/sanixor/Navbar";
@@ -8,6 +8,8 @@ import { ProductCarousel } from "@/components/sanixor/ProductCarousel";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Link } from "react-router-dom";
+
 import { cn } from "@/lib/utils";
 
 const services = [
@@ -181,6 +183,24 @@ export default function Index() {
               </Card>
             ))}
           </div>
+          <div className="glass-strong rounded-3xl p-10 text-center mt-12 mb-12">
+  <h3 className="text-2xl font-bold mb-3">
+    Want Structured AI Training?
+  </h3>
+
+  <p className="text-muted-foreground max-w-xl mx-auto mb-6">
+    Move beyond theory with curated AI, Agent Engineering,
+    LLM, RAG, and system design training tracks.
+  </p>
+
+  <Link
+    to="/training"
+    className="group inline-flex items-center gap-3 rounded-full bg-gradient-primary px-8 py-4 text-base font-semibold text-primary-foreground shadow-glow transition-all duration-300 hover:scale-105"
+  >
+    Explore Training Hub
+    <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+  </Link>
+</div>
         </section>
       </ScrollReveal>
 

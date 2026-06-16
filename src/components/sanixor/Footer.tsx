@@ -1,6 +1,6 @@
-import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { ArrowUpRight } from "lucide-react";
 
 export function CTASection({ className }: { className?: string }) {
   return (
@@ -171,6 +171,7 @@ export function Footer() {
           font-family: 'Syne', sans-serif;
           font-size: clamp(10px, 1.2vw, 12px);
           font-weight: 700;
+          
           color: #f2f0f8;
           letter-spacing: 0.12em;
           text-transform: uppercase;
@@ -186,14 +187,17 @@ export function Footer() {
           height: 2px;
           border-radius: 2px;
           background: linear-gradient(90deg, #7c3aed, #b89830);
+          
         }
         .sx-link-col ul {
           list-style: none;
           display: flex;
           flex-direction: column;
           gap: clamp(6px, 1vw, 10px);
+
         }
         .sx-link-col li a {
+          
           font-family: 'DM Mono', monospace;
           font-size: clamp(10px, 1.3vw, 13px);
           font-weight: 400;
@@ -230,6 +234,9 @@ export function Footer() {
           justify-content: space-between;
           gap: 12px;
         }
+          .learn-col{
+          width: 195px;
+          }
         .sx-copyright {
           font-family: 'DM Mono', monospace;
           font-size: clamp(9px, 1.2vw, 12px);
@@ -287,13 +294,15 @@ export function Footer() {
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
               </a>
               <div className="sx-socials">
-                <a href="#" className="sx-social-icon" aria-label="GitHub">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                <a href="https://www.instagram.com/sanixorai/" className="sx-social-icon" aria-label="Instagram">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7.75 2C4.574 2 2 4.574 2 7.75v8.5C2 19.426 4.574 22 7.75 22h8.5C19.426 22 22 19.426 22 16.25v-8.5C22 4.574 19.426 2 16.25 2h-8.5zm0 1.8h8.5a3.95 3.95 0 0 1 3.95 3.95v8.5a3.95 3.95 0 0 1-3.95 3.95h-8.5a3.95 3.95 0 0 1-3.95-3.95v-8.5A3.95 3.95 0 0 1 7.75 3.8zm8.95 1.35a.95.95 0 1 0 0 1.9.95.95 0 0 0 0-1.9zM12 6.35A5.65 5.65 0 1 0 17.65 12 5.656 5.656 0 0 0 12 6.35zm0 1.8A3.85 3.85 0 1 1 8.15 12 3.854 3.854 0 0 1 12 8.15z"/>
+                  </svg>
                 </a>
-                <a href="#" className="sx-social-icon" aria-label="Twitter / X">
+                <a href="https://twitter.com/sanixorai" className="sx-social-icon" aria-label="Twitter / X">
                   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                 </a>
-                <a href="#" className="sx-social-icon" aria-label="LinkedIn">
+                <a href="https://www.linkedin.com/company/sanixor-ai/" className="sx-social-icon" aria-label="LinkedIn">
                   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                 </a>
               </div>
@@ -319,14 +328,14 @@ export function Footer() {
                 </ul>
               </div>
               <div className="sx-link-col">
-                <h4>AgentVerse</h4>
+                <h4>Agent Verse</h4>
                 <ul>
                   <li><a href="#" data-highlight="true">AgentVerse 2.0</a></li>
                   <li><a href="#" data-highlight="true">Register College</a></li>
                   <li><a href="#">Event Details</a></li>
                 </ul>
               </div>
-              <div className="sx-link-col">
+              <div className="sx-link-col learn-col">
                 <h4>Learn</h4>
                 <ul>
                   <li><a href="#">Transformer Architecture</a></li>
@@ -343,9 +352,9 @@ export function Footer() {
           <div className="sx-footer-bottom">
             <p className="sx-copyright">&copy; 2025 <span>Sanixor AI</span>. Built for the next generation.</p>
             <div className="sx-footer-bottom-links">
-              <a href="#">Privacy</a>
-              <a href="#">Terms</a>
-              <a href="#">Contact</a>
+              <a href="/privacy">Privacy Policy</a>
+              <a href="/terms">Terms & Conditions</a>
+              <a href="/contact">Contact Us</a>
             </div>
           </div>
         </div>

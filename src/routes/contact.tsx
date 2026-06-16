@@ -1,31 +1,58 @@
-import { useState, useEffect } from "react";
+import { Layout } from "@/components/sanixor/Layout";
 import {
-  Mail,
-  MapPin,
-  Send,
-  Github,
-  Linkedin,
-  Twitter,
   ArrowRight,
   Check,
   Clock,
+  Github,
+  Linkedin,
+  Mail,
+  MapPin,
   MessageCircle,
+  Send,
+  Twitter,
   Zap,
 } from "lucide-react";
-import { Layout } from "@/components/sanixor/Layout";
+import { useState } from "react";
 
 const topics = ["General Inquiry", "Product Demo", "Training", "Partnership", "Careers", "Press"];
-
 const contactInfo = [
-  { icon: Mail, label: "Email", value: "hello@sanixor.ai", color: 220 },
-  { icon: MapPin, label: "Office", value: "Bengaluru, India", color: 170 },
+  { icon: Mail, label: "Email", value: "team@sanixor.space", color: 220 },
+  { icon: MapPin, label: "Office", value: "Noida, Uttar Pradesh,India", color: 170 },
   { icon: Clock, label: "Response Time", value: "Within 24 hours", color: 280 },
   { icon: Zap, label: "Status", value: "Typically online", color: 210 },
+];
+const faqs = [
+  {
+    question: "What does Sanixor AI do?",
+    answer:
+      "Sanixor AI builds intelligent products and AI-powered solutions for students, developers, institutions, and enterprises."
+  },
+  {
+    question: "Can I request a product demo?",
+    answer:
+      "Yes. You can submit the contact form and our team will schedule a personalized product demonstration."
+  },
+  {
+    question: "Do you provide custom AI development services?",
+    answer:
+      "Absolutely. We offer custom AI agents, automation workflows, integrations, and enterprise solutions."
+  },
+  {
+    question: "How quickly can I expect a response?",
+    answer:
+      "Most inquiries receive a response within 24 hours during business days."
+  },
+  {
+    question: "Are partnership opportunities available?",
+    answer:
+      "Yes. We actively collaborate with educational institutions, startups, communities, and enterprises."
+  }
 ];
 
 export default function ContactPage() {
   const [sent, setSent] = useState(false);
   const [selectedTopic, setSelectedTopic] = useState("");
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   return (
     <Layout>
@@ -184,30 +211,58 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* FAQ Teaser */}
-      <section className="mx-auto max-w-4xl px-6 py-20">
-        <div className="glass-strong rounded-[2rem] p-8 md:p-12 text-center shadow-elegant">
-          <MessageCircle className="h-10 w-10 text-primary mx-auto mb-4" />
-          <h2 className="text-2xl font-bold mb-3">Have questions first?</h2>
-          <p className="text-muted-foreground mb-6">
-            Check our FAQ or browse documentation for quick answers.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <a
-              href="/products"
-              className="inline-flex items-center gap-2 rounded-full bg-gradient-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground shadow-glow transition-all duration-300 hover:scale-105"
-            >
-              View Products <ArrowRight className="h-4 w-4" />
-            </a>
-            <a
-              href="/training"
-              className="inline-flex items-center gap-2 rounded-full glass px-6 py-2.5 text-sm font-semibold transition-all duration-300 hover:bg-muted"
-            >
-              Learn about Training
-            </a>
+      {/* FAQ Section */}
+<section className="mx-auto max-w-4xl px-6 py-16">
+  <div className="text-center mb-12">
+    <h2 className="text-4xl font-bold mb-4">
+      Frequently Asked Questions
+    </h2>
+    <p className="text-muted-foreground">
+      Quick answers to common questions.
+    </p>
+  </div>
+
+  <div className="space-y-4">
+    {faqs.map((faq, index) => (
+      <div
+        key={index}
+        className="glass rounded-2xl overflow-hidden transition-all duration-300"
+      >
+        <button
+          onClick={() =>
+            setOpenFaq(openFaq === index ? null : index)
+          }
+          className="w-full flex items-center justify-between p-5 text-left"
+        >
+          <span className="font-semibold text-sm sm:text-base pr-4">
+            {faq.question}
+          </span>
+
+          <div
+            className={`transition-transform duration-300 ${
+              openFaq === index ? "rotate-180" : ""
+            }`}
+          >
+            ▼
+          </div>
+        </button>
+
+        <div
+          className={`overflow-hidden transition-all duration-300 ${
+            openFaq === index
+              ? "max-h-40 opacity-100"
+              : "max-h-0 opacity-0"
+          }`}
+        >
+          <div className="px-5 pb-5 text-sm text-muted-foreground">
+            {faq.answer}
           </div>
         </div>
-      </section>
+      </div>
+    ))}
+  </div>
+</section>
+      
     </Layout>
   );
 }

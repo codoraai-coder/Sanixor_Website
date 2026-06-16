@@ -1,18 +1,18 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
 
-/**
- * Initialises Lenis smooth-scroll on mount and tears it down on unmount.
- * Call once at the top-level layout / page component.
- */
+export let lenisInstance: Lenis | null = null;
+
 export function useSmoothScroll() {
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.2,            // scroll interpolation duration (seconds)
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // easeOutExpo
-      touchMultiplier: 2,       // touch device sensitivity
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      touchMultiplier: 2,
       infinite: false,
     });
+
+    lenisInstance = lenis;
 
     function raf(time: number) {
       lenis.raf(time);
@@ -23,6 +23,7 @@ export function useSmoothScroll() {
 
     return () => {
       lenis.destroy();
+      lenisInstance = null;
     };
   }, []);
 }

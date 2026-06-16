@@ -1,14 +1,18 @@
+import "lenis/dist/lenis.css";
 import { StrictMode, type ReactNode } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import "./styles.css";
-import "lenis/dist/lenis.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "./components/sanixor/ThemeProvider";
 import { useSmoothScroll } from "./hooks/useSmoothScroll";
+import ScrollToTop from "./components/ScrollToTop";
+import Contact from "./routes/contact";
 import Index from "./routes/index";
+import Privacy from "./routes/privacy";
 import Products from "./routes/products";
 import Team from "./routes/team";
-import Contact from "./routes/contact";
+import Terms from "./routes/terms";
+import Training from "./routes/training";
+import "./styles.css";
 
 function SmoothScrollProvider({ children }: { children: ReactNode }) {
   useSmoothScroll();
@@ -34,11 +38,16 @@ createRoot(document.getElementById("root")!).render(
     <ThemeProvider>
       <SmoothScrollProvider>
         <BrowserRouter>
+          <ScrollToTop />
+
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/products" element={<Products />} />
             <Route path="/team" element={<Team />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/training" element={<Training />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

@@ -590,10 +590,10 @@
 html { scroll-behavior: auto; }
 
 .snx-page {
-  --bg: #09090b;
-  --bg1: #111114;
-  --bg2: #18181c;
-  --bg3: #1e1e24;
+--bg: transparent;
+--bg1: transparent;
+--bg2: rgba(139,92,246,0.04);
+--bg3: rgba(139,92,246,0.08);
   --border: rgba(255,255,255,0.07);
   --border-h: rgba(255,255,255,0.13);
   --text: #f4f4f6;
@@ -606,8 +606,25 @@ html { scroll-behavior: auto; }
   --green: #10b981;
   --font-head: 'Syne', sans-serif;
   --font-body: 'DM Sans', sans-serif;
-  background: var(--bg);
   color: var(--text);
+  background:
+  radial-gradient(
+    circle at top center,
+    rgba(139,92,246,0.18) 0%,
+    transparent 35%
+  ),
+  radial-gradient(
+    circle at bottom right,
+    rgba(109,40,217,0.12) 0%,
+    transparent 40%
+  ),
+  linear-gradient(
+    180deg,
+    #050507 0%,
+    #09090b 35%,
+    #0d0918 70%,
+    #050507 100%
+  );
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.7;
@@ -1499,7 +1516,30 @@ html { scroll-behavior: auto; }
   width: 100%;
 }
 .snx-footer .footer-copy { font-size: 13px; color: var(--muted2); }
+.snx-page {
+  position: relative;
+}
 
+.snx-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(139,92,246,0.08),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(255,255,255,0.02),
+      transparent 25%
+    );
+
+  z-index: 0;
+}
 /* ── PREMIUM ANIMATIONS ── */
 @keyframes snx-fadeUp {
   from { opacity: 0; transform: translateY(24px); }
