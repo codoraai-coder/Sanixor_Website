@@ -17,59 +17,59 @@ import { Layout } from "@/components/sanixor/Layout";
 
 const products = [
   {
-    id: "code-analyst",
-    name: "AI Code Analyst",
-    tag: "Code Intelligence",
+    id: "hackeval",
+    name: "HackEval",
+    tag: "AI Judging",
     icon: Code2,
-    desc: "Deep codebase analysis for bug finding, refactoring guidance, and documentation generation. Built to scale from student projects to enterprise monorepos.",
+    desc: "Autonomous hackathon evaluation platform designed to automate project assessment, judging workflows, and score aggregation.",
     features: [
-      "Automated code auditing",
-      "Refactoring suggestions",
-      "Issue explanation",
-      "Repo-wide insights",
+      "Multi-Agent AI Evaluation",
+      "Bias-Free Scoring",
+      "Live Leaderboards",
+      "Real-Time Analytics",
     ],
     color: 220,
-    stats: "500+ agents deployed",
+    stats: "500+ hackathons evaluated",
   },
   {
-    id: "legal-research",
-    name: "Legal Research Agent",
-    tag: "Document Intelligence",
+    id: "bitbenchmark",
+    name: "BitBenchmark",
+    tag: "Performance Intelligence",
     icon: Gauge,
-    desc: "Automates case research, statute lookup, and summarization with traceable citations — reducing hours of manual work into minutes.",
-    features: ["Case analysis", "Statute lookup", "Document summarization", "Traceable citations"],
+    desc: "Benchmarks AI models, applications, and infrastructure using standardized metrics and comparative analytics.",
+    features: ["Model Benchmarking", "Infrastructure Scoring", "Comparative Analytics", "Visual Dashboards"],
     color: 280,
-    stats: "12 enterprise clients",
+    stats: "Enterprise scale",
   },
   {
-    id: "document-intelligence",
-    name: "Document Intelligence",
-    tag: "Data Extraction",
+    id: "autodash",
+    name: "AutoDash",
+    tag: "Data Analytics",
     icon: BarChart3,
-    desc: "Upload contracts, reports, and forms to extract structured data, answer questions, and generate summaries on demand.",
+    desc: "AI-powered analytics and dashboard automation platform that converts raw data into intelligent visualizations.",
     features: [
-      "Structured data extraction",
-      "Q&A on documents",
-      "Summary generation",
-      "Multi-format support",
+      "Automated Generation",
+      "Predictive Analytics",
+      "Anomaly Detection",
+      "Automated Reporting",
     ],
     color: 170,
-    stats: "99.9% uptime SLA",
+    stats: "Real-time intelligence",
   },
   {
-    id: "custom-agents",
-    name: "Custom AI Agents",
-    tag: "Tailored Solutions",
+    id: "lexai",
+    name: "LexAI by Sanixor",
+    tag: "Legal Intelligence",
     icon: Bot,
-    desc: "Bespoke agents engineered for institutional workflows. From intake to output, we design agents that fit your system, not the other way around.",
+    desc: "The legal and compliance intelligence engine built for enterprise scale. Actively flag risks and automate legal review.",
     features: [
-      "Custom workflow design",
-      "Domain-specific intelligence",
-      "API or embedded deployment",
-      "Maintenance and upgrades",
+      "Contract Analysis",
+      "Regulatory Compliance",
+      "Knowledge Graph",
+      "VPC Deployment",
     ],
     color: 210,
-    stats: "Built for institutions",
+    stats: "SOC2 Compliant",
   },
 ];
 
@@ -376,12 +376,12 @@ export default function ProductsPage() {
                 </div>
               ))}
             </div>
-            <div className="flex gap-4 mt-8">
-              <button className="flex-1 rounded-full bg-gradient-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-all duration-300 hover:scale-105">
-                Request Demo
-              </button>
+            <div className="flex flex-col sm:flex-row gap-4 mt-8">
+              <a href={`/${active.id}`} className="flex-1 text-center rounded-full bg-gradient-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-all duration-300 hover:scale-[1.02]">
+                Learn More
+              </a>
               <button className="flex-1 rounded-full glass px-6 py-3 text-sm font-semibold transition-all duration-300 hover:bg-muted">
-                View Documentation
+                Request Demo
               </button>
             </div>
           </div>

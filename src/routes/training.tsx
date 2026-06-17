@@ -472,15 +472,15 @@ export default function TrainingPage() {
               Join our next cohort and become job-ready in AI engineering. Limited seats available.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <a
+              {/* <a
                 href="/hiring"
                 className="inline-flex items-center gap-2 rounded-full bg-gradient-primary px-8 py-4 text-base font-semibold text-primary-foreground shadow-glow transition-all duration-300 hover:scale-105"
               >
                 Apply Now <ArrowRight className="h-5 w-5" />
-              </a>
+              </a> */}
               <a
                 href="/contact"
-                className="inline-flex items-center gap-2 rounded-full glass px-8 py-4 text-base font-semibold transition-all duration-300 hover:bg-muted"
+                className="inline-flex items-center gap-2 rounded-full bg-gradient-primary px-8 py-4 text-base font-semibold text-primary-foreground shadow-glow transition-all duration-300 hover:scale-105"
               >
                 Talk to Us
               </a>

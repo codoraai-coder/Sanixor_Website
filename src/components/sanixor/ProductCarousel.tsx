@@ -69,6 +69,7 @@ const PRODUCTS = [
   },
   {
     id: "aas",
+    path: "/agent-as-a-service",
     name: "AGENT AS A SERVICE",
     tagline:
       "Deploy intelligent AI agents as managed cloud services with enterprise-grade reliability.",
@@ -91,6 +92,7 @@ const PRODUCTS = [
   },
   {
     id: "cas",
+    path: "/custom-agent-dev",
     name: "CUSTOMIZED AGENTIC SOLUTIONS",
     tagline:
       "Bespoke AI agent architectures engineered for your unique business challenges.",
@@ -246,12 +248,14 @@ function ProductDetailModal({
             ))}
           </div>
 
-          <button
+          <a
+            href={product.path || `/${product.id}`}
             className="animate-in animate-in-5 modal-cta"
             style={{
               background: product.accent,
               color: "white",
               marginTop: "0.5rem",
+              textDecoration: "none",
             }}
           >
             Learn More
@@ -269,7 +273,7 @@ function ProductDetailModal({
                 strokeLinejoin="round"
               />
             </svg>
-          </button>
+          </a>
         </div>
       </div>
     </div>
@@ -287,11 +291,13 @@ export function ProductCarousel() {
   const drag = useRef({
     isDragging: false,
     startX: 0,
+    startY: 0,
     startProgress: 0,
     velocity: 0,
     lastX: 0,
     lastTime: 0,
     hasMoved: false,
+    isScrolling: false,
   });
   const [metrics, setMetrics] = useState({ cardW: 336, cardH: 210 });
   const [activeProduct, setActiveProduct] = useState<
@@ -329,10 +335,12 @@ export function ProductCarousel() {
       }
     };
 
-    const startDrag = (clientX: number) => {
+    const startDrag = (clientX: number, clientY: number = 0) => {
       drag.current.isDragging = true;
       drag.current.hasMoved = false;
+      drag.current.isScrolling = false;
       drag.current.startX = clientX;
+      drag.current.startY = clientY;
       drag.current.startProgress = progress.current;
       drag.current.velocity = 0;
       drag.current.lastX = clientX;
@@ -350,7 +358,7 @@ export function ProductCarousel() {
     const handleMouseDown = (e: MouseEvent) => {
       if ((e.target as HTMLElement).closest('.modal-backdrop')) return;
       if ((e.target as HTMLElement).closest('.card-wrapper')) {
-        startDrag(e.clientX);
+        startDrag(e.clientX, e.clientY);
       }
     };
 
@@ -369,13 +377,30 @@ export function ProductCarousel() {
 
     const handleTouchStart = (e: TouchEvent) => {
       if ((e.target as HTMLElement).closest('.modal-backdrop')) return;
-      startDrag(e.touches[0].clientX);
+      startDrag(e.touches[0].clientX, e.touches[0].clientY);
     };
     const handleTouchMove = (e: TouchEvent) => {
       if ((e.target as HTMLElement).closest('.modal-backdrop')) return;
       if (!drag.current.isDragging) return;
-      e.preventDefault();
-      onMove(e.touches[0].clientX);
+
+      const touch = e.touches[0];
+      const dx = Math.abs(touch.clientX - drag.current.startX);
+      const dy = Math.abs(touch.clientY - drag.current.startY);
+
+      if (!drag.current.hasMoved && !drag.current.isScrolling) {
+        if (dy > dx && dy > 5) {
+          drag.current.isScrolling = true;
+          drag.current.isDragging = false;
+          return;
+        }
+      }
+
+      if (drag.current.isScrolling) return;
+
+      if (e.cancelable) {
+        e.preventDefault();
+      }
+      onMove(touch.clientX);
     };
     const handleTouchEnd = () => endDrag();
 
@@ -547,39 +572,55 @@ export function ProductCarousel() {
         .modal-backdrop { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: flex-end; justify-content: center; transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
         .modal-backdrop-enter { opacity: 0; backdrop-filter: blur(0px); }
         .modal-backdrop-active { opacity: 1; backdrop-filter: blur(24px); }
-        .modal-card { position: relative; width: 98vw; max-width: 900px; border-radius: 24px 24px 0 0; overflow: hidden; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1); max-height: 92vh; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior-y: contain; }
-        .modal-card::-webkit-scrollbar { display: none; }
+        
+        /* Mobile First Modal Base */
+        .modal-card { position: relative; width: 100vw; border-radius: 24px 24px 0 0; overflow: hidden; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1); max-height: 92vh; display: flex; flex-direction: column; -webkit-overflow-scrolling: touch; overscroll-behavior-y: contain; }
         .modal-card-enter { transform: translateY(100%); opacity: 0; }
         .modal-card-active { transform: translateY(0); opacity: 1; }
-        .modal-card-visual { position: relative; width: 100%; aspect-ratio: 16/10; overflow: hidden; }
+        
+        .modal-card-visual { position: relative; width: 100%; aspect-ratio: 16/9; flex-shrink: 0; overflow: hidden; }
         .modal-card-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-        .modal-close { position: absolute; top: 0.75rem; right: 0.75rem; width: 40px; height: 40px; border-radius: 50%; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 50; transition: background 0.2s, transform 0.2s; backdrop-filter: blur(8px); font-size: 1.1rem; }
+        .modal-close { position: absolute; top: 1rem; right: 1rem; width: 36px; height: 36px; border-radius: 50%; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 50; transition: background 0.2s, transform 0.2s; backdrop-filter: blur(8px); }
         .modal-close:hover { background: rgba(255,255,255,0.15); transform: scale(1.1); }
-        .modal-body { padding: 1.25rem; }
-        .modal-category { display: inline-flex; align-items: center; padding: 0.3rem 0.7rem; border-radius: 999px; font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem; }
-        .modal-title { font-size: 1.4rem; font-weight: 800; color: white; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 0.5rem; }
-        .modal-tagline { font-size: 0.78rem; color: rgba(255,255,255,0.5); line-height: 1.5; margin-bottom: 1.25rem; }
-        .modal-section { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 1rem; margin-bottom: 0.75rem; }
-        .modal-section-title { font-size: 0.6rem; font-weight: 700; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.6rem; }
-        .modal-feature { display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.35rem 0; }
-        .modal-feature-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
-        .modal-feature-text { font-size: 0.75rem; color: rgba(255,255,255,0.75); line-height: 1.45; }
-        .modal-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.6rem; margin-bottom: 0.85rem; }
-        .modal-stat { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 0.75rem 0.5rem; text-align: center; }
-        .modal-stat-value { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; font-weight: 700; color: white; }
-        .modal-stat-label { font-size: 0.5rem; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 0.2rem; }
-        .modal-cta { display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; padding: 0.85rem; border-radius: 14px; border: none; font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 700; cursor: pointer; transition: transform 0.2s, opacity 0.2s; letter-spacing: 0.02em; }
+        
+        .modal-body { padding: 1.5rem; overflow-y: auto; flex-grow: 1; }
+        .modal-body::-webkit-scrollbar { display: none; }
+        .modal-category { display: inline-flex; align-items: center; padding: 0.35rem 0.8rem; border-radius: 999px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; }
+        .modal-title { font-size: 1.5rem; font-weight: 800; color: white; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 0.5rem; }
+        .modal-tagline { font-size: 0.9rem; color: rgba(255,255,255,0.6); line-height: 1.5; margin-bottom: 1.5rem; }
+        
+        .modal-section { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 1.25rem; margin-bottom: 1rem; }
+        .modal-section-title { font-size: 0.7rem; font-weight: 700; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem; }
+        .modal-feature { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.4rem 0; }
+        .modal-feature-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+        .modal-feature-text { font-size: 0.85rem; color: rgba(255,255,255,0.8); line-height: 1.5; }
+        
+        .modal-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem; }
+        .modal-stat { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 1rem 0.5rem; text-align: center; }
+        .modal-stat-value { font-family: 'JetBrains Mono', monospace; font-size: 1rem; font-weight: 700; color: white; }
+        .modal-stat-label { font-size: 0.55rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.3rem; }
+        
+        .modal-cta { display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; padding: 1rem; border-radius: 14px; border: none; font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: transform 0.2s, opacity 0.2s; letter-spacing: 0.02em; margin-top: 1.5rem; }
         .modal-cta:hover { transform: scale(1.02); }
         .modal-cta:active { transform: scale(0.98); }
 
+        /* Desktop Modal Layout */
         @media (min-width: 640px) {
           .modal-backdrop { align-items: center; }
-          .modal-card { border-radius: 24px; max-height: 90vh; width: 94vw; max-width: 900px; }
+          .modal-card { 
+            border-radius: 24px; 
+            max-height: 90vh; 
+            width: 94vw; 
+            max-width: 900px; 
+          }
           .modal-card-enter { transform: scale(0.85) translateY(40px); opacity: 0; }
           .modal-card-active { transform: scale(1) translateY(0); opacity: 1; }
-          .modal-body { padding: 2rem; }
+          
+          .modal-card-visual { width: 100%; aspect-ratio: 16/10; border-right: none; }
+          .modal-body { width: 100%; padding: 2rem; }
+          
           .modal-title { font-size: 1.75rem; }
-          .modal-tagline { font-size: 0.88rem; }
+          .modal-tagline { font-size: 0.88rem; margin-bottom: 1.25rem; }
           .modal-section { padding: 1.25rem; margin-bottom: 0.85rem; }
           .modal-stat { padding: 0.9rem 0.75rem; }
           .modal-stat-value { font-size: 1rem; }

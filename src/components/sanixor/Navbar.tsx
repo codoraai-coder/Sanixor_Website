@@ -1,11 +1,11 @@
 import sanixorMark from "@/assets/sanixor-mark.png";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { ArrowUpRight, Box, Briefcase, Calendar, GraduationCap } from "lucide-react";
+import { Box, Briefcase, Calendar, GraduationCap, X, Twitter, Linkedin, Instagram } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MenuToggle } from "./MenuToggle";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme, THEMES } from "./ThemeProvider";
 
 const homeLinks = [
   { href: "/#products", label: "Products", icon: Box, gradientFrom: "#a955ff", gradientTo: "#ea51ff" },
@@ -14,8 +14,15 @@ const homeLinks = [
   { href: "/#learn", label: "Learn", icon: GraduationCap, gradientFrom: "#80FF72", gradientTo: "#7EE8FA" },
 ];
 
+const socialLinks = [
+  { href: "https://twitter.com/sanixorai", label: "Twitter / X", icon: Twitter },
+  { href: "https://www.linkedin.com/company/sanixor-ai/", label: "LinkedIn", icon: Linkedin },
+  { href: "https://www.instagram.com/sanixorai/", label: "Instagram", icon: Instagram },
+];
+
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const { theme, setTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
@@ -73,17 +80,17 @@ export function Navbar() {
           menuOpen 
             ? "py-4 bg-transparent border-transparent shadow-none" 
             : scrolled
-            ? "border-b border-primary/30 bg-background/95 py-3 backdrop-blur-2xl shadow-lg"
-            : "border-b border-primary/10 bg-gradient-to-b from-background via-background/95 to-background/80 backdrop-blur-lg py-4",
+            ? "border-b border-white/10 bg-[#090911]/70 py-3 backdrop-blur-2xl shadow-[0_10px_30px_-10px_rgba(0,0,0,0.7)]"
+            : "border-b border-white/[0.03] bg-gradient-to-b from-[#030307] via-[#030307]/90 to-transparent backdrop-blur-md py-4",
         )}
       >
-        <Link to="/" className="flex items-center gap-2.5 text-lg font-bold tracking-tight hover:opacity-80 transition-all duration-300">
+        <Link to="/" className={cn("flex items-center gap-2.5 text-lg font-bold tracking-tight hover:opacity-80 transition-all duration-300", menuOpen && "blur-sm")}>
           <img src={sanixorMark} alt="Sanixor" className="h-8 w-8 rounded-lg shadow-lg" />
           Sanixor<span className="text-gradient animate-pulse">AI</span>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden items-center gap-3 md:flex">
+        <nav className="hidden items-center gap-3 md:flex md:absolute md:left-1/2 md:-translate-x-1/2">
           {homeLinks.map(({ href, label, icon: Icon, gradientFrom, gradientTo }) => (
             <a
               key={href}
@@ -111,19 +118,7 @@ export function Navbar() {
           ))}
         </nav>
 
-        {/* Desktop CTA */}
-        <div className="hidden md:block">
-          <Button
-            asChild
-            size="sm"
-            className="rounded-full bg-gradient-to-r from-secondary via-primary to-primary-glow shadow-glow"
-          >
-            <a href="#cta">
-              Get Early Access
-              <ArrowUpRight className="h-3.5 w-3.5" />
-            </a>
-          </Button>
-        </div>
+
 
         {/* Placeholder to keep flex-between layout on mobile */}
         <div className="h-10 w-10 md:hidden" />
@@ -132,7 +127,7 @@ export function Navbar() {
       {/* Mobile Menu Trigger (Standalone so it sits above drawer) */}
       <div
         className={cn(
-          "fixed z-[100] flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 transition-all duration-500 md:hidden",
+          "fixed z-[102] flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 transition-all duration-500 md:hidden",
           "right-4",
           menuOpen || !scrolled ? "top-4" : "top-3"
         )}
@@ -161,68 +156,98 @@ export function Navbar() {
               exit={{ x: "100%" }}
               transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
               ref={drawerRef}
-              className="fixed top-0 right-0 z-[60] h-[100dvh] w-[85vw] max-w-sm bg-background md:hidden flex flex-col"
+              className="fixed top-0 right-0 z-[101] h-[100dvh] w-[85vw] max-w-sm bg-background/95 backdrop-blur-xl border-l border-white/10 md:hidden flex flex-col"
               role="dialog"
               aria-modal="true"
               aria-label="Navigation menu"
               tabIndex={-1}
             >
-            {/* Menu Links */}
-            <div className="flex flex-1 flex-col justify-center px-8 pb-20 pt-20">
-              <div className="flex flex-col gap-6">
-                {homeLinks.map(({ href, label, icon: Icon, gradientFrom, gradientTo }, i) => (
-                  <div key={href} className="overflow-hidden">
-                    <motion.a
-                      initial={{ y: "100%", opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      exit={{ y: "100%", opacity: 0 }}
-                      transition={{
-                        delay: i * 0.08,
-                        duration: 0.5,
-                        ease: [0.16, 1, 0.3, 1],
-                      }}
-                      href={href}
-                      onClick={(e) => handleHashClick(e, href)}
-                      style={{ '--gradient-from': gradientFrom, '--gradient-to': gradientTo } as React.CSSProperties}
-                      className="group flex items-center gap-5 text-4xl font-bold tracking-tight text-muted-foreground transition-colors hover:text-foreground"
-                    >
-                      <span className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-lg transition-transform duration-400 group-hover:scale-110">
-                        {/* Glow on hover */}
-                        <span className="absolute inset-0 rounded-2xl bg-[linear-gradient(45deg,var(--gradient-from),var(--gradient-to))] opacity-0 transition-opacity duration-400 group-hover:opacity-20"></span>
-                        <Icon className="relative z-10 h-7 w-7 text-white/70 transition-colors duration-400 group-hover:text-white" />
-                      </span>
-                      <span className="relative">
-                        {label}
-                        <span className="absolute -bottom-1 left-0 h-[3px] w-0 bg-[linear-gradient(90deg,var(--gradient-from),var(--gradient-to))] transition-all duration-400 group-hover:w-full"></span>
-                      </span>
-                    </motion.a>
-                  </div>
-                ))}
+              {/* Header */}
+              <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
+                <Link to="/" className="flex items-center gap-2.5 text-lg font-bold tracking-tight hover:opacity-80 transition-all duration-300" onClick={() => setMenuOpen(false)}>
+                  <img src={sanixorMark} alt="Sanixor" className="h-8 w-8 rounded-lg shadow-lg" />
+                  Sanixor<span className="text-gradient animate-pulse">AI</span>
+                </Link>
               </div>
 
-              {/* CTA Button */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{
-                  delay: homeLinks.length * 0.08 + 0.1,
-                  duration: 0.5,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-                className="mt-12"
-              >
-                <Button
-                  asChild
-                  className="w-full rounded-2xl h-14 text-lg font-bold bg-gradient-to-r from-secondary via-primary to-primary-glow shadow-glow transition-transform hover:scale-[1.02] active:scale-[0.98]"
-                  size="lg"
-                >
-                  <a href="#cta" onClick={(e) => handleHashClick(e, "/#cta")}>
-                    Get Early Access
-                  </a>
-                </Button>
-              </motion.div>
-            </div>
+              {/* Scrollable Content */}
+              <div className="flex-1 overflow-y-auto px-6 py-6 space-y-8">
+                {/* Primary Navigation - Home Sections */}
+                <div>
+                  <h3 className="px-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">Explore</h3>
+                  <div className="space-y-3">
+                    {homeLinks.map(({ href, label, icon: Icon, gradientFrom, gradientTo }, i) => (
+                      <motion.div
+                        key={href}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20 }}
+                        transition={{ delay: i * 0.06, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                      >
+                        <a
+                          href={href}
+                          onClick={(e) => handleHashClick(e, href)}
+                          style={{ '--gradient-from': gradientFrom, '--gradient-to': gradientTo } as React.CSSProperties}
+                          className="group flex items-center gap-4 rounded-xl p-3 bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300"
+                        >
+                          <span className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110">
+                            <span className="absolute inset-0 rounded-lg bg-[linear-gradient(45deg,var(--gradient-from),var(--gradient-to))] opacity-0 transition-opacity duration-300 group-hover:opacity-20"></span>
+                            <Icon className="relative z-10 h-5 w-5 text-white/70 transition-colors duration-300 group-hover:text-white" />
+                          </span>
+                          <span className="font-medium text-white transition-colors group-hover:text-foreground">{label}</span>
+                        </a>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Theme Picker */}
+                <div>
+                  <h3 className="px-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">Theme</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {THEMES.map((t) => {
+                      const isActive = theme === t.id;
+                      return (
+                        <button
+                          key={t.id}
+                          onClick={() => setTheme(t.id)}
+                          className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ring-2 transition-all duration-300 ${
+                            isActive
+                              ? "ring-primary scale-110"
+                              : "ring-white/10 hover:ring-primary/50 hover:scale-105"
+                          }`}
+                          style={{ background: t.swatch }}
+                          aria-label={t.label}
+                          aria-pressed={isActive}
+                        >
+                          {isActive && <svg className="h-5 w-5 text-white/90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12" /></svg>}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Social Links */}
+                <div>
+                  <h3 className="px-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">Follow</h3>
+                  <div className="flex gap-3">
+                    {socialLinks.map(({ href, label, icon: Icon }) => (
+                      <a
+                        key={href}
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={label}
+                        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/5 border border-white/10 text-slate-400 transition-all duration-300 hover:bg-primary/10 hover:border-primary/30 hover:text-purple-400 hover:shadow-[0_0_20px_rgba(168,85,247,0.2)]"
+                      >
+                        <Icon className="h-5 w-5" strokeWidth={1.5} />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+
             </motion.div>
           </>
         )}

@@ -151,7 +151,7 @@ export default function Index() {
 
       {/* Event */}
       <ScrollReveal delay={100}>
-        <section id="event" className="mx-auto max-w-7xl px-4 py-20 md:px-6 md:py-28">
+        <section id="event" className="mx-auto max-w-[1500px] px-4 py-20 md:px-6 md:py-28">
           <AgentVerse2 />
         </section>
       </ScrollReveal>

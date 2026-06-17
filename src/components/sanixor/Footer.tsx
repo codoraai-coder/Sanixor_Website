@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { ArrowUpRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ArrowUpRight, Instagram, Linkedin, Twitter } from "lucide-react";
+import { useState } from "react";
 
 export function CTASection({ className }: { className?: string }) {
   return (
@@ -40,6 +40,21 @@ export function CTASection({ className }: { className?: string }) {
 }
 
 export function Footer() {
+  // State tracking which original columns have been clicked/triggered to reveal smoothly
+  const [revealedCols, setRevealedCols] = useState<{ [key: number]: boolean }>({
+    1: true,
+    2: true,
+    3: true,
+    4: true,
+  });
+
+  const toggleColumnReveal = (id: number) => {
+    setRevealedCols((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
+
   return (
     <>
       <style>{`
@@ -163,6 +178,8 @@ export function Footer() {
           transition: color 0.25s ease;
         }
         .sx-social-icon:hover svg { color: #f2f0f8; }
+        
+        /* ORIGINAL GRID LAYOUT HELD PERFECTLY BOUNDED */
         .sx-link-columns {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
@@ -172,14 +189,20 @@ export function Footer() {
           font-family: 'Syne', sans-serif;
           font-size: clamp(10px, 1.2vw, 12px);
           font-weight: 700;
-          
           color: #f2f0f8;
           letter-spacing: 0.12em;
           text-transform: uppercase;
           margin-bottom: clamp(12px, 2vw, 20px);
           position: relative;
           padding-bottom: clamp(8px, 1.2vw, 12px);
+          cursor: pointer;
+          user-select: none;
+          transition: transform 0.2s ease;
         }
+        .sx-link-col h4:active {
+          transform: scale(0.98);
+        }
+        /* ALL YOUR EXACT LINES REMAIN FIXED */
         .sx-link-col h4::after {
           content: '';
           position: absolute;
@@ -188,17 +211,46 @@ export function Footer() {
           height: 2px;
           border-radius: 2px;
           background: linear-gradient(90deg, #7c3aed, #b89830);
-          
         }
         .sx-link-col ul {
           list-style: none;
           display: flex;
           flex-direction: column;
           gap: clamp(6px, 1vw, 10px);
-
         }
+        
+        /* PREMIUM FLASH SEQUENTIAL FILE-SYSTEM ANIMATION DEFS */
+        .sx-link-col li {
+          opacity: 0;
+          transform: translateX(-8px);
+          visibility: hidden;
+          transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
+                      transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+                      visibility 0.25s;
+        }
+
+        /* Triggered active state running step-by-step cascades */
+        .sx-link-col.is-revealed li {
+          opacity: 1;
+          transform: translateX(0);
+          visibility: visible;
+          animation: sxFlashLight 0.35s ease-out;
+        }
+
+        /* Sequential File Node Time Intervals */
+        .sx-link-col.is-revealed li:nth-child(1) { transition-delay: 0.04s; animation-delay: 0.04s; }
+        .sx-link-col.is-revealed li:nth-child(2) { transition-delay: 0.12s; animation-delay: 0.12s; }
+        .sx-link-col.is-revealed li:nth-child(3) { transition-delay: 0.20s; animation-delay: 0.20s; }
+        .sx-link-col.is-revealed li:nth-child(4) { transition-delay: 0.28s; animation-delay: 0.28s; }
+        .sx-link-col.is-revealed li:nth-child(5) { transition-delay: 0.36s; animation-delay: 0.36s; }
+
+        @keyframes sxFlashLight {
+          0% { color: #ffffff; text-shadow: 0 0 12px #a78bfa; }
+          50% { color: #f5c542; text-shadow: 0 0 8px #f5c542; }
+          100% { color: inherit; text-shadow: none; }
+        }
+
         .sx-link-col li a {
-          
           font-family: 'DM Mono', monospace;
           font-size: clamp(10px, 1.3vw, 13px);
           font-weight: 400;
@@ -222,6 +274,7 @@ export function Footer() {
         .sx-link-col li a:hover::before { width: 12px; }
         .sx-link-col li a[data-highlight="true"] { color: #a78bfa; }
         .sx-link-col li a[data-highlight="true"]:hover { color: #f5c542; }
+        
         .sx-footer-divider {
           width: 100%;
           height: 1px;
@@ -235,9 +288,7 @@ export function Footer() {
           justify-content: space-between;
           gap: 12px;
         }
-          .learn-col{
-          width: 195px;
-          }
+        .learn-col{ width: 195px; }
         .sx-copyright {
           font-family: 'DM Mono', monospace;
           font-size: clamp(9px, 1.2vw, 12px);
@@ -245,10 +296,7 @@ export function Footer() {
           letter-spacing: 0.03em;
         }
         .sx-copyright span { color: #b89830; }
-        .sx-footer-bottom-links {
-          display: flex;
-          gap: clamp(12px, 2vw, 24px);
-        }
+        .sx-footer-bottom-links { display: flex; gap: clamp(12px, 2vw, 24px); }
         .sx-footer-bottom-links a {
           font-family: 'DM Mono', monospace;
           font-size: clamp(9px, 1.2vw, 11px);
@@ -258,6 +306,8 @@ export function Footer() {
           letter-spacing: 0.03em;
         }
         .sx-footer-bottom-links a:hover { color: #857fa3; }
+        
+        /* EXACT MOBILE QUERIES FROM YOUR ORIGINAL SHIPPED GRAPHIC */
         @media (max-width: 375px) {
           .sx-footer { padding: 32px 16px 20px; }
           .sx-footer-top { flex-direction: column; gap: 24px; }
@@ -294,50 +344,72 @@ export function Footer() {
                 sanixor.space
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
               </a>
-              <div className="sx-socials">
-                <a href="https://www.instagram.com/sanixorai/" className="sx-social-icon" aria-label="Instagram">
-                  <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M7.75 2C4.574 2 2 4.574 2 7.75v8.5C2 19.426 4.574 22 7.75 22h8.5C19.426 22 22 19.426 22 16.25v-8.5C22 4.574 19.426 2 16.25 2h-8.5zm0 1.8h8.5a3.95 3.95 0 0 1 3.95 3.95v8.5a3.95 3.95 0 0 1-3.95 3.95h-8.5a3.95 3.95 0 0 1-3.95-3.95v-8.5A3.95 3.95 0 0 1 7.75 3.8zm8.95 1.35a.95.95 0 1 0 0 1.9.95.95 0 0 0 0-1.9zM12 6.35A5.65 5.65 0 1 0 17.65 12 5.656 5.656 0 0 0 12 6.35zm0 1.8A3.85 3.85 0 1 1 8.15 12 3.854 3.854 0 0 1 12 8.15z"/>
-                  </svg>
+              <div className="flex gap-4 mt-4">
+                {/* Twitter / X */}
+                <a
+                  href="https://twitter.com/sanixorai"
+                  aria-label="Twitter / X"
+                  className="w-14 h-14 rounded-[1.5rem] border border-slate-800/60 bg-[#0d0d12] flex items-center justify-center text-slate-400 transition-all duration-300 outline-none hover:-translate-y-1 hover:text-purple-400 hover:bg-purple-500/10 hover:border-purple-500/30 hover:shadow-[0_0_20px_rgba(168,85,247,0.2)]"
+                >
+                  <Twitter className="h-5 w-5" strokeWidth={1.5} />
                 </a>
-                <a href="https://twitter.com/sanixorai" className="sx-social-icon" aria-label="Twitter / X">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+
+                {/* LinkedIn */}
+                <a
+                  href="https://www.linkedin.com/company/sanixor-ai/"
+                  aria-label="LinkedIn"
+                  className="w-14 h-14 rounded-[1.5rem] border border-slate-800/60 bg-[#0d0d12] flex items-center justify-center text-slate-400 transition-all duration-300 transform outline-none hover:-translate-y-1 hover:text-purple-400 hover:bg-purple-500/10 hover:border-purple-500/30 hover:shadow-[0_0_20px_rgba(168,85,247,0.2)]"
+                >
+                  <Linkedin className="h-5 w-5" strokeWidth={1.5} />
                 </a>
-                <a href="https://www.linkedin.com/company/sanixor-ai/" className="sx-social-icon" aria-label="LinkedIn">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+
+                {/* Instagram */}
+                <a
+                  href="https://www.instagram.com/sanixorai/"
+                  aria-label="Instagram"
+                  className="w-14 h-14 rounded-[1.5rem] border border-slate-800/60 bg-[#0d0d12] flex items-center justify-center text-slate-400 transition-all duration-300 transform outline-none hover:-translate-y-1 hover:text-purple-400 hover:bg-purple-500/10 hover:border-purple-500/30 hover:shadow-[0_0_20px_rgba(168,85,247,0.2)]"
+                >
+                  <Instagram className="h-5 w-5" strokeWidth={1.5} />
                 </a>
               </div>
             </div>
 
             <div className="sx-link-columns">
-              <div className="sx-link-col">
-                <h4>Products</h4>
+              {/* Column 1 */}
+              <div className={cn("sx-link-col", revealedCols[1] && "is-revealed")}>
+                <h4 onClick={() => toggleColumnReveal(1)}>Products</h4>
                 <ul>
-                  <li><a href="#">HackEval</a></li>
-                  <li><a href="#">BitBenchmark</a></li>
-                  <li><a href="#">Sanixor Studio</a></li>
-                  <li><a href="#">LexAI by Sanixor</a></li>
+                  <li><a href="/hackeval">HackEval</a></li>
+                  <li><a href="/bitbenchmark">BitBenchmark</a></li>
+                  <li><a href="/sanixor-studio">Sanixor Studio</a></li>
+                  <li><a href="/lexai">LexAI by Sanixor</a></li>
                 </ul>
               </div>
-              <div className="sx-link-col">
-                <h4>Services</h4>
+
+              {/* Column 2 */}
+              <div className={cn("sx-link-col", revealedCols[2] && "is-revealed")}>
+                <h4 onClick={() => toggleColumnReveal(2)}>Services</h4>
                 <ul>
-                  <li><a href="#">Agent as a Service</a></li>
-                  <li><a href="#">Custom Agent Dev</a></li>
-                  <li><a href="#">API Integration</a></li>
-                  <li><a href="#">Event Automation</a></li>
+                  <li><a href="/agent-as-a-service">Agent as a Service</a></li>
+                  <li><a href="/custom-agent-dev">Custom Agent Dev</a></li>
+                  <li><a href="/api-integration">API Integration</a></li>
+                  <li><a href="/event-automation">Event Automation</a></li>
                 </ul>
               </div>
-              <div className="sx-link-col">
-                <h4>Agent Verse</h4>
+
+              {/* Column 3 */}
+              <div className={cn("sx-link-col", revealedCols[3] && "is-revealed")}>
+                <h4 onClick={() => toggleColumnReveal(3)}>Agent Verse</h4>
                 <ul>
                   <li><a href="#" data-highlight="true">AgentVerse 2.0</a></li>
                   <li><a href="#" data-highlight="true">Register College</a></li>
                   <li><a href="#">Event Details</a></li>
                 </ul>
               </div>
-              <div className="sx-link-col learn-col">
-                <h4>Learn</h4>
+
+              {/* Column 4 */}
+              <div className={cn("sx-link-col learn-col", revealedCols[4] && "is-revealed")}>
+                <h4 onClick={() => toggleColumnReveal(4)}>Learn</h4>
                 <ul>
                   <li><a href="#">Transformer Architecture</a></li>
                   <li><a href="#">Agent System Design</a></li>
@@ -351,11 +423,11 @@ export function Footer() {
           <div className="sx-footer-divider"></div>
 
           <div className="sx-footer-bottom">
-            <p className="sx-copyright">&copy; {new Date().getFullYear()} <span>Sanixor AI</span>. Built for the next generation.</p>
+            <p className="sx-copyright">&copy; 2025 <span>Sanixor AI</span>. Built for the next generation.</p>
             <div className="sx-footer-bottom-links">
-              <Link to="/privacy">Privacy Policy</Link>
-              <Link to="/terms">Terms & Conditions</Link>
-              <Link to="/contact">Contact Us</Link>
+              <a href="/privacy">Privacy Policy</a>
+              <a href="/terms">Terms & Conditions</a>
+              <a href="/contact">Contact Us</a>
             </div>
           </div>
         </div>

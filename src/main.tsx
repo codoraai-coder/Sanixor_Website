@@ -13,6 +13,16 @@ import Products from "./routes/products";
 import Team from "./routes/team";
 import Terms from "./routes/terms";
 import Training from "./routes/training";
+import HackEval from "./routes/hackeval";
+import BitBenchmark from "./routes/bitbenchmark";
+import SanixorStudio from "./routes/sanixor-studio";
+import LexAI from "./routes/lexai";
+import AgentAsAService from "./routes/agent-as-a-service";
+import CustomAgentDev from "./routes/custom-agent-dev";
+import APIIntegration from "./routes/api-integration";
+import EventAutomation from "./routes/event-automation";
+import AutoDash from "./routes/autodash";
+import About from "./routes/about";
 import "./styles.css";
 
 function SmoothScrollProvider({ children }: { children: ReactNode }) {
@@ -50,6 +60,16 @@ createRoot(document.getElementById("root")!).render(
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/hiring" element={<Hiring />} />
+            <Route path="/hackeval" element={<HackEval />} />
+            <Route path="/bitbenchmark" element={<BitBenchmark />} />
+            <Route path="/sanixor-studio" element={<SanixorStudio />} />
+            <Route path="/lexai" element={<LexAI />} />
+            <Route path="/autodash" element={<AutoDash />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/agent-as-a-service" element={<AgentAsAService />} />
+            <Route path="/custom-agent-dev" element={<CustomAgentDev />} />
+            <Route path="/api-integration" element={<APIIntegration />} />
+            <Route path="/event-automation" element={<EventAutomation />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </SmoothScrollProvider>

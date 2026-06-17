@@ -3,10 +3,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from "
 export type Theme =
   | "midnight" // dark navy/purple (default)
   | "nebula" // dark blue/cyan
-  | "obsidian" // near-black + purple
-  | "aurora" // light purple/pink
-  | "daybreak" // light blue/teal
-  | "porcelain"; // pure light minimal
+  | "obsidian"; // near-black + purple
 
 export const THEMES: { id: Theme; label: string; swatch: string; mode: "dark" | "light" }[] = [
   {
@@ -26,24 +23,6 @@ export const THEMES: { id: Theme; label: string; swatch: string; mode: "dark" | 
     label: "Obsidian",
     swatch: "linear-gradient(135deg,#0a0a0f,#3a1d5c,#7e3ff2)",
     mode: "dark",
-  },
-  {
-    id: "aurora",
-    label: "Aurora",
-    swatch: "linear-gradient(135deg,#fde7f5,#c9a7ff,#7c5cff)",
-    mode: "light",
-  },
-  {
-    id: "daybreak",
-    label: "Daybreak",
-    swatch: "linear-gradient(135deg,#e6f3ff,#7ec8ff,#1e90c8)",
-    mode: "light",
-  },
-  {
-    id: "porcelain",
-    label: "Porcelain",
-    swatch: "linear-gradient(135deg,#ffffff,#eef0f5,#c9d0e0)",
-    mode: "light",
   },
 ];
 
@@ -90,8 +69,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   };
 
   const toggle = () => {
-    const meta = THEMES.find((t) => t.id === theme);
-    setTheme(meta?.mode === "dark" ? "aurora" : "midnight");
+    const currentIndex = THEMES.findIndex((t) => t.id === theme);
+    const nextIndex = (currentIndex + 1) % THEMES.length;
+    setTheme(THEMES[nextIndex].id);
   };
 
   return <ThemeCtx.Provider value={{ theme, setTheme, toggle }}>{children}</ThemeCtx.Provider>;

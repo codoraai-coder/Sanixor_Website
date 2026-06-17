@@ -1,287 +1,361 @@
 import { Layout } from "@/components/sanixor/Layout";
 import {
-  ArrowRight,
   Check,
   Clock,
   Github,
+  Instagram,
   Linkedin,
+  Loader2,
   Mail,
   MapPin,
-  MessageCircle,
   Send,
   Twitter,
   Zap,
 } from "lucide-react";
 import { useState } from "react";
 
+// Zero-Backend Form Endpoint Configurations
+const PUBLIC_FORM_ENDPOINT = "https://api.web3forms.com/submit";
+const PUBLIC_ACCESS_KEY = "YOUR_WEB3FORMS_ACCESS_KEY_HERE"; 
+
 const topics = ["General Inquiry", "Product Demo", "Training", "Partnership", "Careers", "Press"];
+
 const contactInfo = [
-  { icon: Mail, label: "Email", value: "team@sanixor.space", color: 220 },
-  { icon: MapPin, label: "Office", value: "Noida, Uttar Pradesh,India", color: 170 },
-  { icon: Clock, label: "Response Time", value: "Within 24 hours", color: 280 },
-  { icon: Zap, label: "Status", value: "Typically online", color: 210 },
+  { icon: Mail, label: "Email", value: "team@sanixor.space", color: "from-blue-500 via-indigo-500 to-purple-600" },
+  { icon: MapPin, label: "Office", value: "Noida, Uttar Pradesh, India", color: "from-emerald-500 via-teal-500 to-cyan-600" },
+  { icon: Clock, label: "Response Time", value: "Within 24 hours", color: "from-purple-500 via-pink-500 to-rose-600" },
+  { icon: Zap, label: "Status", value: "Typically online", color: "from-amber-500 via-orange-500 to-yellow-600" },
 ];
+
 const faqs = [
   {
     question: "What does Sanixor AI do?",
-    answer:
-      "Sanixor AI builds intelligent products and AI-powered solutions for students, developers, institutions, and enterprises."
+    answer: "Sanixor AI builds intelligent products and AI-powered solutions for students, developers, institutions, and enterprises."
   },
   {
     question: "Can I request a product demo?",
-    answer:
-      "Yes. You can submit the contact form and our team will schedule a personalized product demonstration."
+    answer: "Yes. You can submit the contact form and our team will schedule a personalized product demonstration."
   },
   {
     question: "Do you provide custom AI development services?",
-    answer:
-      "Absolutely. We offer custom AI agents, automation workflows, integrations, and enterprise solutions."
+    answer: "Absolutely. We offer custom AI agents, automation workflows, integrations, and enterprise solutions."
   },
   {
     question: "How quickly can I expect a response?",
-    answer:
-      "Most inquiries receive a response within 24 hours during business days."
+    answer: "Most inquiries receive a response within 24 hours during business days."
   },
   {
     question: "Are partnership opportunities available?",
-    answer:
-      "Yes. We actively collaborate with educational institutions, startups, communities, and enterprises."
+    answer: "Yes. We actively collaborate with educational institutions, startups, communities, and enterprises."
   }
 ];
 
 export default function ContactPage() {
-  const [sent, setSent] = useState(false);
-  const [selectedTopic, setSelectedTopic] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    company: "",
+    message: ""
+  });
+  const [selectedTopic, setSelectedTopic] = useState("General Inquiry");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("loading");
+
+    try {
+      const payload = {
+        access_key: PUBLIC_ACCESS_KEY,
+        name: formData.name,
+        email: formData.email,
+        company: formData.company || "N/A",
+        topic: selectedTopic,
+        message: formData.message,
+        reply_to: formData.email, 
+      };
+
+      const response = await fetch(PUBLIC_FORM_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success !== false) {
+        setStatus("success");
+        setFormData({ name: "", email: "", company: "", message: "" });
+        setTimeout(() => setStatus("idle"), 4000);
+      } else {
+        setStatus("error");
+        setTimeout(() => setStatus("idle"), 4000);
+      }
+    } catch (error) {
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 4000);
+    }
+  };
 
   return (
     <Layout>
-      {/* Hero */}
-      <section className="relative min-h-[60vh] overflow-hidden bg-hero">
-        <div className="absolute inset-0 bg-grid-pattern opacity-[0.02]" />
-        <div className="absolute top-1/4 -left-32 h-96 w-96 rounded-full bg-primary/10 blur-3xl animate-pulse" />
-        <div
-          className="absolute bottom-1/4 -right-32 h-80 w-80 rounded-full bg-accent/10 blur-3xl animate-pulse"
-          style={{ animationDelay: "1s" }}
-        />
-
-        <div className="relative mx-auto max-w-6xl px-6 pt-32">
-          <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-6xl md:text-8xl font-bold tracking-tight mb-6">
-              Let's <span className="text-gradient">connect.</span>
-            </h1>
-            <p className="mx-auto text-xl text-muted-foreground mb-8">
-              Have questions? Want to demo our products? We'd love to hear from you.
-            </p>
-          </div>
+      {/* Structural Page Base Wrapper */}
+      <main className="relative min-h-screen w-full bg-[#030307] text-slate-100 overflow-hidden selection:bg-primary/30 font-sans">
+        
+        {/* --- PREMIUM GRADIENT BLAST BACKGROUND CONFIGURATION --- */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[650px] pointer-events-none z-0">
+          {/* Main High-Intensity Radial Glow Blast */}
+          <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[85vw] max-w-[1000px] h-[550px] rounded-full bg-gradient-to-b from-primary/25 via-purple-600/15 to-transparent blur-[110px] mix-blend-screen opacity-90" />
+          
+          {/* Secondary Left Accent Blast */}
+          <div className="absolute top-[-10%] left-[10%] w-[450px] h-[450px] rounded-full bg-gradient-to-tr from-cyan-500/10 via-blue-600/10 to-transparent blur-[90px] mix-blend-screen animate-pulse duration-[6000ms]" />
+          
+          {/* Secondary Right Accent Blast */}
+          <div className="absolute top-[-5%] right-[5%] w-[480px] h-[480px] rounded-full bg-gradient-to-tl from-accent/15 via-pink-500/5 to-transparent blur-[100px] mix-blend-screen animate-pulse duration-[8000ms] delay-1000" />
+          
+          {/* Fine Geometric Background Grid Mesh */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_10%,#000_60%,transparent_100%)]" />
         </div>
-      </section>
 
-      {/* Contact Grid */}
-      <section className="mx-auto max-w-6xl px-6 -mt-16 pb-20">
-        <div className="grid lg:grid-cols-5 gap-6">
-          {/* Form */}
-          <div className="lg:col-span-3">
-            <div className="glass-strong rounded-[2rem] p-8 shadow-elegant">
-              <h2 className="text-2xl font-bold mb-6">Send us a message</h2>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  const form = e.currentTarget;
-                  const formData = new FormData(form);
-                  const name = formData.get('name') as string;
-                  const email = formData.get('email') as string;
-                  const company = formData.get('company') as string;
-                  const message = formData.get('message') as string;
-                  const subject = selectedTopic ? `[${selectedTopic}] Contact from ${name}` : `Contact from ${name}`;
-                  const body = `Name: ${name}\nEmail: ${email}\nCompany: ${company || 'N/A'}\nTopic: ${selectedTopic || 'General'}\n\n${message}`;
-                  window.location.href = `mailto:team@sanixor.space?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-                  setSent(true);
-                  setTimeout(() => setSent(false), 3000);
-                }}
-                className="space-y-5"
-              >
-                {/* Topic selector */}
-                <div>
-                  <label className="text-sm font-medium mb-3 block">What can we help with?</label>
-                  <div className="flex flex-wrap gap-2">
-                    {topics.map((topic) => (
+        {/* Content Flow Layer Layered Safely Above Background Gradients */}
+        <div className="relative z-10">
+          
+          {/* Hero Section */}
+          <section className="mx-auto max-w-4xl px-6 pt-32 pb-16 text-center">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[1.1] mb-6 bg-gradient-to-b from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
+              Let's <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-accent animate-text">connect.</span>
+            </h1>
+            <p className="mx-auto text-lg md:text-xl text-slate-400/90 max-w-2xl font-normal leading-relaxed balance">
+              Have questions about our deployment capabilities or need a product demo? Leave us a message below.
+            </p>
+          </section>
+
+          {/* Contact Grid Infrastructure */}
+          <section className="mx-auto max-w-6xl px-6 pb-24">
+            <div className="grid lg:grid-cols-5 gap-8 items-start">
+              
+              {/* Form Component Container */}
+              <div className="lg:col-span-3">
+                <div className="relative rounded-[2.5rem] p-[1px] bg-gradient-to-b from-white/10 via-white/5 to-transparent shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] backdrop-blur-xl">
+                  <div className="bg-[#090911]/90 rounded-[2.4rem] p-6 md:p-10 space-y-6">
+                    <div>
+                      <h2 className="text-2xl font-bold tracking-tight text-white">Send us a message</h2>
+                      <p className="text-sm text-slate-400 mt-1">Our team processes requests globally and routes answers in under 24 hours.</p>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                      {/* Topic Selector Button Array */}
+                      <div className="space-y-3">
+                        <label className="text-xs font-semibold uppercase tracking-wider text-slate-400 block">What can we help with?</label>
+                        <div className="flex flex-wrap gap-2">
+                          {topics.map((topic) => (
+                            <button
+                              key={topic}
+                              type="button"
+                              onClick={() => setSelectedTopic(topic)}
+                              className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 transform active:scale-95 ${
+                                selectedTopic === topic
+                                  ? "bg-gradient-to-r from-primary via-purple-600 to-accent text-white shadow-lg shadow-primary/20 scale-[1.02]"
+                                  : "bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white border border-white/5"
+                              }`}
+                            >
+                              {topic}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Inputs Row */}
+                      <div className="grid sm:grid-cols-2 gap-4">
+                        <input
+                          required
+                          type="text"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleInputChange}
+                          placeholder="Your name"
+                          className="w-full rounded-xl bg-white/5 px-4 py-3.5 text-sm border border-white/10 text-white placeholder:text-slate-500 focus:border-primary/50 focus:ring-2 focus:ring-primary/10 outline-none transition-all duration-300"
+                        />
+                        <input
+                          required
+                          type="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          placeholder="Email address"
+                          className="w-full rounded-xl bg-white/5 px-4 py-3.5 text-sm border border-white/10 text-white placeholder:text-slate-500 focus:border-primary/50 focus:ring-2 focus:ring-primary/10 outline-none transition-all duration-300"
+                        />
+                      </div>
+
+                      <input
+                        type="text"
+                        name="company"
+                        value={formData.company}
+                        onChange={handleInputChange}
+                        placeholder="Company or Institution (optional)"
+                        className="w-full rounded-xl bg-white/5 px-4 py-3.5 text-sm border border-white/10 text-white placeholder:text-slate-500 focus:border-primary/50 focus:ring-2 focus:ring-primary/10 outline-none transition-all duration-300"
+                      />
+
+                      <textarea
+                        required
+                        name="message"
+                        value={formData.message}
+                        onChange={handleInputChange}
+                        rows={5}
+                        placeholder="Tell us more about what you're looking for..."
+                        className="w-full rounded-xl bg-white/5 px-4 py-3.5 text-sm border border-white/10 text-white placeholder:text-slate-500 focus:border-primary/50 focus:ring-2 focus:ring-primary/10 outline-none transition-all duration-300 resize-none"
+                      />
+
+                      {/* Status-Driven Submit Button */}
                       <button
-                        key={topic}
-                        type="button"
-                        onClick={() => setSelectedTopic(topic)}
-                        className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
-                          selectedTopic === topic
-                            ? "bg-gradient-primary text-primary-foreground"
-                            : "glass hover:bg-muted"
+                        type="submit"
+                        disabled={status === "loading" || status === "success"}
+                        className={`w-full inline-flex items-center justify-center gap-2 rounded-xl px-6 py-4 text-base font-semibold shadow-xl transition-all duration-300 transform hover:scale-[1.01] active:scale-[0.99] disabled:opacity-90 ${
+                          status === "success"
+                            ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white"
+                            : status === "error"
+                            ? "bg-gradient-to-r from-rose-500 to-red-600 text-white"
+                            : "bg-gradient-to-r from-primary via-purple-600 to-accent text-white hover:opacity-95 hover:shadow-xl hover:shadow-primary/10"
                         }`}
                       >
-                        {topic}
+                        {status === "loading" && (
+                          <>
+                            <Loader2 className="h-5 w-5 animate-spin" /> Handshaking Data Packet...
+                          </>
+                        )}
+                        {status === "success" && (
+                          <>
+                            <Check className="h-5 w-5 animate-bounce" /> Transmission Successful
+                          </>
+                        )}
+                        {status === "error" && "Error Transmitting Form. Try Again."}
+                        {status === "idle" && (
+                          <>
+                            Send Message <Send className="h-4 w-4 ml-1" />
+                          </>
+                        )}
                       </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              {/* Sidebar Module Displays */}
+              <div className="lg:col-span-2 space-y-6">
+                {/* Contact Information Cards */}
+                <div className="grid gap-4">
+                  {contactInfo.map((info) => (
+                    <div
+                      key={info.label}
+                      className="group relative rounded-2xl p-[1px] bg-gradient-to-b from-white/10 to-transparent hover:from-primary/30 hover:to-accent/30 transition-all duration-500"
+                    >
+                      <div className="bg-[#090911]/80 backdrop-blur-md rounded-[15px] p-5 flex items-center gap-4 transition-all">
+                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br ${info.color} shadow-lg shadow-black/30 transform transition-all duration-300 group-hover:scale-105`}>
+                          <info.icon className="h-5 w-5 text-white" />
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
+                            {info.label}
+                          </p>
+                          <p className="font-semibold text-slate-200 text-sm sm:text-base mt-0.5">{info.value}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Geo Map Tracking Bounded Cleanly to Noida Area */}
+                <div className="rounded-2xl overflow-hidden border border-white/5 shadow-2xl h-48 transition-all duration-300 hover:border-white/10 relative group">
+                  <iframe
+                    title="Sanixor.AI office"
+                    src="https://www.openstreetmap.org/export/embed.html?bbox=77.26%2C28.47%2C77.38%2C28.59&layer=mapnik&marker=28.5355%2C77.3910"
+                    className="h-full w-full border-0 grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-90 transition-all duration-700 ease-out"
+                    loading="lazy"
+                  />
+                </div>
+
+                {/* Ecosystem Tracking Links */}
+                {/*<div className="bg-gradient-to-b from-white/5 to-transparent border border-white/5 rounded-2xl p-6 shadow-sm">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-4">Follow our ecosystem</p>
+                  <div className="flex gap-3">
+                    {[Twitter, Linkedin,Instagram].map((Icon, i) => (
+                      <a
+                        key={i}
+                        href="#"
+                        className="w-11 h-11 rounded-xl border border-white/10 bg-white/5 flex items-center justify-center text-slate-400 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:text-primary hover:shadow-lg hover:shadow-primary/5"
+                      >
+                        <Icon className="h-5 w-5" />
+                      </a>
                     ))}
                   </div>
-                </div>
+                </div>*/}
+              </div>
 
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <input
-                    name="name"
-                    required
-                    placeholder="Your name"
-                    className="w-full rounded-xl bg-muted/40 px-4 py-3 text-sm outline-none ring-1 ring-border focus:ring-primary"
-                  />
-                  <input
-                    name="email"
-                    required
-                    type="email"
-                    placeholder="Email address"
-                    className="w-full rounded-xl bg-muted/40 px-4 py-3 text-sm outline-none ring-1 ring-border focus:ring-primary"
-                  />
-                </div>
-                <input
-                  name="company"
-                  placeholder="Company (optional)"
-                  className="w-full rounded-xl bg-muted/40 px-4 py-3 text-sm outline-none ring-1 ring-border focus:ring-primary"
-                />
-                <textarea
-                  name="message"
-                  required
-                  rows={5}
-                  placeholder="Tell us more about what you're looking for..."
-                  className="w-full rounded-xl bg-muted/40 px-4 py-3 text-sm outline-none ring-1 ring-border focus:ring-primary resize-none"
-                />
-
-                <button
-                  type="submit"
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-gradient-primary px-7 py-3.5 text-base font-semibold text-primary-foreground shadow-glow transition-all duration-300 hover:scale-[1.02]"
-                >
-                  {sent ? (
-                    <>
-                      <Check className="h-5 w-5" /> Message Sent!
-                    </>
-                  ) : (
-                    <>
-                      Send Message <Send className="h-5 w-5" />
-                    </>
-                  )}
-                </button>
-              </form>
             </div>
-          </div>
+          </section>
 
-          {/* Info Sidebar */}
-          <div className="lg:col-span-2 space-y-5">
-            {contactInfo.map((info) => (
-              <div
-                key={info.label}
-                className="glass rounded-2xl p-6 transition-all duration-300 hover:shadow-glow"
-              >
-                <div className="flex items-center gap-4">
+          {/* FAQ Accordion Grid Framework */}
+          <section className="mx-auto max-w-4xl px-6 py-20 border-t border-white/5 relative">
+            {/* Soft Ambient Bottom Blur Blast */}
+            <div className="absolute bottom-[-10%] left-1/2 -translate-x-1/2 w-[70vw] h-[300px] rounded-full bg-purple-900/5 blur-[120px] pointer-events-none" />
+
+            <div className="text-center mb-12 relative z-10">
+              <h2 className="text-3xl font-bold tracking-tight text-white mb-3">Frequently Asked Questions</h2>
+              <p className="text-slate-400 text-sm max-w-md mx-auto">
+                Quick technical baseline information regarding operational protocols.
+              </p>
+            </div>
+
+            <div className="space-y-3 relative z-10">
+              {faqs.map((faq, index) => {
+                const isOpen = openFaq === index;
+                return (
                   <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center"
-                    style={{
-                      background: `linear-gradient(135deg, oklch(0.6 0.15 ${info.color}), oklch(0.4 0.12 ${info.color + 30}))`,
-                    }}
+                    key={index}
+                    className={`border rounded-2xl transition-all duration-300 overflow-hidden ${
+                      isOpen ? "bg-white/5 border-primary/20 shadow-inner" : "bg-transparent border-white/5"
+                    }`}
                   >
-                    <info.icon className="h-5 w-5 text-white" />
+                    <button
+                      onClick={() => setOpenFaq(isOpen ? null : index)}
+                      className="w-full flex items-center justify-between p-5 text-left transition-colors hover:bg-white/[0.02]"
+                    >
+                      <span className="font-medium text-sm sm:text-base text-slate-200 pr-4">
+                        {faq.question}
+                      </span>
+                      <div
+                        className={`text-xs text-slate-500 transition-transform duration-300 ${
+                          isOpen ? "rotate-180 text-primary" : ""
+                        }`}
+                      >
+                        ▼
+                      </div>
+                    </button>
+
+                    {/* Smooth Grid Transitions */}
+                    <div
+                      className={`grid transition-all duration-300 ease-in-out ${
+                        isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                      }`}
+                    >
+                      <div className="overflow-hidden">
+                        <div className="px-5 pb-5 text-sm text-slate-400 leading-relaxed">
+                          {faq.answer}
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-xs uppercase tracking-wider text-muted-foreground">
-                      {info.label}
-                    </p>
-                    <p className="font-semibold">{info.value}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-
-            {/* Map */}
-            <div className="glass rounded-2xl overflow-hidden">
-              <iframe
-                title="Sanixor.AI office"
-                src="https://www.openstreetmap.org/export/embed.html?bbox=77.29%2C28.52%2C77.40%2C28.62&layer=mapnik"
-                className="h-48 w-full border-0"
-                loading="lazy"
-              />
+                );
+              })}
             </div>
-
-            {/* Social */}
-            <div className="glass rounded-2xl p-6">
-              <p className="text-sm font-medium mb-4">Follow us</p>
-              <div className="flex gap-3">
-                {[
-                  { Icon: Twitter, href: "https://twitter.com/sanixorai" },
-                  { Icon: Linkedin, href: "https://www.linkedin.com/company/sanixor-ai/" },
-                  { Icon: Github, href: "https://github.com/codoraai-coder" },
-                ].map(({ Icon, href }) => (
-                  <a
-                    key={href}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-11 h-11 rounded-xl glass flex items-center justify-center transition-all duration-300 hover:scale-110 hover:text-primary"
-                  >
-                    <Icon className="h-5 w-5" />
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
+          </section>
         </div>
-      </section>
-
-      {/* FAQ Section */}
-<section className="mx-auto max-w-4xl px-6 py-16">
-  <div className="text-center mb-12">
-    <h2 className="text-4xl font-bold mb-4">
-      Frequently Asked Questions
-    </h2>
-    <p className="text-muted-foreground">
-      Quick answers to common questions.
-    </p>
-  </div>
-
-  <div className="space-y-4">
-    {faqs.map((faq, index) => (
-      <div
-        key={index}
-        className="glass rounded-2xl overflow-hidden transition-all duration-300"
-      >
-        <button
-          onClick={() =>
-            setOpenFaq(openFaq === index ? null : index)
-          }
-          className="w-full flex items-center justify-between p-5 text-left"
-        >
-          <span className="font-semibold text-sm sm:text-base pr-4">
-            {faq.question}
-          </span>
-
-          <div
-            className={`transition-transform duration-300 ${
-              openFaq === index ? "rotate-180" : ""
-            }`}
-            aria-hidden="true"
-          >
-            ▼
-          </div>
-        </button>
-
-        <div
-          className={`overflow-hidden transition-all duration-300 ${
-            openFaq === index
-              ? "max-h-40 opacity-100"
-              : "max-h-0 opacity-0"
-          }`}
-        >
-          <div className="px-5 pb-5 text-sm text-muted-foreground">
-            {faq.answer}
-          </div>
-        </div>
-      </div>
-    ))}
-  </div>
-</section>
-      
+      </main>
     </Layout>
   );
 }
