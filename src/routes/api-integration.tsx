@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ScrollReveal } from "@/components/sanixor/ScrollReveal";
-import { CTASection, Footer } from "@/components/sanixor/Footer";
+import { Footer } from "@/components/sanixor/Footer";
+import { InteractiveConsole } from "@/components/sanixor/InteractiveConsole";
 import { Navbar } from "@/components/sanixor/Navbar";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -92,7 +93,7 @@ export default function APIIntegration() {
       </ScrollReveal>
 
       <ScrollReveal>
-        <CTASection className="py-20" />
+        <InteractiveConsole className="py-20" />
       </ScrollReveal>
       <Footer />
     </div>

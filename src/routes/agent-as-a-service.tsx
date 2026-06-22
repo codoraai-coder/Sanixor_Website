@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ScrollReveal } from "@/components/sanixor/ScrollReveal";
-import { CTASection, Footer } from "@/components/sanixor/Footer";
+import { Footer } from "@/components/sanixor/Footer";
+import { InteractiveConsole } from "@/components/sanixor/InteractiveConsole";
 import { Navbar } from "@/components/sanixor/Navbar";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { ArrowRight, Bot, CircuitBoard, MessagesSquare, Settings, Workflow, Zap } from "lucide-react";
@@ -186,7 +187,7 @@ export default function AgentAsAService() {
       </ScrollReveal>
 
       <ScrollReveal>
-        <CTASection className="py-20" />
+        <InteractiveConsole className="py-20" />
       </ScrollReveal>
       <Footer />
     </div>

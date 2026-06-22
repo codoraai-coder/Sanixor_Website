@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ScrollReveal } from "@/components/sanixor/ScrollReveal";
-import { CTASection, Footer } from "@/components/sanixor/Footer";
+import { Footer } from "@/components/sanixor/Footer";
+import { InteractiveConsole } from "@/components/sanixor/InteractiveConsole";
 import { Navbar } from "@/components/sanixor/Navbar";
 import { ArrowRight, Target, Zap, Globe2, Briefcase, GraduationCap, Building2, Cpu } from "lucide-react";
 
@@ -102,7 +103,7 @@ export default function About() {
       </ScrollReveal>
 
       <ScrollReveal>
-        <CTASection className="py-20" />
+        <InteractiveConsole className="py-20" />
       </ScrollReveal>
       <Footer />
     </div>

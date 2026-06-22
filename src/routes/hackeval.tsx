@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ScrollReveal } from "@/components/sanixor/ScrollReveal";
-import { CTASection, Footer } from "@/components/sanixor/Footer";
+import { Footer } from "@/components/sanixor/Footer";
+import { InteractiveConsole } from "@/components/sanixor/InteractiveConsole";
 import { Navbar } from "@/components/sanixor/Navbar";
 import { Counter } from "@/components/sanixor/Counter";
 import { GlassCard } from "@/components/sanixor/GlassCard";
@@ -333,7 +334,7 @@ export default function HackEval() {
 
       {/* ── CTA & FOOTER ── */}
       <ScrollReveal>
-        <CTASection className="py-20" />
+        <InteractiveConsole className="py-20" />
       </ScrollReveal>
       <Footer />
     </div>

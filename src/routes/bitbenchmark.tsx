@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ScrollReveal } from "@/components/sanixor/ScrollReveal";
-import { CTASection, Footer } from "@/components/sanixor/Footer";
+import { Footer } from "@/components/sanixor/Footer";
+import { InteractiveConsole } from "@/components/sanixor/InteractiveConsole";
 import { Navbar } from "@/components/sanixor/Navbar";
 import { Counter } from "@/components/sanixor/Counter";
 import { Badge } from "@/components/ui/badge";
@@ -331,7 +332,7 @@ export default function BitBenchmark() {
 
       {/* ── CTA & FOOTER ── */}
       <ScrollReveal>
-        <CTASection className="py-20" />
+        <InteractiveConsole className="py-20" />
       </ScrollReveal>
       <Footer />
     </div>
