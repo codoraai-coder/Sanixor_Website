@@ -1,37 +1,10 @@
 import { useState } from "react";
+import { AgentVerseDetailsModal } from "./AgentVerseDetailsModal";
+import { AgentVerseRegistrationModal } from "./AgentVerseRegistrationModal";
 
 export function AgentVerse2() {
   const [showDetails, setShowDetails] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [form, setForm] = useState({
-    college: "",
-    lead: "",
-    email: "",
-    phone: "",
-    size: "5",
-    experience: "beginner",
-    notes: "",
-  });
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setShowRegister(false);
-      setSubmitted(false);
-      setForm({ college: "", lead: "", email: "", phone: "", size: "5", experience: "beginner", notes: "" });
-    }, 3000);
-  };
-
-  const closeRegister = () => {
-    setShowRegister(false);
-    setSubmitted(false);
-  };
 
   return (
     <>
@@ -311,173 +284,311 @@ export function AgentVerse2() {
         .av2-overlay {
           position: fixed;
           inset: 0;
-          background: rgba(5,4,18,.78);
-          backdrop-filter: blur(6px);
-          -webkit-backdrop-filter: blur(6px);
+          background: rgba(3, 3, 10, 0.85);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
           z-index: 1000;
           display: flex;
           align-items: center;
           justify-content: center;
           padding: 24px;
-          animation: av2-fadeIn .25s ease;
+          animation: av2-fadeIn .3s cubic-bezier(.22,1,.36,1);
         }
-        @keyframes av2-fadeIn { from{opacity:0} to{opacity:1} }
+        @keyframes av2-fadeIn { from{opacity:0; backdrop-filter: blur(0px);} to{opacity:1; backdrop-filter: blur(12px);} }
         .av2-modal {
-          background: linear-gradient(150deg, #1a1630 0%, #110e26 100%);
-          border: 1px solid rgba(139,92,246,.18);
-          border-radius: 20px;
+          background: rgba(15, 12, 30, 0.65);
+          backdrop-filter: blur(24px);
+          -webkit-backdrop-filter: blur(24px);
+          border: 1px solid rgba(139, 92, 246, 0.25);
+          border-radius: 24px;
           width: 100%;
-          max-width: 560px;
-          max-height: 88vh;
+          max-width: 580px;
+          max-height: 85vh;
           overflow-y: auto;
-          box-shadow: 0 24px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(139,92,246,.07);
-          animation: av2-modalIn .35s cubic-bezier(.22,1,.36,1);
+          box-shadow: 0 32px 96px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.05), 0 0 40px rgba(139, 92, 246, 0.15);
+          animation: av2-modalIn .4s cubic-bezier(.22,1,.36,1);
+        }
+        .av2-modal::-webkit-scrollbar {
+          width: 6px;
+        }
+        .av2-modal::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .av2-modal::-webkit-scrollbar-thumb {
+          background: rgba(139, 92, 246, 0.2);
+          border-radius: 10px;
+        }
+        .av2-modal::-webkit-scrollbar-thumb:hover {
+          background: rgba(139, 92, 246, 0.4);
         }
         @keyframes av2-modalIn {
           from { opacity:0; transform: scale(.96) translateY(16px); }
           to   { opacity:1; transform: scale(1) translateY(0); }
         }
         .av2-modal-head {
-          padding: 26px 30px 22px;
-          border-bottom: 1px solid rgba(139,92,246,.1);
+          padding: 28px 32px 24px;
+          border-bottom: 1px solid rgba(139, 92, 246, 0.15);
           display: flex;
           justify-content: space-between;
           align-items: center;
+          background: linear-gradient(180deg, rgba(139, 92, 246, 0.05) 0%, transparent 100%);
         }
         .av2-modal-head h2 {
-          font-size: 20px;
+          font-size: 22px;
           font-weight: 700;
-          color: #f0ecff;
+          color: #fff;
           margin: 0;
+          letter-spacing: -0.01em;
         }
         .av2-modal-close {
-          width: 32px; height: 32px;
+          width: 36px; height: 36px;
           display: flex;
           align-items: center;
           justify-content: center;
-          background: rgba(139,92,246,.1);
-          border: 1px solid rgba(139,92,246,.18);
-          border-radius: 8px;
-          color: #a78bfa;
+          background: rgba(139, 92, 246, 0.08);
+          border: 1px solid rgba(139, 92, 246, 0.2);
+          border-radius: 10px;
+          color: #c4b5fd;
           cursor: pointer;
-          transition: all .2s;
+          transition: all .25s cubic-bezier(.22,1,.36,1);
           padding: 0;
         }
-        .av2-modal-close svg { width: 16px; height: 16px; }
+        .av2-modal-close svg { width: 18px; height: 18px; }
         .av2-modal-close:hover {
-          background: rgba(139,92,246,.2);
-          transform: rotate(90deg);
+          background: rgba(139, 92, 246, 0.2);
+          color: #fff;
+          transform: rotate(90deg) scale(1.05);
         }
-        .av2-modal-body { padding: 26px 30px 30px; }
+        .av2-modal-body { padding: 32px; }
         .av2-sec-label {
           display: block;
-          font-size: 10px;
+          font-size: 11px;
           font-weight: 700;
-          color: #9d7fd8;
+          color: #a78bfa;
           text-transform: uppercase;
-          letter-spacing: .12em;
-          margin-bottom: 10px;
+          letter-spacing: .15em;
+          margin-bottom: 12px;
         }
         .av2-sec-text {
-          font-size: 13px;
-          line-height: 1.8;
-          color: #b8b0d8;
-          margin-bottom: 22px;
+          font-size: 14px;
+          line-height: 1.7;
+          color: #c4b5fd;
+          margin-bottom: 24px;
         }
         .av2-detail-row {
           display: flex;
-          gap: 12px;
-          margin-bottom: 14px;
+          gap: 14px;
+          margin-bottom: 18px;
           align-items: flex-start;
+          padding: 16px;
+          background: rgba(139, 92, 246, 0.04);
+          border: 1px solid rgba(139, 92, 246, 0.08);
+          border-radius: 14px;
+          transition: all .25s;
         }
         .av2-detail-ico {
-          width: 34px; height: 34px;
+          width: 38px; height: 38px;
           flex-shrink: 0;
           display: flex;
           align-items: center;
           justify-content: center;
-          background: rgba(139,92,246,.15);
-          border-radius: 9px;
-          color: #a78bfa;
+          background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05));
+          border: 1px solid rgba(139, 92, 246, 0.2);
+          border-radius: 12px;
+          color: #c4b5fd;
           transition: all .25s cubic-bezier(.22,1,.36,1);
         }
-        .av2-detail-row:hover .av2-detail-ico {
-          background: rgba(139,92,246,.25);
-          transform: translateY(-2px);
+        .av2-detail-row:hover {
+          background: rgba(139, 92, 246, 0.08);
+          border-color: rgba(139, 92, 246, 0.15);
         }
-        .av2-detail-ico svg { width: 17px; height: 17px; }
+        .av2-detail-row:hover .av2-detail-ico {
+          background: rgba(139, 92, 246, 0.25);
+          color: #fff;
+          transform: scale(1.05) rotate(-2deg);
+        }
+        .av2-detail-ico svg { width: 18px; height: 18px; }
         .av2-detail-label {
           display: block;
-          font-size: 10px;
-          font-weight: 600;
-          color: #9d7fd8;
+          font-size: 11px;
+          font-weight: 700;
+          color: #ddd6fe;
           text-transform: uppercase;
-          letter-spacing: .08em;
-          margin-bottom: 3px;
+          letter-spacing: .1em;
+          margin-bottom: 4px;
         }
-        .av2-detail-text { font-size: 13px; color: #e0daf5; line-height: 1.5; }
+        .av2-detail-text { font-size: 13px; color: #a78bfa; line-height: 1.6; }
 
         /* form */
-        .av2-fg { margin-bottom: 16px; }
-        .av2-frow { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-        .av2-label {
-          display: block;
-          font-size: 10px;
-          font-weight: 600;
-          color: #9d7fd8;
-          text-transform: uppercase;
-          letter-spacing: .08em;
-          margin-bottom: 7px;
+        .av2-fg { margin-bottom: 20px; }
+        .av2-type-grid { 
+          display: flex; flex-direction: column; gap: 16px; margin-top: 24px; 
         }
-        .av2-input, .av2-select, .av2-textarea {
-          width: 100%;
-          padding: 10px 13px;
-          background: rgba(139,92,246,.07);
-          border: 1.5px solid rgba(139,92,246,.14);
-          border-radius: 9px;
-          font-size: 13px;
-          color: #e0daf5;
-          transition: all .2s;
-          appearance: none;
-          outline: none;
-          font-family: inherit;
-        }
-        .av2-input::placeholder, .av2-textarea::placeholder { color: rgba(184,176,216,.45); }
-        .av2-input:hover, .av2-select:hover, .av2-textarea:hover {
-          border-color: rgba(139,92,246,.26);
-          background: rgba(139,92,246,.1);
-        }
-        .av2-input:focus, .av2-select:focus, .av2-textarea:focus {
-          border-color: rgba(139,92,246,.5);
-          background: rgba(139,92,246,.13);
-          box-shadow: 0 0 0 4px rgba(139,92,246,.1);
-        }
-        .av2-select option { background: #1a1630; }
-        .av2-textarea { resize: vertical; min-height: 90px; }
-        .av2-submit {
-          width: 100%;
-          margin-top: 20px;
-          padding: 13px;
-          background: linear-gradient(135deg, #7c3aed, #9333ea);
-          color: white;
-          border: none;
-          border-radius: 12px;
-          font-size: 13px;
-          font-weight: 600;
-          letter-spacing: .06em;
-          text-transform: uppercase;
+        .av2-type-btn {
+          position: relative;
+          padding: 20px 24px;
+          background: linear-gradient(145deg, rgba(30, 24, 60, 0.4) 0%, rgba(15, 12, 30, 0.7) 100%);
+          border: 1px solid rgba(139, 92, 246, 0.2);
+          border-radius: 20px;
+          color: #fff;
           cursor: pointer;
-          transition: all .3s cubic-bezier(.22,1,.36,1);
-          box-shadow: 0 8px 24px rgba(124,58,237,.35);
+          transition: all .4s cubic-bezier(.175,.885,.32,1.275);
+          display: flex;
+          align-items: center;
+          gap: 20px;
+          text-align: left;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.05);
+          overflow: hidden;
+        }
+        .av2-type-btn::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.1), transparent);
+          transform: translateX(-100%);
+          transition: transform .6s ease;
+        }
+        .av2-type-btn:hover {
+          border-color: rgba(167, 139, 250, 0.5);
+          transform: translateY(-4px) scale(1.02);
+          box-shadow: 0 16px 40px rgba(139, 92, 246, 0.2), inset 0 0 30px rgba(139, 92, 246, 0.08);
+          background: linear-gradient(145deg, rgba(40, 28, 80, 0.6) 0%, rgba(20, 15, 40, 0.8) 100%);
+        }
+        .av2-type-btn:hover::before {
+          transform: translateX(100%);
+        }
+        .av2-type-btn-icon {
+          width: 48px; height: 48px;
+          background: rgba(139, 92, 246, 0.08);
+          border: 1px solid rgba(139, 92, 246, 0.2);
+          border-radius: 14px;
           display: flex;
           align-items: center;
           justify-content: center;
+          flex-shrink: 0;
+          transition: all .4s ease;
+          box-shadow: inset 0 0 10px rgba(139, 92, 246, 0.1);
+        }
+        .av2-type-btn:hover .av2-type-btn-icon {
+          background: linear-gradient(135deg, #7c3aed, #5b21b6);
+          border-color: #a78bfa;
+          box-shadow: 0 0 20px rgba(124, 58, 237, 0.5);
+          transform: scale(1.1) rotate(5deg);
+        }
+        .av2-type-btn:hover .av2-type-btn-icon svg {
+          color: #fff !important;
+        }
+        .av2-type-btn-title {
+          font-size: 16px;
+          font-weight: 700;
+          color: #f0ecff;
+          margin-bottom: 4px;
+          letter-spacing: 0.02em;
+          transition: color .3s ease, text-shadow .3s ease;
+        }
+        .av2-type-btn:hover .av2-type-btn-title {
+          color: #fff;
+          text-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+        }
+        .av2-type-btn-desc {
+          font-size: 13px;
+          color: #b8b0d8;
+          font-weight: 400;
+          line-height: 1.4;
+          transition: color .3s ease;
+        }
+        .av2-type-btn:hover .av2-type-btn-desc {
+          color: #d8cfff;
+        }
+        .av2-type-btn svg {
+          transition: all .3s ease;
+        }
+        .av2-back-btn {
+          background: transparent;
+          border: none;
+          color: #a78bfa;
+          font-size: 12px;
+          font-weight: 700;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
           gap: 8px;
+          padding: 8px 12px;
+          border-radius: 8px;
+          margin-bottom: 24px;
+          margin-left: -12px;
+          text-transform: uppercase;
+          letter-spacing: .08em;
+          transition: all .2s;
+        }
+        .av2-back-btn:hover { 
+          color: #fff;
+          background: rgba(139, 92, 246, 0.1);
+        }
+        .av2-frow { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .av2-label {
+          display: block;
+          font-size: 11px;
+          font-weight: 700;
+          color: #c4b5fd;
+          text-transform: uppercase;
+          letter-spacing: .12em;
+          margin-bottom: 8px;
+        }
+        .av2-input, .av2-select, .av2-textarea {
+          width: 100%;
+          padding: 14px 16px;
+          background: rgba(0, 0, 0, 0.2);
+          border: 1px solid rgba(139, 92, 246, 0.15);
+          border-radius: 12px;
+          font-size: 14px;
+          color: #fff;
+          transition: all .3s cubic-bezier(.22,1,.36,1);
+          appearance: none;
+          outline: none;
+          font-family: inherit;
+          box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .av2-input::placeholder, .av2-textarea::placeholder { color: rgba(167, 139, 250, 0.4); font-weight: 400; }
+        .av2-input:hover, .av2-select:hover, .av2-textarea:hover {
+          border-color: rgba(139, 92, 246, 0.3);
+          background: rgba(0, 0, 0, 0.3);
+        }
+        .av2-input:focus, .av2-select:focus, .av2-textarea:focus {
+          border-color: #a78bfa;
+          background: rgba(139, 92, 246, 0.05);
+          box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15), inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .av2-select option { background: #110e26; }
+        .av2-textarea { resize: vertical; min-height: 100px; }
+        .av2-submit {
+          width: 100%;
+          margin-top: 24px;
+          padding: 16px;
+          background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+          color: white;
+          border: none;
+          border-radius: 14px;
+          font-size: 14px;
+          font-weight: 700;
+          letter-spacing: .1em;
+          text-transform: uppercase;
+          cursor: pointer;
+          transition: all .3s cubic-bezier(.22,1,.36,1);
+          box-shadow: 0 10px 30px rgba(124, 58, 237, 0.4), inset 0 1px 1px rgba(255,255,255,0.2);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
           font-family: inherit;
         }
-        .av2-submit svg { width: 15px; height: 15px; }
-        .av2-submit:hover { transform: translateY(-2px); box-shadow: 0 16px 36px rgba(124,58,237,.5); }
-        .av2-submit:active { transform: translateY(0); }
+        .av2-submit svg { width: 18px; height: 18px; transition: transform .3s; }
+        .av2-submit:hover { 
+          transform: translateY(-2px); 
+          box-shadow: 0 15px 40px rgba(124, 58, 237, 0.6), inset 0 1px 1px rgba(255,255,255,0.3); 
+        }
+        .av2-submit:hover svg { transform: translateX(4px); }
+        .av2-submit:active { transform: translateY(0); box-shadow: 0 5px 15px rgba(124, 58, 237, 0.4); }
         .av2-success { text-align: center; padding: 36px 20px; }
         .av2-success-ico {
           width: 60px; height: 60px;
@@ -499,15 +610,77 @@ export function AgentVerse2() {
         .av2-success-title { font-size: 18px; font-weight: 700; color: #f0ecff; margin-bottom: 8px; }
         .av2-success-sub { font-size: 13px; color: #b8b0d8; }
 
+        @media (max-width: 768px) {
+          .av2-root {
+            min-height: auto;
+            padding: 40px 24px;
+          }
+          .av2-modal {
+            width: calc(100% - 32px);
+          }
+          .av2-modal-body {
+            padding: 24px;
+          }
+          .av2-modal-head {
+            padding: 24px;
+          }
+        }
         @media (max-width: 480px) {
-          .av2-features { grid-template-columns: 1fr; }
-          .av2-actions { flex-direction: column; }
-          .av2-frow { grid-template-columns: 1fr; }
-          .av2-callout { flex-direction: column; text-align: center; gap: 10px; }
+          .av2-features { grid-template-columns: 1fr; gap: 8px; }
+          .av2-actions { flex-direction: column; gap: 10px; }
+          .av2-frow { grid-template-columns: 1fr; gap: 0; }
+          .av2-fg { margin-bottom: 16px; }
+          .av2-callout { flex-direction: column; text-align: left; align-items: flex-start; gap: 12px; }
+          
+          .av2-overlay { padding: 12px; }
+          .av2-modal {
+            width: calc(100% - 24px);
+            max-height: 92vh;
+          }
+          .av2-modal-head {
+            padding: 20px 20px 16px;
+          }
+          .av2-modal-head h2 {
+            font-size: 18px;
+          }
+          .av2-modal-body {
+            padding: 20px;
+          }
+          .av2-type-btn {
+            padding: 14px 16px;
+            gap: 14px;
+            border-radius: 16px;
+          }
+          .av2-type-btn-icon {
+            width: 40px; height: 40px;
+          }
+          .av2-type-btn-title {
+            font-size: 15px;
+          }
+          .av2-type-btn-desc {
+            font-size: 12px;
+          }
+          .av2-detail-row {
+            padding: 12px;
+            gap: 12px;
+          }
+          .av2-input, .av2-select, .av2-textarea {
+            padding: 12px 14px;
+            font-size: 13px;
+          }
         }
         @media (max-width: 360px) {
-          .av2-root { padding: 24px 18px 20px; }
-          .av2-title { font-size: 28px; }
+          .av2-root { padding: 24px 16px; }
+          .av2-title { font-size: 26px; }
+          .av2-type-btn {
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+            gap: 10px;
+          }
+          .av2-type-btn-icon {
+            width: 36px; height: 36px;
+          }
         }
       `}</style>
 
@@ -569,7 +742,7 @@ export function AgentVerse2() {
 
           <div className="av2-actions">
             <button className="av2-btn av2-btn-primary" onClick={() => setShowRegister(true)}>
-              Register Your College
+              Register Now
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
@@ -586,154 +759,12 @@ export function AgentVerse2() {
         </div>
       </div>
 
-      {/* ── DETAILS MODAL ── */}
       {showDetails && (
-        <div className="av2-overlay" onClick={() => setShowDetails(false)}>
-          <div className="av2-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="av2-modal-head">
-              <h2>Event Details</h2>
-              <button className="av2-modal-close" onClick={() => setShowDetails(false)}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-                </svg>
-              </button>
-            </div>
-            <div className="av2-modal-body">
-              <span className="av2-sec-label">About AgentVerse 2.0</span>
-              <p className="av2-sec-text">
-                India's premier competition dedicated exclusively to autonomous AI agents. Unlike traditional
-                hackathons, this event focuses on building intelligent agents that make decisions, learn, and
-                solve complex real-world problems independently.
-              </p>
-
-              <span className="av2-sec-label">Key Features</span>
-              {[
-                {
-                  label: "Advanced AI Models",
-                  text: "Access to cutting-edge LLMs and agent frameworks including OpenAI, Anthropic, and open-source models.",
-                  icon: <><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></>,
-                },
-                {
-                  label: "Institutional Partnerships",
-                  text: "Collaborate with partner organizations to tackle real industry challenges and gain mentorship.",
-                  icon: <><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22M18 2H6v7a6 6 0 0 0 12 0V2z"/></>,
-                },
-                {
-                  label: "Timeline",
-                  text: "Registration open now. 8-week competition with weekly checkpoints and a grand final showcase.",
-                  icon: <><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></>,
-                },
-              ].map(({ label, text, icon }) => (
-                <div className="av2-detail-row" key={label}>
-                  <div className="av2-detail-ico">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">{icon}</svg>
-                  </div>
-                  <div>
-                    <span className="av2-detail-label">{label}</span>
-                    <div className="av2-detail-text">{text}</div>
-                  </div>
-                </div>
-              ))}
-
-              <span className="av2-sec-label" style={{ marginTop: 20, display: "block" }}>Eligibility</span>
-              <p className="av2-sec-text">
-                Open to all undergrad and grad students across Indian institutions. Teams of 3–6 members.
-                AI/ML fundamentals recommended but not required.
-              </p>
-
-              <span className="av2-sec-label">Prizes & Recognition</span>
-              <p className="av2-sec-text" style={{ marginBottom: 0 }}>
-                Cash prizes, internship opportunities with partner companies, industry networking, and
-                AgentVerse Hall of Fame placement. All teams receive completion certificates.
-              </p>
-            </div>
-          </div>
-        </div>
+        <AgentVerseDetailsModal onClose={() => setShowDetails(false)} />
       )}
 
-      {/* ── REGISTER MODAL ── */}
       {showRegister && (
-        <div className="av2-overlay" onClick={closeRegister}>
-          <div className="av2-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="av2-modal-head">
-              <h2>{submitted ? "Registration Complete" : "Register Your College"}</h2>
-              {!submitted && (
-                <button className="av2-modal-close" onClick={closeRegister}>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-                  </svg>
-                </button>
-              )}
-            </div>
-            <div className="av2-modal-body">
-              {submitted ? (
-                <div className="av2-success">
-                  <div className="av2-success-ico">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12"/>
-                    </svg>
-                  </div>
-                  <div className="av2-success-title">Registration Successful</div>
-                  <p className="av2-success-sub">
-                    Thank you for registering {form.college || "your college"}. We'll send confirmation to{" "}
-                    {form.email || "your email"}.
-                  </p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit}>
-                  <div className="av2-fg">
-                    <label className="av2-label">College / Institution Name *</label>
-                    <input className="av2-input" name="college" value={form.college} onChange={handleChange} placeholder="E.g., GLA University" required />
-                  </div>
-                  <div className="av2-frow">
-                    <div className="av2-fg">
-                      <label className="av2-label">Team Lead Name *</label>
-                      <input className="av2-input" name="lead" value={form.lead} onChange={handleChange} placeholder="Full name" required />
-                    </div>
-                    <div className="av2-fg">
-                      <label className="av2-label">Contact Email *</label>
-                      <input className="av2-input" type="email" name="email" value={form.email} onChange={handleChange} placeholder="you@email.com" required />
-                    </div>
-                  </div>
-                  <div className="av2-frow">
-                    <div className="av2-fg">
-                      <label className="av2-label">Contact Phone *</label>
-                      <input className="av2-input" type="tel" name="phone" value={form.phone} onChange={handleChange} placeholder="+91 98765 43210" required />
-                    </div>
-                    <div className="av2-fg">
-                      <label className="av2-label">Team Size *</label>
-                      <select className="av2-select" name="size" value={form.size} onChange={handleChange}>
-                        <option value="3">3 members</option>
-                        <option value="4">4 members</option>
-                        <option value="5">5 members</option>
-                        <option value="6">6 members</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className="av2-fg">
-                    <label className="av2-label">Experience Level *</label>
-                    <select className="av2-select" name="experience" value={form.experience} onChange={handleChange}>
-                      <option value="beginner">Beginner — Learning AI/ML basics</option>
-                      <option value="intermediate">Intermediate — Some AI/ML experience</option>
-                      <option value="advanced">Advanced — Built ML models before</option>
-                      <option value="expert">Expert — Multiple project experience</option>
-                    </select>
-                  </div>
-                  <div className="av2-fg">
-                    <label className="av2-label">Additional Notes</label>
-                    <textarea className="av2-textarea" name="notes" value={form.notes} onChange={handleChange} placeholder="Tell us about your team's interests or special requirements..." />
-                  </div>
-                  <button type="submit" className="av2-submit">
-                    Complete Registration
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
-                  </button>
-                </form>
-              )}
-            </div>
-          </div>
-        </div>
+        <AgentVerseRegistrationModal onClose={() => setShowRegister(false)} />
       )}
     </>
   );

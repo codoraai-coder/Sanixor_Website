@@ -8,8 +8,7 @@ const PRODUCTS = [
       "AI-powered hackathon evaluation platform that automates judging, scoring, and feedback at scale.",
     category: "AI Platform",
     accent: "#3B82F6",
-    video:
-      "https://kceggzvolonyqavvowwc.supabase.co/storage/v1/object/public/codoora/hackevel%20video.mp4",
+    video: "/videos/hackeval.gif",
     image:
       "https://kceggzvolonyqavvowwc.supabase.co/storage/v1/object/public/codoora/hackeven%20image.png",
     description:
@@ -30,8 +29,7 @@ const PRODUCTS = [
       "Comprehensive benchmarking suite for evaluating AI models against industry-standard metrics.",
     category: "Analytics",
     accent: "#10B981",
-    video:
-      "https://kceggzvolonyqavvowwc.supabase.co/storage/v1/object/public/codoora/BitBenchmark%20video.mp4",
+    video: "/videos/bitbenchmark.gif",
     image:
       "https://kceggzvolonyqavvowwc.supabase.co/storage/v1/object/public/codoora/BitBenchmark%20image.png",
     description:
@@ -52,8 +50,7 @@ const PRODUCTS = [
       "Automated CI/CD pipeline intelligence that predicts failures before they happen.",
     category: "DevOps",
     accent: "#F59E0B",
-    video:
-      "https://kceggzvolonyqavvowwc.supabase.co/storage/v1/object/public/codoora/AutoDash%20video.mp4",
+    video: "/videos/autodash.gif",
     image:
       "https://kceggzvolonyqavvowwc.supabase.co/storage/v1/object/public/codoora/AutoDash%20image.png",
     description:
@@ -75,8 +72,7 @@ const PRODUCTS = [
       "Deploy intelligent AI agents as managed cloud services with enterprise-grade reliability.",
     category: "Infrastructure",
     accent: "#8B5CF6",
-    video:
-      "https://kceggzvolonyqavvowwc.supabase.co/storage/v1/object/public/codoora/Agent%20as%20a%20Service%20video.mp4",
+    video: "/videos/agent-as-a-service.gif",
     image:
       "https://kceggzvolonyqavvowwc.supabase.co/storage/v1/object/public/codoora/Agent%20as%20a%20Service%20image.png",
     description:
@@ -98,8 +94,7 @@ const PRODUCTS = [
       "Bespoke AI agent architectures engineered for your unique business challenges.",
     category: "Enterprise",
     accent: "#EC4899",
-    video:
-      "https://kceggzvolonyqavvowwc.supabase.co/storage/v1/object/public/codoora/customized%20Agentic%20Solutionsvideo.mp4",
+    video: "/videos/custom-agent.gif",
     image:
       "https://kceggzvolonyqavvowwc.supabase.co/storage/v1/object/public/codoora/Customized%20Agentic%20Solutions%20image.png",
     description:
@@ -157,12 +152,9 @@ function ProductDetailModal({
         data-lenis-prevent="true"
       >
         <div className="modal-card-visual">
-          <video
+          <img
             src={product.video}
-            autoPlay
-            loop
-            muted
-            playsInline
+            alt={product.name}
             className="modal-card-video"
           />
           <div
@@ -559,7 +551,8 @@ export function ProductCarousel() {
         .carousel-root { position: relative; width: 100%; height: 100%; overflow: hidden; user-select: none; }
         .carousel-perspective { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; pointer-events: none; perspective: 1350px; }
         .carousel-viewport { position: absolute; transform-style: preserve-3d; }
-        .card-wrapper { position: absolute; inset: 0; transform-style: preserve-3d; backface-visibility: visible; cursor: grab; pointer-events: auto; }
+        .card-wrapper { position: absolute; inset: 0; transform-style: preserve-3d; backface-visibility: visible; cursor: grab; pointer-events: auto; outline: none; }
+        .card-wrapper:focus-visible { outline: 2px solid #8B5CF6; outline-offset: 10px; border-radius: 16px; }
         .card-wrapper:active { cursor: grabbing; }
         .card-layer { position: absolute; inset: 0; border-radius: 16px; pointer-events: none; overflow: hidden; }
         .card-layer-mid { background-color: #606060; border: 1px solid #707070; }
@@ -605,19 +598,20 @@ export function ProductCarousel() {
         .modal-cta:active { transform: scale(0.98); }
 
         /* Desktop Modal Layout */
-        @media (min-width: 640px) {
+        @media (min-width: 800px) {
           .modal-backdrop { align-items: center; }
           .modal-card { 
+            flex-direction: row;
             border-radius: 24px; 
-            max-height: 90vh; 
+            max-height: 85vh; 
             width: 94vw; 
-            max-width: 900px; 
+            max-width: 1000px; 
           }
           .modal-card-enter { transform: scale(0.85) translateY(40px); opacity: 0; }
           .modal-card-active { transform: scale(1) translateY(0); opacity: 1; }
           
-          .modal-card-visual { width: 100%; aspect-ratio: 16/10; border-right: none; }
-          .modal-body { width: 100%; padding: 2rem; }
+          .modal-card-visual { width: 45%; aspect-ratio: auto; border-right: 1px solid rgba(255,255,255,0.08); }
+          .modal-body { width: 55%; padding: 2.5rem; }
           
           .modal-title { font-size: 1.75rem; }
           .modal-tagline { font-size: 0.88rem; margin-bottom: 1.25rem; }
@@ -654,6 +648,15 @@ export function ProductCarousel() {
                   }}
                   className="card-wrapper"
                   style={{ width: metrics.cardW, height: metrics.cardH }}
+                  tabIndex={0}
+                  role="button"
+                  aria-label={`View details for ${p.name}`}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setActiveProduct(p);
+                    }
+                  }}
                   onClick={() => {
                     if (Math.abs(drag.current.velocity) < 0.01 && !drag.current.isDragging) {
                       setActiveProduct(p);
@@ -686,12 +689,9 @@ export function ProductCarousel() {
                             transform: `translateZ(${zOffset}px)`,
                           }}
                         >
-                          <video
+                          <img
                             src={p.video}
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
+                            alt={`${p.name} video`}
                             className="card-video"
                           />
                           <img
@@ -817,12 +817,9 @@ export function ProductCarousel() {
                               pointerEvents: "none",
                             }}
                           >
-                            <video
+                            <img
                               src={p.video}
-                              autoPlay
-                              loop
-                              muted
-                              playsInline
+                              alt=""
                               style={{
                                 position: "absolute",
                                 inset: 0,

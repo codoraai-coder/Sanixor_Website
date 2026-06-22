@@ -2,7 +2,8 @@ import { ScrollReveal } from "@/components/sanixor/ScrollReveal";
 import { AgentVerse2 } from "@/components/sanixor/AgentVerse2";
 import { ArrowRight, ArrowUpRight, Cpu, FlaskConical, GraduationCap, Network } from "lucide-react";
 import { HeroParallax } from "@/components/sanixor/HeroParallax";
-import { CTASection, Footer } from "@/components/sanixor/Footer";
+import { Footer } from "@/components/sanixor/Footer";
+import { InteractiveConsole } from "@/components/sanixor/InteractiveConsole";
 import { Navbar } from "@/components/sanixor/Navbar";
 import { ProductCarousel } from "@/components/sanixor/ProductCarousel";
 import { Badge } from "@/components/ui/badge";
@@ -205,7 +206,7 @@ export default function Index() {
       </ScrollReveal>
 
       <ScrollReveal>
-        <CTASection className="pb-20" />
+        <InteractiveConsole className="pb-20" />
       </ScrollReveal>
       <Footer />
     </div>

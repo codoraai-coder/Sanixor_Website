@@ -3,41 +3,7 @@ import { cn } from "@/lib/utils";
 import { ArrowUpRight, Instagram, Linkedin, Twitter } from "lucide-react";
 import { useState } from "react";
 
-export function CTASection({ className }: { className?: string }) {
-  return (
-    <section id="cta" className={cn("mx-auto max-w-5xl px-4 md:px-6", className)}>
-      <div className="relative overflow-hidden rounded-[2rem] border border-primary/20 bg-card/30 p-10 text-center backdrop-blur-xl md:p-16">
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-primary-glow/10" />
-        <div className="pointer-events-none absolute -left-20 -top-20 h-60 w-60 rounded-full bg-primary/20 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-20 -right-20 h-60 w-60 rounded-full bg-primary-glow/15 blur-3xl" />
 
-        <div className="relative">
-          <p className="mb-4 text-sm font-medium uppercase tracking-[0.2em] text-primary">
-            Ready to deploy
-          </p>
-          <h2 className="text-3xl font-bold tracking-tight md:text-5xl">
-            Start building with
-            <br />
-            <span className="text-gradient">Sanixor AI today.</span>
-          </h2>
-          <p className="mx-auto mt-4 max-w-lg text-muted-foreground md:text-lg">
-            Real agents. Real accuracy. Real results — for students, institutions, and developers.
-          </p>
-          <Button
-            asChild
-            size="lg"
-            className="mt-8 rounded-full bg-gradient-to-r from-secondary via-primary to-primary-glow px-10 shadow-glow transition-all hover:scale-[1.02]"
-          >
-            <a href="https://sanixor.space" target="_blank" rel="noopener noreferrer">
-              Open Sanixor.space
-              <ArrowUpRight className="h-4 w-4" />
-            </a>
-          </Button>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 export function Footer() {
   // State tracking which original columns have been clicked/triggered to reveal smoothly

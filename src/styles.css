@@ -1460,26 +1460,6 @@ html { scroll-behavior: auto; }
 ::-webkit-scrollbar-track { background: #09090b; }
 ::-webkit-scrollbar-thumb { background: #1e1e24; border-radius: 3px; }
 
-@media (max-width: 480px) {
-  .snx-nav {
-    padding: 0 20px;
-    height: 56px;
-  }
-  .snx-nav .nav-links { display: none; }
-  .snx-nav .nav-cta {
-    padding: 8px 18px;
-    font-size: 13px;
-  }
-  .snx-footer { padding: 32px 20px; flex-direction: column; align-items: flex-start; }
-  .hero-stats {
-    flex-direction: column;
-    gap: 20px;
-  }
-  .event-card {
-    padding: 32px 20px;
-    grid-template-columns: 1fr;
-  }
-}
 
 /* ── PREMIUM INNER NAVBAR (Layout pages: Products / Team / Contact) ── */
 .inner-nav {
@@ -1658,10 +1638,7 @@ html { scroll-behavior: auto; }
 }
 .inner-nav-mobile-link.active { color: #a78bfa; }
 
-@media (max-width: 640px) {
-  .inner-nav-links { display: none; }
-  .inner-nav-hamburger { display: flex; }
-}
+
 
 /* ── PREMIUM SCROLL REVEAL ── */
 .snx-reveal {
@@ -1829,3 +1806,122 @@ html { scroll-behavior: auto; }
   0%   { opacity: 1; transform: translateX(-50%) translateY(0); }
   100% { opacity: 0; transform: translateX(-50%) translateY(12px); }
 }
+
+/* =====================================================================
+   GLOBAL RESPONSIVE OPTIMIZATIONS
+   Ensuring butter-smooth UI/UX across all device sizes.
+   ===================================================================== */
+
+@media (max-width: 900px) {
+  .hero-stats { gap: 20px; }
+  .prod-card.wide, .prod-card.half, .prod-card.third { grid-column: span 12; }
+}
+
+@media (max-width: 768px) {
+  /* Sections */
+  .snx-page section { padding: 80px 20px; }
+  
+  /* Hero */
+  .snx-page .hero { padding: 100px 20px 60px; }
+  .hero-glow { width: 100%; height: 400px; }
+  .hero-stats {
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+    width: 100%;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* Services */
+  .services-grid { grid-template-columns: 1fr; gap: 20px; }
+  .service-card { padding: 32px 24px; }
+  .service-num { font-size: 60px; top: 16px; right: 20px; }
+  
+  /* Event */
+  .event-card {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 40px 24px;
+  }
+  .event-stat-big { text-align: left; }
+  .event-stat-lbl { text-align: left; }
+  .event-info { align-items: flex-start; }
+  .event-stat-num { font-size: 48px; }
+  
+  /* Learn */
+  .learn-grid { grid-template-columns: 1fr; }
+  
+  /* CTA */
+  .cta-wrap { padding: 60px 24px; }
+  
+  /* Footer */
+  .snx-footer { flex-direction: column; align-items: flex-start; padding: 40px 24px; gap: 32px; }
+}
+
+@media (max-width: 640px) {
+  .inner-nav-links { display: none; }
+  .inner-nav-hamburger { display: flex; }
+}
+
+@media (max-width: 480px) {
+  /* Navigations */
+  .snx-nav { padding: 0 16px; height: 56px; }
+  .snx-nav .nav-links { display: none; }
+  .snx-nav .nav-cta { padding: 8px 16px; font-size: 13px; }
+  
+  .inner-nav { padding: 0 16px; height: 56px; }
+  .inner-nav-cta { padding: 8px 16px; font-size: 13px; }
+  
+  /* Global Layout */
+  .snx-page section { padding: 60px 16px; }
+  .section-head { margin-bottom: 12px; }
+  .section-desc { font-size: 15px; }
+  .section-intro { margin-bottom: 40px; }
+  
+  /* Hero */
+  .snx-page .hero { padding: 80px 16px 40px; min-height: auto; }
+  .hero-tag { margin-bottom: 20px; font-size: 12px; padding: 6px 14px; }
+  .hero-sub { font-size: 16px; margin-bottom: 32px; }
+  .hero-actions { flex-direction: column; width: 100%; max-width: 300px; margin: 0 auto; gap: 10px; }
+  .snx-btn-primary, .snx-btn-ghost { width: 100%; justify-content: center; }
+  .hero-stats { margin-top: 48px; padding: 20px; border-radius: 16px; }
+  .stat-num { font-size: 28px; }
+  .stat-label { font-size: 12px; }
+  
+  /* Products */
+  .prod-card { padding: 24px; border-radius: 16px; }
+  .prod-icon { width: 40px; height: 40px; font-size: 18px; margin-bottom: 16px; }
+  .prod-name { font-size: 20px; }
+  .prod-desc { font-size: 14px; margin-bottom: 16px; }
+  .prod-accent { width: 100px; height: 100px; bottom: -20px; right: -20px; }
+  
+  /* Services */
+  .services-grid { gap: 16px; }
+  .service-card { padding: 24px 20px; border-radius: 16px; }
+  .service-num { font-size: 40px; top: 12px; right: 16px; }
+  .service-title { font-size: 20px; }
+  .service-desc { font-size: 14px; }
+  
+  /* Event */
+  .event-card { padding: 32px 20px; border-radius: 16px; gap: 24px; }
+  .event-title { font-size: 32px; }
+  .event-sub { font-size: 15px; }
+  .event-stat-num { font-size: 40px; }
+  .event-glow, .event-glow2 { width: 200px; height: 200px; filter: blur(40px); }
+  .event-actions { flex-direction: column; width: 100%; }
+  
+  /* Learn */
+  .learn-card { padding: 20px; border-radius: 16px; }
+  
+  /* CTA */
+  .cta-wrap { padding: 48px 20px; border-radius: 16px; }
+  .cta-wrap p { font-size: 15px; margin-bottom: 24px; }
+  .cta-wrap .snx-btn-primary { width: 100%; justify-content: center; max-width: 300px; }
+  
+  /* Footer */
+  .snx-footer { padding: 32px 16px; gap: 24px; }
+  .footer-links { flex-direction: column; gap: 16px; width: 100%; }
+}
+
