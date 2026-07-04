@@ -585,17 +585,21 @@ export function BookDemoModal({
 
         /* ── Responsive ── */
         @media (max-width: 600px) {
-          .bdm-overlay { padding: 14px; }
+          .bdm-overlay { padding: 12px; }
           /* no max-height on modal — overlay is the scroll container */
-          .bdm-head { padding: 22px 22px 18px; }
-          .bdm-head-titles h2 { font-size: 17px; }
-          .bdm-banner { margin: 22px 22px 0; }
-          .bdm-body { padding: 22px 22px 26px; }
+          .bdm-head { padding: 18px 20px 14px; }
+          .bdm-head-titles h2 { font-size: 16px; }
+          .bdm-banner { margin: 16px 20px 0; }
+          .bdm-body { padding: 18px 20px 20px; }
+          .bdm-input, .bdm-textarea { padding: 10px 14px; }
+          .bdm-fg { margin-bottom: 16px; }
         }
         @media (max-width: 380px) {
-          .bdm-head { padding: 18px 18px 16px; }
-          .bdm-banner { margin: 16px 18px 0; }
-          .bdm-body { padding: 18px 18px 22px; }
+          .bdm-head { padding: 14px 16px 12px; }
+          .bdm-banner { margin: 12px 16px 0; }
+          .bdm-body { padding: 14px 16px 16px; }
+          .bdm-input, .bdm-textarea { padding: 8px 12px; }
+          .bdm-fg { margin-bottom: 14px; }
         }
       `}</style>
 

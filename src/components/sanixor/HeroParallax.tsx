@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import {
   motion,
   useScroll,
@@ -16,7 +16,7 @@ interface Product {
 
 export const Header = () => {
   return (
-    <div className="max-w-7xl relative mx-auto py-24 md:py-32 px-6 w-full left-0 top-0 z-10">
+    <div className="max-w-7xl relative mx-auto pt-12 pb-6 md:py-32 px-6 w-full left-0 top-0 z-40 pointer-events-none">
       <div className="flex items-center gap-3 mb-6">
         <div
           className="w-10 h-[2px] rounded-full"
@@ -40,7 +40,7 @@ export const Header = () => {
         <br />
         <span
           style={{
-            background: "linear-gradient(135deg, #9333ea, #000000)",
+            background: "linear-gradient(135deg, #a855f7, #d8b4fe)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",
@@ -74,7 +74,7 @@ export const ProductCard = ({
       whileHover={{ y: -12, scale: 1.02 }}
       transition={{ type: "spring", stiffness: 200, damping: 25 }}
       key={product.title}
-      className="group/product h-[8rem] w-[12rem] sm:h-[10rem] sm:w-[15rem] md:h-[14rem] md:w-[21rem] lg:h-[15rem] lg:w-[23rem] relative flex-shrink-0 rounded-3xl overflow-hidden cursor-pointer"
+      className="group/product h-[8rem] w-[12rem] sm:h-[10rem] sm:w-[15rem] md:h-[14rem] md:w-[21rem] lg:h-[15rem] lg:w-[23rem] relative flex-shrink-0 rounded-3xl overflow-hidden"
     >
       <img
         src={product.thumbnail}
@@ -126,7 +126,7 @@ export const ProductCard = ({
       </div>
 
       <h2
-        className="absolute bottom-5 left-5 right-16 z-10 text-lg font-semibold tracking-tight opacity-0 translate-y-2.5 group-hover/product:opacity-100 group-hover/product:translate-y-0 transition-all duration-500 ease-out"
+        className="absolute bottom-5 left-5 right-5 z-10 text-lg font-semibold tracking-tight opacity-0 translate-y-2.5 group-hover/product:opacity-100 group-hover/product:translate-y-0 transition-all duration-500 ease-out"
         style={{
           fontFamily: "'Space Grotesk', 'Syne', sans-serif",
           color: "#FFFFFF",
@@ -135,31 +135,6 @@ export const ProductCard = ({
       >
         {product.title}
       </h2>
-
-      <a
-        href={product.link}
-        className="absolute bottom-5 right-5 z-10 w-[34px] h-[34px] rounded-full flex items-center justify-center opacity-0 translate-y-2.5 group-hover/product:opacity-100 group-hover/product:translate-y-0 transition-all duration-500 ease-out hover:scale-110"
-        style={{
-          background: "rgba(255,255,255,0.1)",
-          backdropFilter: "blur(8px)",
-          WebkitBackdropFilter: "blur(8px)",
-          transitionDelay: "60ms",
-        }}
-      >
-        <svg
-          viewBox="0 0 24 24"
-          width={14}
-          height={14}
-          fill="none"
-          stroke="white"
-          strokeWidth={2}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <line x1="7" y1="17" x2="17" y2="7" />
-          <polyline points="7 7 17 7 17 17" />
-        </svg>
-      </a>
     </motion.div>
   );
 };
@@ -258,6 +233,15 @@ const products = [
 ];
 
 export function HeroParallax() {
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const firstRow = products.slice(0, 5);
   const secondRow = products.slice(5, 10);
   const thirdRow = products.slice(10, 15);
@@ -272,15 +256,15 @@ export function HeroParallax() {
   const springConfig = { stiffness: 300, damping: 30, bounce: 100 };
 
   const rotateX = useSpring(
-    useTransform(scrollYProgress, [0, 1], [15, 0]),
+    useTransform(scrollYProgress, [0, 1], [isMobile ? 12 : 15, 0]),
     springConfig
   );
   const rotateZ = useSpring(
-    useTransform(scrollYProgress, [0, 1], [20, 0]),
+    useTransform(scrollYProgress, [0, 1], [isMobile ? 10 : 20, 0]),
     springConfig
   );
   const translateY = useSpring(
-    useTransform(scrollYProgress, [0, 1], [-700, 100]),
+    useTransform(scrollYProgress, [0, 1], [isMobile ? -350 : -700, isMobile ? 40 : 100]),
     springConfig
   );
   const opacity = useSpring(
@@ -289,11 +273,11 @@ export function HeroParallax() {
   );
 
   const translateX = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, 800]),
+    useTransform(scrollYProgress, [0, 1], [0, isMobile ? 300 : 800]),
     springConfig
   );
   const translateXReverse = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, -800]),
+    useTransform(scrollYProgress, [0, 1], [0, isMobile ? -300 : -800]),
     springConfig
   );
 

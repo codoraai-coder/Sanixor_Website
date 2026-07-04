@@ -26,6 +26,7 @@ import About from "./routes/about";
 import "./styles.css";
 
 import StandardScrollToTop from "./components/sanixor/StandardScrollToTop";
+import { InitialLoader } from "./components/sanixor/InitialLoader";
 
 function SmoothScrollProvider({ children }: { children: ReactNode }) {
   useSmoothScroll();
@@ -56,29 +57,31 @@ createRoot(document.getElementById("root")!).render(
     <ThemeProvider>
       <BrowserRouter>
         <SmoothScrollProvider>
-          <ScrollToTop />
-
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/team" element={<Team />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/training" element={<Training />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="/hiring" element={<Hiring />} />
-            <Route path="/hackeval" element={<HackEval />} />
-            <Route path="/bitbench" element={<BitBench />} />
-            <Route path="/sanixor-studio" element={<SanixorStudio />} />
-            <Route path="/lexai" element={<LexAI />} />
-            <Route path="/autodash" element={<AutoDash />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/agent-as-a-service" element={<AgentAsAService />} />
-            <Route path="/custom-agent-dev" element={<CustomAgentDev />} />
-            <Route path="/api-integration" element={<APIIntegration />} />
-            <Route path="/event-automation" element={<EventAutomation />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <InitialLoader>
+            <ScrollToTop />
+  
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/team" element={<Team />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/training" element={<Training />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/hiring" element={<Hiring />} />
+              <Route path="/hackeval" element={<HackEval />} />
+              <Route path="/bitbench" element={<BitBench />} />
+              <Route path="/sanixor-studio" element={<SanixorStudio />} />
+              <Route path="/lexai" element={<LexAI />} />
+              <Route path="/autodash" element={<AutoDash />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/agent-as-a-service" element={<AgentAsAService />} />
+              <Route path="/custom-agent-dev" element={<CustomAgentDev />} />
+              <Route path="/api-integration" element={<APIIntegration />} />
+              <Route path="/event-automation" element={<EventAutomation />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </InitialLoader>
         </SmoothScrollProvider>
       </BrowserRouter>
     </ThemeProvider>

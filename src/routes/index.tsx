@@ -132,7 +132,7 @@ export default function Index() {
 
       {/* Products */}
       <ScrollReveal>
-        <section id="products" className="relative z-10 bg-transparent py-24 md:py-32">
+        <section id="products" className="relative z-10 bg-transparent pt-16 md:pt-32 pb-4 md:pb-8">
           <div className="mx-auto max-w-7xl px-4 md:px-6">
             <SectionHeader
               label="Products"
@@ -146,7 +146,7 @@ export default function Index() {
 
       {/* Services */}
       <ScrollReveal delay={100}>
-        <section id="services" className="border-y border-border/30 bg-card/20 py-24 md:py-32">
+        <section id="services" className="border-y border-border/30 bg-card/20 pt-8 md:pt-16 pb-16 md:pb-32">
           <div className="mx-auto max-w-7xl px-4 md:px-6">
             <SectionHeader
               label="Services"
@@ -172,14 +172,14 @@ export default function Index() {
                       <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                     </div>
                   )}
-                  <CardHeader>
+                  <CardHeader className="p-5 md:p-6">
                     <span className="text-4xl font-bold text-primary/20">{service.num}</span>
                     <CardTitle className="text-2xl">{service.title}</CardTitle>
                     <CardDescription className="text-base leading-relaxed">
                       {service.description}
                     </CardDescription>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="p-5 pt-0 md:p-6 md:pt-0">
                     <div className="flex flex-wrap gap-2">
                       {service.tags.map((tag) => (
                         <Badge
@@ -201,14 +201,14 @@ export default function Index() {
 
       {/* Event */}
       <ScrollReveal delay={100}>
-        <section id="event" className="mx-auto max-w-[1500px] px-4 py-24 md:py-32 md:px-6">
+        <section id="event" className="mx-auto max-w-[1500px] px-4 py-16 md:py-32 md:px-6">
           <AgentVerse2 />
         </section>
       </ScrollReveal>
 
       {/* Learn */}
       <ScrollReveal delay={100}>
-        <section id="learn" className="mx-auto max-w-7xl px-4 py-24 md:py-32 md:px-6">
+        <section id="learn" className="mx-auto max-w-7xl px-4 py-16 md:py-32 md:px-6">
           <SectionHeader
             label="Learn"
             title="Architecture-level AI fundamentals."
@@ -224,7 +224,7 @@ export default function Index() {
                 )}
                 style={{ transform: "translateZ(0)", willChange: "transform, box-shadow" }}
               >
-                <CardHeader>
+                <CardHeader className="p-5 md:p-6">
                   <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
                     <track.icon className="h-5 w-5" strokeWidth={1.5} />
                   </div>
@@ -234,7 +234,7 @@ export default function Index() {
               </Card>
             ))}
           </div>
-          <div className="glass-strong rounded-3xl p-10 text-center mt-12 mb-12">
+          <div className="glass-strong rounded-3xl p-6 md:p-10 text-center mt-12 mb-12">
             <h3 className="text-2xl font-bold mb-3">
               Want Structured AI Training?
             </h3>

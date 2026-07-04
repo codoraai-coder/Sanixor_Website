@@ -42,24 +42,14 @@ export function ServiceDetailsModal({ service, onClose }: ServiceDetailsModalPro
           border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
           border-radius: 24px;
           width: 100%;
-          max-width: 700px;
+          max-width: 960px;
           max-height: 90vh;
-          overflow-y: auto;
+          display: flex;
+          flex-direction: row;
+          position: relative;
+          overflow: hidden;
           box-shadow: 0 32px 96px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.05), 0 0 40px rgba(139, 92, 246, 0.15);
           animation: sd-modalIn .4s cubic-bezier(.22,1,.36,1);
-        }
-        .sd-modal::-webkit-scrollbar {
-          width: 6px;
-        }
-        .sd-modal::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .sd-modal::-webkit-scrollbar-thumb {
-          background: rgba(139, 92, 246, 0.2);
-          border-radius: 10px;
-        }
-        .sd-modal::-webkit-scrollbar-thumb:hover {
-          background: rgba(139, 92, 246, 0.4);
         }
         @keyframes sd-modalIn {
           from { opacity:0; transform: scale(.96) translateY(16px); }
@@ -68,13 +58,13 @@ export function ServiceDetailsModal({ service, onClose }: ServiceDetailsModalPro
 
         .sd-header {
           position: relative;
-          height: 240px;
-          border-bottom: 1px solid rgba(139, 92, 246, 0.15);
+          width: 40%;
+          border-right: 1px solid rgba(139, 92, 246, 0.15);
           overflow: hidden;
           display: flex;
           flex-direction: column;
           justify-content: flex-end;
-          padding: 32px;
+          padding: 40px;
         }
         .sd-header-bg {
           position: absolute;
@@ -88,7 +78,7 @@ export function ServiceDetailsModal({ service, onClose }: ServiceDetailsModalPro
         .sd-header-gradient {
           position: absolute;
           inset: 0;
-          background: linear-gradient(to top, var(--card) 0%, transparent 100%);
+          background: linear-gradient(to top, var(--card) 0%, transparent 60%);
           z-index: 1;
         }
         .sd-header-content {
@@ -116,10 +106,10 @@ export function ServiceDetailsModal({ service, onClose }: ServiceDetailsModalPro
         
         .sd-close {
           position: absolute;
-          top: 24px;
-          right: 24px;
+          top: 12px;
+          right: 12px;
           z-index: 10;
-          width: 36px; height: 36px;
+          width: 32px; height: 32px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -138,7 +128,23 @@ export function ServiceDetailsModal({ service, onClose }: ServiceDetailsModalPro
         }
 
         .sd-body {
-          padding: 32px;
+          width: 60%;
+          padding: 32px 32px 32px 40px;
+          overflow-y: auto;
+        }
+        
+        .sd-body::-webkit-scrollbar {
+          width: 6px;
+        }
+        .sd-body::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .sd-body::-webkit-scrollbar-thumb {
+          background: rgba(139, 92, 246, 0.2);
+          border-radius: 10px;
+        }
+        .sd-body::-webkit-scrollbar-thumb:hover {
+          background: rgba(139, 92, 246, 0.4);
         }
         
         .sd-desc {
@@ -146,6 +152,8 @@ export function ServiceDetailsModal({ service, onClose }: ServiceDetailsModalPro
           line-height: 1.7;
           color: var(--foreground);
           margin-bottom: 28px;
+          margin-top: 12px;
+          padding-right: 16px;
         }
 
         .sd-tags {
@@ -219,11 +227,27 @@ export function ServiceDetailsModal({ service, onClose }: ServiceDetailsModalPro
         .sd-action svg { width: 18px; height: 18px; transition: transform .3s; }
         .sd-action:hover svg { transform: translateX(4px); }
 
-        @media (max-width: 640px) {
-          .sd-overlay { padding: 16px; }
-          .sd-header { height: 180px; padding: 24px; }
-          .sd-title { font-size: 24px; }
-          .sd-body { padding: 24px; }
+        @media (max-width: 768px) {
+          .sd-modal {
+            flex-direction: column;
+            max-width: 500px;
+            overflow-y: auto;
+          }
+          .sd-modal::-webkit-scrollbar { width: 6px; }
+          .sd-modal::-webkit-scrollbar-thumb { background: rgba(139, 92, 246, 0.2); border-radius: 10px; }
+          .sd-header {
+            width: 100%;
+            height: 220px;
+            border-right: none;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.15);
+            padding: 24px;
+          }
+          .sd-body {
+            width: 100%;
+            padding: 24px;
+            overflow-y: visible;
+          }
+          .sd-title { font-size: 28px; }
           .sd-cap-grid { grid-template-columns: 1fr; }
         }
       `}</style>

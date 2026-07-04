@@ -123,8 +123,15 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
   };
 
   return (
-    <div className="av2-overlay" onClick={handleClose}>
-      <div className="av2-modal" onClick={(e) => e.stopPropagation()}>
+    <div 
+      className="av2-overlay" 
+      onClick={handleClose}
+      onWheel={(e) => e.stopPropagation()}
+      onTouchStart={(e) => e.stopPropagation()}
+      onTouchMove={(e) => e.stopPropagation()}
+      onPointerDown={(e) => e.stopPropagation()}
+    >
+      <div className="av2-modal" onClick={(e) => e.stopPropagation()} data-lenis-prevent="true">
         <div className="av2-modal-head">
           <h2>{submitted ? "Registration Complete" : "Register for AgentVerse"}</h2>
           {!submitted && (
@@ -217,15 +224,7 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
                     <div className="av2-type-btn-desc">Register as an industry professional</div>
                   </div>
                 </button>
-                <button type="button" className="av2-type-btn" onClick={() => setUserType("institution")}>
-                  <div className="av2-type-btn-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ width: 22, height: 22, color: '#a78bfa' }}><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /></svg>
-                  </div>
-                  <div>
-                    <div className="av2-type-btn-title">Partnership</div>
-                    <div className="av2-type-btn-desc">Colleges, Communities, or Startups</div>
-                  </div>
-                </button>
+
               </div>
             </>
           ) : (
@@ -293,52 +292,12 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
                 </>
               )}
 
-              {userType === "institution" && (
-                <div style={{ textAlign: 'center', padding: '20px 0' }}>
-                  <div className="av2-success-ico" style={{ margin: '0 auto 20px', color: '#a855f7', background: 'rgba(168, 85, 247, 0.1)', borderColor: 'rgba(168, 85, 247, 0.3)' }}>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ width: 28, height: 28 }}><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>
-                  </div>
-                  <h3 style={{ fontSize: 20, fontWeight: 700, color: '#fff', marginBottom: 12 }}>Let's Build Together</h3>
-                  <p className="av2-sec-text" style={{ marginBottom: 24 }}>
-                    We're looking for forward-thinking colleges, communities, and startups to co-host and support the AgentVerse ecosystem.
-                  </p>
-                  <div style={{ background: 'rgba(255,255,255,0.05)', padding: '16px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', marginBottom: '24px' }}>
-                    <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)', marginBottom: '8px' }}>Reach out to us at:</div>
-                    <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#a855f7', letterSpacing: '1px' }}>team@sanixor.space</div>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      navigator.clipboard.writeText("team@sanixor.space");
-                      const btn = document.getElementById("copy-email-btn");
-                      if (btn) {
-                        const originalText = btn.innerHTML;
-                        btn.innerHTML = 'Copied to Clipboard!';
-                        setTimeout(() => { btn.innerHTML = originalText; }, 3000);
-                      }
-                      window.location.href = "mailto:team@sanixor.space?subject=Partnership%20Inquiry%20-%20AgentVerse%202.0";
-                    }}
-                    id="copy-email-btn"
-                    className="av2-submit"
-                    style={{ width: 'auto', padding: '16px 32px' }}
-                  >
-                    Copy Email & Contact Us
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '10px' }}>
-                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                    </svg>
-                  </button>
-                </div>
-              )}
-
-              {userType !== "institution" && (
-                <button type="submit" className="av2-submit" disabled={isSendingToSheet}>
-                  {isSendingToSheet ? 'Processing...' : 'Proceed to Payment'}
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
-                </button>
-              )}
+              <button type="submit" className="av2-submit" disabled={isSendingToSheet}>
+                {isSendingToSheet ? 'Processing...' : 'Proceed to Payment'}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </button>
             </form>
           )}
         </div>

@@ -275,22 +275,40 @@ export function Footer() {
         
         /* EXACT MOBILE QUERIES FROM YOUR ORIGINAL SHIPPED GRAPHIC */
         @media (max-width: 375px) {
-          .sx-footer { padding: 32px 16px 20px; }
-          .sx-footer-top { flex-direction: column; gap: 24px; }
+          .sx-footer { padding: 24px 16px 16px; }
+          .sx-footer-top { flex-direction: column; gap: 20px; }
           .sx-brand { max-width: 100%; }
-          .sx-link-columns { grid-template-columns: repeat(2, 1fr); gap: 20px 16px; }
-          .sx-footer-bottom { flex-direction: column; align-items: flex-start; gap: 10px; }
+          .sx-link-columns { grid-template-columns: repeat(2, 1fr); gap: 20px 12px; min-width: 100%; }
+          .sx-link-col h4 { font-size: 11px; margin-bottom: 8px; }
+          .sx-link-col ul { gap: 4px; }
+          .sx-link-col li a { font-size: 12px; padding: 4px 0; }
+          .sx-footer-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
+          .sx-footer-bottom-links { flex-wrap: wrap; gap: 10px; }
+          .sx-copyright { font-size: 11px; line-height: 1.4; }
+          .sx-footer-bottom-links a { font-size: 11px; padding: 2px 0; }
+          .learn-col { width: auto; grid-column: span 2; }
         }
         @media (min-width: 376px) and (max-width: 480px) {
-          .sx-footer-top { flex-direction: column; gap: 28px; }
-          .sx-link-columns { grid-template-columns: repeat(2, 1fr); gap: 22px 20px; }
+          .sx-footer { padding: 28px 20px 20px; }
+          .sx-footer-top { flex-direction: column; gap: 24px; }
+          .sx-link-columns { grid-template-columns: repeat(2, 1fr); gap: 24px 16px; min-width: 100%; }
+          .sx-link-col h4 { font-size: 13px; margin-bottom: 8px; }
+          .sx-link-col ul { gap: 4px; }
+          .sx-link-col li a { font-size: 14px; padding: 4px 0; }
+          .learn-col { grid-column: span 2; width: auto; }
+          .sx-footer-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
+          .sx-footer-bottom-links { flex-wrap: wrap; gap: 10px; }
+          .sx-copyright { font-size: 12px; line-height: 1.4; }
+          .sx-footer-bottom-links a { font-size: 13px; padding: 2px 0; }
         }
         @media (min-width: 481px) and (max-width: 600px) {
           .sx-footer-top { flex-direction: column; gap: 28px; }
-          .sx-link-columns { grid-template-columns: repeat(2, 1fr); gap: 24px 24px; }
+          .sx-link-columns { grid-template-columns: repeat(2, 1fr); gap: 32px 24px; min-width: 100%; }
+          .learn-col { grid-column: span 2; width: auto; }
         }
         @media (min-width: 601px) and (max-width: 768px) {
-          .sx-link-columns { grid-template-columns: repeat(2, 1fr); gap: 28px 32px; }
+          .sx-link-columns { grid-template-columns: repeat(2, 1fr); gap: 28px 32px; min-width: 100%; }
+          .learn-col { grid-column: span 2; width: auto; }
         }
         @media (min-width: 1440px) {
           .sx-footer-inner { max-width: 1320px; }
@@ -310,32 +328,32 @@ export function Footer() {
                 team@sanixor.space
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7" /><path d="M7 7h10v10" /></svg>
               </a>
-              <div className="flex gap-4 mt-6">
+              <div className="flex gap-3 sm:gap-4 mt-4 sm:mt-6">
                 {/* Twitter / X */}
                 <a
                   href="https://twitter.com/sanixorai"
                   aria-label="Twitter / X"
-                  className="w-14 h-14 rounded-[1.5rem] border border-border bg-card flex items-center justify-center text-muted-foreground transition-all duration-300 outline-none hover:-translate-y-1 hover:text-primary hover:bg-primary/10 hover:border-primary/30 hover:shadow-[0_0_20px_rgba(168,85,247,0.2)]"
+                  className="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl sm:rounded-[1.5rem] border border-border bg-card flex items-center justify-center text-muted-foreground transition-all duration-300 outline-none hover:-translate-y-1 hover:text-primary hover:bg-primary/10 hover:border-primary/30 hover:shadow-[0_0_20px_rgba(168,85,247,0.2)]"
                 >
-                  <Twitter className="h-5 w-5" strokeWidth={1.5} />
+                  <Twitter className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={1.5} />
                 </a>
 
                 {/* LinkedIn */}
                 <a
                   href="https://www.linkedin.com/company/sanixor-ai/"
                   aria-label="LinkedIn"
-                  className="w-14 h-14 rounded-[1.5rem] border border-border bg-card flex items-center justify-center text-muted-foreground transition-all duration-300 transform outline-none hover:-translate-y-1 hover:text-primary hover:bg-primary/10 hover:border-primary/30 hover:shadow-[0_0_20px_rgba(168,85,247,0.2)]"
+                  className="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl sm:rounded-[1.5rem] border border-border bg-card flex items-center justify-center text-muted-foreground transition-all duration-300 transform outline-none hover:-translate-y-1 hover:text-primary hover:bg-primary/10 hover:border-primary/30 hover:shadow-[0_0_20px_rgba(168,85,247,0.2)]"
                 >
-                  <Linkedin className="h-5 w-5" strokeWidth={1.5} />
+                  <Linkedin className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={1.5} />
                 </a>
 
                 {/* Instagram */}
                 <a
                   href="https://www.instagram.com/sanixorai/"
                   aria-label="Instagram"
-                  className="w-14 h-14 rounded-[1.5rem] border border-border bg-card flex items-center justify-center text-muted-foreground transition-all duration-300 transform outline-none hover:-translate-y-1 hover:text-primary hover:bg-primary/10 hover:border-primary/30 hover:shadow-[0_0_20px_rgba(168,85,247,0.2)]"
+                  className="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl sm:rounded-[1.5rem] border border-border bg-card flex items-center justify-center text-muted-foreground transition-all duration-300 transform outline-none hover:-translate-y-1 hover:text-primary hover:bg-primary/10 hover:border-primary/30 hover:shadow-[0_0_20px_rgba(168,85,247,0.2)]"
                 >
-                  <Instagram className="h-5 w-5" strokeWidth={1.5} />
+                  <Instagram className="h-4 w-4 sm:h-5 sm:w-5" strokeWidth={1.5} />
                 </a>
               </div>
             </div>

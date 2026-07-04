@@ -335,7 +335,7 @@ export default function TrainingPage() {
           {filteredPrograms.map((program) => (
             <div
               key={program.id}
-              className="prof-card p-8 flex flex-col group cursor-pointer"
+              className="prof-card p-6 md:p-8 flex flex-col group cursor-pointer"
             >
               <div className="flex items-start justify-between mb-6">
                 <div 
@@ -402,7 +402,7 @@ export default function TrainingPage() {
             {domains.map((d) => (
               <div
                 key={d.title}
-                className="bg-[#0a0812] p-8 hover:bg-[#140f24] transition-colors"
+                className="bg-[#0a0812] p-6 md:p-8 hover:bg-[#140f24] transition-colors"
               >
                 <div className="flex items-center gap-4 mb-4">
                   <d.icon className="h-5 w-5" style={{ color: d.color }} />
@@ -445,7 +445,7 @@ export default function TrainingPage() {
                 
                 {/* Card */}
                 <div className="w-full md:w-[45%] ml-4 md:ml-0">
-                  <div className="prof-card p-8 border border-foreground/5 bg-gradient-to-br from-white/[0.03] to-transparent hover:border-purple-500/30 transition-all duration-500">
+                  <div className="prof-card p-6 md:p-8 border border-foreground/5 bg-gradient-to-br from-white/[0.03] to-transparent hover:border-purple-500/30 transition-all duration-500">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="elite-text text-purple-400 font-semibold">{step.phase}</div>
                       <div className="h-[1px] flex-1 bg-gradient-to-r from-purple-500/30 to-transparent" />

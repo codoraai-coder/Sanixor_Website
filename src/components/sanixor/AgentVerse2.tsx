@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { AgentVerseDetailsModal } from "./AgentVerseDetailsModal";
 import { AgentVerseRegistrationModal } from "./AgentVerseRegistrationModal";
+import { AgentVersePartnershipModal } from "./AgentVersePartnershipModal";
 
 export function AgentVerse2() {
   const [showDetails, setShowDetails] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+  const [showPartnership, setShowPartnership] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -33,11 +35,11 @@ export function AgentVerse2() {
           position: relative;
           width: 100%;
           min-height: 400px;
-          background: color-mix(in srgb, var(--card) 80%, transparent);
-          backdrop-filter: blur(24px);
-          -webkit-backdrop-filter: blur(24px);
-          border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
-          box-shadow: 0 30px 60px color-mix(in srgb, var(--foreground) 10%, transparent), inset 0 1px 1px color-mix(in srgb, var(--foreground) 5%, transparent);
+          background: #09090b;
+          backdrop-filter: blur(32px);
+          -webkit-backdrop-filter: blur(32px);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          box-shadow: 0 40px 80px rgba(0, 0, 0, 0.9), inset 0 1px 1px rgba(255, 255, 255, 0.05);
           border-radius: clamp(16px, 3vw, 24px);
           overflow: hidden;
           padding: clamp(30px, 6vw, 100px) clamp(20px, 5vw, 120px) clamp(40px, 6vw, 100px);
@@ -45,61 +47,26 @@ export function AgentVerse2() {
           align-items: center;
           transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .av2-root:hover {
-          background: color-mix(in srgb, var(--card) 95%, transparent);
-          border-color: rgba(167, 139, 250, 0.4);
-          box-shadow: 0 40px 80px color-mix(in srgb, var(--foreground) 15%, transparent), 0 0 40px rgba(139, 92, 246, 0.15), inset 0 1px 1px color-mix(in srgb, var(--foreground) 10%, transparent);
-          transform: translateY(-4px);
-        }
-        .av2-grid {
+        .av2-dot-grid {
           position: absolute;
-          inset: -10%;
-          background-image: url('/av2-wave.png');
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
-          opacity: 0.5;
-          mix-blend-mode: screen;
+          inset: 0;
+          background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+          background-size: 32px 32px;
+          opacity: 1;
+          mask-image: radial-gradient(ellipse at top center, black 50%, transparent 90%);
+          -webkit-mask-image: radial-gradient(ellipse at top center, black 50%, transparent 90%);
           pointer-events: none;
           z-index: 0;
-          filter: url('#wave-filter');
-          animation: waveBreathe 15s ease-in-out infinite alternate;
-        }
-        @keyframes waveBreathe {
-          0% { transform: scale(1); }
-          100% { transform: scale(1.05); }
         }
         .av2-glow1 {
           position: absolute;
-          top: -150px; left: -100px;
-          width: 500px; height: 500px;
-          background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, transparent 70%);
-          filter: blur(40px);
+          top: -300px; left: 50%;
+          transform: translateX(-50%);
+          width: 800px; height: 600px;
+          background: radial-gradient(ellipse, rgba(124, 58, 237, 0.2) 0%, transparent 60%);
           pointer-events: none; z-index: 0;
         }
-        .av2-glow2 {
-          position: absolute;
-          bottom: -150px; right: -100px;
-          width: 450px; height: 450px;
-          background: radial-gradient(circle, rgba(245, 197, 66, 0.08) 0%, transparent 70%);
-          filter: blur(40px);
-          pointer-events: none; z-index: 0;
-        }
-        .av2-wm {
-          position: absolute;
-          top: 0px; right: 20px;
-          font-size: clamp(80px, 20vw, 200px);
-          font-weight: 900;
-          line-height: 1;
-          letter-spacing: -6px;
-          background: linear-gradient(180deg, color-mix(in srgb, var(--foreground) 3%, transparent) 0%, transparent 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          -webkit-text-stroke: 1px rgba(139, 92, 246, 0.1);
-          user-select: none;
-          pointer-events: none;
-          z-index: 0;
-        }
+
         .av2-body {
           position: relative;
           z-index: 2;
@@ -198,18 +165,24 @@ export function AgentVerse2() {
         }
         .av2-title em {
           font-style: normal;
-          background: linear-gradient(135deg, #f5c542 0%, #fef08a 50%, #f5c542 100%);
+          background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
-          filter: drop-shadow(0 2px 10px rgba(245, 197, 66, 0.2));
         }
         .av2-desc {
           font-size: clamp(16px, 2.2vw, 20px);
           line-height: 1.7;
-          color: #c4b5fd;
+          color: #ffffff;
           margin-bottom: 32px;
           max-width: 600px;
+          padding: 20px 24px;
+          background: rgba(139, 92, 246, 0.08);
+          border: 1px solid rgba(139, 92, 246, 0.2);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border-radius: 16px;
+          box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 8px 32px rgba(0, 0, 0, 0.2);
           opacity: 0;
           animation: av2-up .6s .32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
@@ -226,9 +199,11 @@ export function AgentVerse2() {
           align-items: center;
           gap: 12px;
           padding: 12px 16px;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.05);
-          backdrop-filter: blur(10px);
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15), 0 8px 32px rgba(0, 0, 0, 0.3);
           border-radius: 14px;
           font-size: clamp(14px, 1.8vw, 17px);
           font-weight: 500;
@@ -237,10 +212,10 @@ export function AgentVerse2() {
           cursor: default;
         }
         .av2-feat:hover {
-          background: rgba(139, 92, 246, 0.08);
-          border-color: rgba(139, 92, 246, 0.3);
+          background: rgba(139, 92, 246, 0.15);
+          border-color: rgba(139, 92, 246, 0.4);
           transform: translateY(-2px);
-          box-shadow: 0 4px 20px rgba(139, 92, 246, 0.1);
+          box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.25), 0 10px 40px rgba(139, 92, 246, 0.25);
         }
         .av2-feat-ico {
           width: 36px; height: 36px;
@@ -330,36 +305,26 @@ export function AgentVerse2() {
         .av2-btn-primary {
           background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
           color: white;
-          box-shadow: 0 10px 30px rgba(124, 58, 237, 0.4), inset 0 1px 1px rgba(255,255,255,0.3);
-        }
-        .av2-btn-primary::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-          transform: translateX(-100%);
-          transition: transform .6s ease;
+          border: none;
+          box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
         }
         .av2-btn-primary:hover {
           transform: translateY(-3px);
-          box-shadow: 0 15px 40px rgba(124, 58, 237, 0.6), inset 0 1px 1px rgba(255,255,255,0.4);
-        }
-        .av2-btn-primary:hover::after {
-          transform: translateX(100%);
+          background: linear-gradient(135deg, #b062fa 0%, #8b5cf6 100%);
+          box-shadow: 0 8px 25px rgba(124, 58, 237, 0.6);
         }
         .av2-btn-primary:active { transform: translateY(0); }
         .av2-btn-outline {
-          background: rgba(139, 92, 246, 0.05);
-          color: #c4b5fd;
-          border: 1px solid rgba(139, 92, 246, 0.3);
+          background: rgba(255, 255, 255, 0.03);
+          color: #a1a1aa;
+          border: 1px solid rgba(255, 255, 255, 0.05);
           backdrop-filter: blur(10px);
         }
         .av2-btn-outline:hover {
-          background: rgba(139, 92, 246, 0.15);
-          border-color: #a855f7;
-          color: #fff;
+          background: rgba(255, 255, 255, 0.08);
+          border-color: rgba(255, 255, 255, 0.1);
+          color: #ffffff;
           transform: translateY(-2px);
-          box-shadow: 0 8px 20px rgba(139, 92, 246, 0.15);
         }
         .av2-ribbon {
           margin-top: 24px;
@@ -402,7 +367,9 @@ export function AgentVerse2() {
           width: 100%;
           max-width: 580px;
           max-height: 85vh;
-          overflow-y: auto;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
           box-shadow: 0 32px 96px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.05), 0 0 40px rgba(139, 92, 246, 0.15);
           animation: av2-modalIn .4s cubic-bezier(.22,1,.36,1);
         }
@@ -715,7 +682,7 @@ export function AgentVerse2() {
         @media (max-width: 768px) {
           .av2-root {
             min-height: auto;
-            padding: 40px 24px;
+            padding: 32px 20px;
           }
           .av2-modal {
             width: calc(100% - 32px);
@@ -728,25 +695,62 @@ export function AgentVerse2() {
           }
         }
         @media (max-width: 480px) {
-          .av2-features { grid-template-columns: 1fr; gap: 8px; }
+          .av2-root {
+            padding: 24px 16px;
+            border-radius: 16px;
+          }
+          .av2-title {
+            font-size: 32px;
+            margin-bottom: 12px;
+          }
+          .av2-desc {
+            font-size: 15px;
+            margin-bottom: 24px;
+            padding: 16px 20px;
+          }
+          .av2-features { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 24px; }
+          .av2-feat { padding: 8px 10px; font-size: 12px; gap: 8px; }
+          .av2-feat-ico { width: 28px; height: 28px; flex-shrink: 0; }
+          .av2-feat-ico svg { width: 14px; height: 14px; }
+          .av2-callout { flex-direction: column; text-align: left; align-items: flex-start; gap: 12px; padding: 16px; margin-bottom: 24px; }
           .av2-actions { flex-direction: column; gap: 10px; }
+          .av2-btn { padding: 14px 20px; font-size: 13.5px; }
           .av2-frow { grid-template-columns: 1fr; gap: 0; }
-          .av2-fg { margin-bottom: 16px; }
-          .av2-callout { flex-direction: column; text-align: left; align-items: flex-start; gap: 12px; }
+          .av2-fg { margin-bottom: 14px; }
+        }
+        @media (max-width: 375px) {
+          .av2-root { padding: 20px 14px; border-radius: 14px; }
+          .av2-badges { gap: 8px; margin-bottom: 16px; }
+          .av2-badge { padding: 4px 10px; font-size: 11px; }
+          .av2-title { font-size: 28px; margin-bottom: 8px; }
+          .av2-desc { font-size: 14px; margin-bottom: 20px; padding: 14px 16px; }
+          .av2-features { gap: 6px; margin-bottom: 20px; }
+          .av2-feat { padding: 8px 12px; font-size: 12px; }
+          .av2-feat-ico { width: 28px; height: 28px; }
+          .av2-feat-ico svg { width: 14px; height: 14px; }
+          .av2-callout { padding: 12px; margin-bottom: 20px; gap: 10px; }
+          .av2-callout-ico { width: 36px; height: 36px; }
+          .av2-callout-ico svg { width: 18px; height: 18px; }
+          .av2-callout-title { font-size: 14px; margin-bottom: 4px; }
+          .av2-callout-desc { font-size: 12px; }
+          .av2-btn { padding: 12px 16px; font-size: 12px; }
+          .av2-fg label { font-size: 12px; }
+          .av2-input, .av2-select, .av2-textarea { padding: 10px 12px; font-size: 13px; }
+          .av2-btn svg { width: 16px; height: 16px; }
           
           .av2-overlay { padding: 12px; }
           .av2-modal {
             width: calc(100% - 24px);
-            max-height: 92vh;
+            max-height: 85vh;
           }
           .av2-modal-head {
-            padding: 20px 20px 16px;
+            padding: 16px 20px 16px;
           }
           .av2-modal-head h2 {
             font-size: 18px;
           }
           .av2-modal-body {
-            padding: 20px;
+            padding: 16px;
           }
           .av2-type-btn {
             padding: 14px 16px;
@@ -788,20 +792,10 @@ export function AgentVerse2() {
 
       {/* ── HERO ── */}
       <div className="av2-root">
-        <svg style={{ position: 'absolute', width: 0, height: 0 }} aria-hidden="true">
-          <filter id="wave-filter" x="-20%" y="-20%" width="140%" height="140%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.005 0.01" numOctaves="2" result="warp">
-              <animate attributeName="baseFrequency" dur="20s" values="0.005 0.01; 0.008 0.015; 0.005 0.01" repeatCount="indefinite" />
-            </feTurbulence>
-            <feDisplacementMap in="SourceGraphic" in2="warp" scale="40" xChannelSelector="R" yChannelSelector="G" />
-          </filter>
-        </svg>
+        <div className="av2-dot-grid" />
+        <div className="av2-scanline" />
 
-        <div className="av2-grid" />
         <div className="av2-glow1" />
-        <div className="av2-glow2" />
-        <div className="av2-wm">2.0</div>
-
         <div className="av2-body">
           <div className="av2-body-left">
             <div className="av2-badges">
@@ -826,7 +820,7 @@ export function AgentVerse2() {
               {[
                 { label: "Agentic AI Swarms", icon: <path d="M13 10V3L4 14h7v7l9-11h-7z" /> },
                 { label: "MCP Servers", icon: <><rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></> },
-                { label: "Full-Day Offline", icon: <><circle cx="12" cy="12" r="10" /><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" /></> },
+                { label: "Full-Day Online", icon: <><circle cx="12" cy="12" r="10" /><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" /></> },
                 { label: "Real Competition", icon: <><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /></> },
               ].map(({ label, icon }) => (
                 <div className="av2-feat" key={label}>
@@ -867,6 +861,19 @@ export function AgentVerse2() {
                 </svg>
               </button>
             </div>
+            
+            <div style={{ marginTop: 16, opacity: 0, animation: 'av2-up .6s .6s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}>
+              <button 
+                className="av2-btn av2-btn-outline" 
+                style={{ width: '100%', justifyContent: 'center', background: 'rgba(255,255,255,0.02)' }}
+                onClick={() => setShowPartnership(true)}
+              >
+                Become a Partner
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ width: 18 }}>
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+              </button>
+            </div>
 
             <div className="av2-ribbon">Season Two · <span>Coming Soon</span></div>
           </div>
@@ -879,6 +886,10 @@ export function AgentVerse2() {
 
       {showRegister && (
         <AgentVerseRegistrationModal onClose={() => setShowRegister(false)} />
+      )}
+
+      {showPartnership && (
+        <AgentVersePartnershipModal onClose={() => setShowPartnership(false)} />
       )}
     </>
   );
