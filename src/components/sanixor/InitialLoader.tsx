@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
+import sanixorMark from "@/assets/sanixor-mark.png";
 
 export function InitialLoader({ children }: { children: React.ReactNode }) {
   const location = useLocation();
@@ -86,7 +87,7 @@ export function InitialLoader({ children }: { children: React.ReactNode }) {
                   
                   {/* Company Logo Animation */}
                   <motion.img
-                    src="/src/assets/sanixor-mark.png"
+                    src={sanixorMark}
                     alt="Sanixor Logo"
                     className="w-24 h-24 sm:w-28 sm:h-28 object-contain relative z-10 mb-6 rounded-2xl drop-shadow-[0_0_15px_rgba(168,85,247,0.8)]"
                     initial={{ scale: 0.5, opacity: 0, rotate: -20 }}
@@ -164,41 +165,43 @@ export function InitialLoader({ children }: { children: React.ReactNode }) {
               </motion.div>
             )}
 
-            {/* Retro Loading Bar for desktop */}
+            {/* Modern Loading for desktop (overlaid on video) */}
             {!isMobile && (
               <motion.div 
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1, duration: 0.8 }}
-                className="absolute bottom-8 flex flex-col items-center gap-3 z-10"
+                className="absolute bottom-16 flex flex-col items-center justify-center z-10 w-full"
               >
-                <div className="font-mono text-sm font-bold tracking-widest text-purple-500 uppercase drop-shadow-[0_0_8px_rgba(168,85,247,0.8)] mb-1 flex">
-                  {"LOADING...".split("").map((char, index) => (
-                     <motion.span
-                       key={index}
-                       animate={{ opacity: [0.6, 1, 0.6] }}
-                       transition={{ duration: 1.5, repeat: Infinity, delay: index * 0.1 }}
-                     >
-                       {char}
-                     </motion.span>
-                  ))}
-                </div>
+                {/* Modern progress line */}
+                <motion.div 
+                  className="w-full max-w-[300px] h-[2px] bg-white/20 rounded-full overflow-hidden"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.8 }}
+                >
+                  <motion.div
+                    className="h-full bg-gradient-to-r from-purple-400 to-purple-600 shadow-[0_0_15px_rgba(168,85,247,0.8)]"
+                    initial={{ width: "0%" }}
+                    animate={{ width: "100%" }}
+                    transition={{ duration: 10, ease: "linear" }}
+                  />
+                </motion.div>
                 
-                <div className="flex gap-[2px] p-1 border-2 border-purple-500 h-6 w-48 bg-transparent shadow-[0_0_10px_rgba(168,85,247,0.3)_inset,0_0_10px_rgba(168,85,247,0.3)]">
-                  {Array.from({ length: 16 }).map((_, i) => (
-                    <motion.div
-                      key={i}
-                      className="h-full flex-1 bg-gradient-to-b from-purple-300 to-purple-600 shadow-[0_0_5px_rgba(168,85,247,0.6)]"
-                      animate={{ opacity: [0.1, 0.1, 1, 1, 0.1] }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        times: [0, i / 20, (i + 0.5) / 20, 0.9, 1],
-                        ease: "linear"
-                      }}
-                    />
-                  ))}
-                </div>
+                {/* Cyberpunk subtext */}
+                <motion.div
+                  className="mt-5 font-mono text-[11px] text-white/80 tracking-[0.4em] uppercase font-semibold drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1.2, duration: 1 }}
+                >
+                  <motion.span
+                    animate={{ opacity: [1, 0.4, 1] }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                  >
+                    Initializing System
+                  </motion.span>
+                </motion.div>
               </motion.div>
             )}
           </motion.div>
