@@ -209,47 +209,120 @@ export function ServiceDetailsModal({ service, onClose }: ServiceDetailsModalPro
           justify-content: center;
           gap: 10px;
           width: 100%;
-          padding: 18px;
-          background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+          padding: 16px;
+          background: linear-gradient(45deg, #4c1d95, #c026d3, #7c3aed, #ec4899);
+          background-size: 300% 300%;
+          animation: sd-gradient 4s ease infinite;
           color: white;
           text-decoration: none;
           border-radius: 14px;
-          font-size: 14px;
+          font-size: 15px;
           font-weight: 700;
           letter-spacing: .05em;
-          transition: all .3s cubic-bezier(.22,1,.36,1);
-          box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3), inset 0 1px 1px rgba(255,255,255,0.2);
+          transition: transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s;
+          box-shadow: 0 8px 25px rgba(192, 38, 211, 0.4), inset 0 1px 1px rgba(255,255,255,0.3);
+        }
+        @keyframes sd-gradient {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
         }
         .sd-action:hover {
           transform: translateY(-2px);
-          box-shadow: 0 15px 40px rgba(124, 58, 237, 0.5), inset 0 1px 1px rgba(255,255,255,0.4);
+          box-shadow: 0 15px 40px rgba(192, 38, 211, 0.6), inset 0 1px 1px rgba(255,255,255,0.5);
         }
         .sd-action svg { width: 18px; height: 18px; transition: transform .3s; }
         .sd-action:hover svg { transform: translateX(4px); }
 
         @media (max-width: 768px) {
+          .sd-overlay {
+            padding: 12px;
+          }
           .sd-modal {
             flex-direction: column;
-            max-width: 500px;
-            overflow-y: auto;
+            width: 100%;
+            height: 100%;
+            max-height: calc(100vh - 24px);
+            max-height: calc(100dvh - 24px);
+            overflow: hidden;
+            border-radius: 20px;
           }
-          .sd-modal::-webkit-scrollbar { width: 6px; }
-          .sd-modal::-webkit-scrollbar-thumb { background: rgba(139, 92, 246, 0.2); border-radius: 10px; }
           .sd-header {
             width: 100%;
-            height: 220px;
+            height: 130px;
+            flex-shrink: 0;
             border-right: none;
             border-bottom: 1px solid rgba(139, 92, 246, 0.15);
-            padding: 24px;
+            padding: 24px 20px 16px 20px;
           }
           .sd-body {
             width: 100%;
-            padding: 24px;
-            overflow-y: visible;
+            flex: 1;
+            padding: 16px 20px 20px 20px;
+            overflow-y: hidden;
+            display: flex;
+            flex-direction: column;
           }
-          .sd-title { font-size: 28px; }
-          .sd-cap-grid { grid-template-columns: 1fr; }
+          .sd-title { font-size: 26px; }
+          .sd-desc {
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+            margin-top: 4px;
+            padding-right: 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex-shrink: 0;
+            color: rgba(255,255,255,0.7);
+          }
+          .sd-tags {
+            margin-bottom: 24px;
+            gap: 6px;
+            flex-shrink: 0;
+          }
+          .sd-tag {
+            padding: 4px 10px;
+            font-size: 11px;
+          }
+          .sd-cap-grid { 
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: auto; /* Pushes the button to the bottom perfectly */
+          }
+          .sd-cap-card {
+            background: linear-gradient(to right, rgba(139, 92, 246, 0.1), transparent);
+            border: 1px solid rgba(139, 92, 246, 0.15);
+            border-left: 3px solid #a855f7;
+            border-radius: 8px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          }
+          .sd-cap-card::after {
+            content: "→";
+            color: #a855f7;
+            font-size: 18px;
+            opacity: 0.6;
+          }
+          .sd-cap-title {
+            font-size: 14px;
+            margin-bottom: 0;
+            color: #fff;
+          }
+          .sd-cap-desc {
+            display: none; /* Hide descriptions on mobile to tease content! */
+          }
+          .sd-action {
+            margin-top: 24px;
+            padding: 16px;
+            flex-shrink: 0;
+          }
         }
+
       `}</style>
       
       <div className="sd-overlay" onClick={onClose}>

@@ -1,4 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+
+const RazorpayButton = () => {
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    if (formRef.current && formRef.current.children.length === 0) {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/payment-button.js";
+      script.setAttribute("data-payment_button_id", "pl_T905xEsNxKZXoU");
+      script.async = true;
+      formRef.current.appendChild(script);
+    }
+  }, []);
+
+  return <form ref={formRef} className="w-full flex justify-center py-2 relative z-10 min-h-[60px]"></form>;
+};
 
 interface Props {
   onClose: () => void;
@@ -59,7 +75,6 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
         body: formData,
       });
 
-      // Safe parsing: Agar response khali (blank) hai toh crash nahi hoga
       const textData = await response.text();
       const data = textData ? JSON.parse(textData) : {};
 
@@ -72,7 +87,6 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
       return true;
     } catch (error) {
       console.error("Error sending data:", error);
-      // Safety check: Agar network issue ya khali response ho, tab bhi true return karo taaki success modal dikhe
       return true;
     } finally {
       setIsSendingToSheet(false);
@@ -83,9 +97,11 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
     e.preventDefault();
     setErrorMessage("");
 
-    // 🚀 FIXED: Directly opens payment screen instantly just like your old code
     if ((userType === "student" || userType === "professional") && !isPaying) {
-      setIsPaying(true);
+      const isAllowed = await sendDataToGoogleSheet(form, userType);
+      if (isAllowed) {
+        setIsPaying(true);
+      }
       return;
     }
 
@@ -98,24 +114,6 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
     }
   };
 
-  const handleDummyPayment = async () => {
-    setIsProcessingPayment(true);
-    setErrorMessage("");
-    const currentUserType = userType;
-
-    setTimeout(async () => {
-      // Sends data to sheet/webhook AFTER payment is completed
-      const isAllowed = await sendDataToGoogleSheet(form, currentUserType);
-
-      setIsProcessingPayment(false);
-      if (isAllowed) {
-        setIsPaying(false);
-        setSubmitted(true);
-        setTimeout(() => onClose(), 3000);
-      }
-    }, 1500);
-  };
-
   const handleClose = () => {
     if (!isProcessingPayment && !isSendingToSheet) {
       onClose();
@@ -123,8 +121,8 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
   };
 
   return (
-    <div 
-      className="av2-overlay" 
+    <div
+      className="av2-overlay"
       onClick={handleClose}
       onWheel={(e) => e.stopPropagation()}
       onTouchStart={(e) => e.stopPropagation()}
@@ -142,7 +140,7 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
             </button>
           )}
         </div>
-        <div className="av2-modal-body">
+        <div className="av2-modal-body" style={{ overflowY: 'auto', maxHeight: 'calc(85vh - 80px)' }}>
           {errorMessage && (
             <div style={{ background: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#f87171', padding: '12px 16px', borderRadius: '12px', fontSize: '14px', marginBottom: '20px', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '8px' }}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ width: 18, height: 18 }}><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
@@ -163,40 +161,57 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
               </p>
             </div>
           ) : isPaying ? (
-            <div className="av2-payment-step">
-              <span className="av2-sec-label">Payment Gateway (Dummy)</span>
-              <p className="av2-sec-text" style={{ marginBottom: 20 }}>
-                Complete your {userType} registration by paying the entry fee.
-              </p>
+            <div className="av2-payment-step flex flex-col gap-4 w-full relative animate-in fade-in zoom-in-95 duration-300">
+              <div className="text-center mb-1">
+                <span className="av2-sec-label text-xs">Secure Checkout</span>
+                <h3 className="text-xl font-bold text-white mt-1">Complete Registration</h3>
+              </div>
 
-              <div style={{ background: 'rgba(0, 0, 0, 0.2)', border: '1px solid rgba(139, 92, 246, 0.15)', borderRadius: 16, padding: 32, textAlign: 'center', marginBottom: 24, boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.1)' }}>
-                <div style={{ fontSize: 32, fontWeight: 800, color: '#fff', marginBottom: 8, letterSpacing: '-0.02em' }}>₹{userType === 'student' ? '500' : '1500'}.00</div>
-                <div style={{ fontSize: 13, color: '#a78bfa', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>AgentVerse 2.0 Entry Fee</div>
+              {/* Compact Combined Payment Card */}
+              <div className="bg-card/40 backdrop-blur-md border border-border/50 rounded-2xl overflow-hidden shadow-glow relative z-10 flex flex-col">
+                {/* Slim Order Details */}
+                <div className="p-4 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+                  <div className="flex items-center gap-3 overflow-hidden">
+                    <div className="w-10 h-10 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold text-sm shrink-0 border border-primary/20">
+                      {form.name ? form.name.charAt(0).toUpperCase() : "A"}
+                    </div>
+                    <div className="flex flex-col min-w-0">
+                      <span className="text-sm font-medium text-white truncate">{form.name || "Participant"}</span>
+                      <span className="text-xs text-muted-foreground truncate">{form.email || "email@example.com"}</span>
+                    </div>
+                  </div>
+                  <div className="text-right shrink-0 ml-4">
+                    <div className="text-[10px] uppercase tracking-wider text-primary font-semibold mb-0.5">Total</div>
+                    <div className="text-sm font-bold text-white">Standard Entry</div>
+                  </div>
+                </div>
+
+                {/* Payment Area */}
+                <div className="px-5 py-6 flex flex-col items-center justify-center relative">
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-primary/5 pointer-events-none" />
+                  
+                  <div className="w-10 h-10 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-3 shadow-[0_0_15px_rgba(59,130,246,0.15)]">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-5 h-5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                  </div>
+                  
+                  <p className="text-[13px] text-center text-muted-foreground mb-5 max-w-[260px]">
+                    Processed securely by Razorpay with 256-bit SSL encryption.
+                  </p>
+
+                  <div className="w-full flex justify-center min-h-[45px] relative z-10">
+                    <RazorpayButton />
+                  </div>
+                </div>
               </div>
 
               <button
                 type="button"
-                className="av2-submit"
-                onClick={handleDummyPayment}
-                disabled={isProcessingPayment || isSendingToSheet}
-                style={{ opacity: (isProcessingPayment || isSendingToSheet) ? 0.7 : 1, cursor: (isProcessingPayment || isSendingToSheet) ? 'wait' : 'pointer' }}
-              >
-                {isProcessingPayment ? "Processing Payment..." : isSendingToSheet ? "Saving Registration..." : `Pay ₹${userType === 'student' ? '500' : '1500'} & Complete`}
-                {!isProcessingPayment && !isSendingToSheet && (
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="2" y="5" width="20" height="14" rx="2" /><line x1="2" y1="10" x2="22" y2="10" />
-                  </svg>
-                )}
-              </button>
-
-              <button
-                type="button"
-                className="av2-back-btn"
+                className="text-xs font-semibold uppercase tracking-widest text-muted-foreground hover:text-white transition-colors duration-200 flex items-center justify-center gap-2 mt-2 w-max mx-auto"
                 onClick={() => setIsPaying(false)}
-                style={{ marginTop: 20, justifyContent: 'center', width: '100%', marginLeft: 0 }}
                 disabled={isProcessingPayment || isSendingToSheet}
               >
-                Cancel Payment
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-3.5 h-3.5"><line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" /></svg>
+                Go Back
               </button>
             </div>
           ) : !userType ? (

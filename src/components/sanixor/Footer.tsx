@@ -365,8 +365,9 @@ export function Footer() {
                 <ul>
                   <li><a href="/hackeval">HackEval</a></li>
                   <li><a href="/bitbench">BitBench</a></li>
-                  <li><a href="/sanixor-studio">Sanixor Studio</a></li>
-                  <li><a href="/lexai">LexAI</a></li>
+                  <li><a href="/autodash">AutoDash</a></li>
+                  <li><a href="/socioai">Socio AI</a></li>
+                  <li><a href="/nyayai">Nyay AI</a></li>
                 </ul>
               </div>
 
@@ -377,7 +378,9 @@ export function Footer() {
                   <li><a href="/agent-as-a-service">Agent as a Service</a></li>
                   <li><a href="/custom-agent-dev">Custom Agent Dev</a></li>
                   <li><a href="/api-integration">API Integration</a></li>
-                  <li><a href="/event-automation">Event Automation</a></li>
+                  <li><a href="/event-automation">Event Operations</a></li>
+                  <li><a href="/conversational-ux">Conversational UX</a></li>
+                  <li><a href="/ai-architecture">AI Architecture</a></li>
                 </ul>
               </div>
 

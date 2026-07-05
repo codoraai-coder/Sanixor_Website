@@ -848,7 +848,10 @@ export function AgentVerse2() {
             </div>
 
             <div className="av2-actions">
-              <button className="av2-btn av2-btn-primary" onClick={() => setShowRegister(true)}>
+              {/* Note for Developers: 
+                  The "Register Now" button is currently hidden to disable registrations (offline mode). 
+                  To re-enable registrations and bring the button back online, simply remove the `style={{ display: 'none' }}` prop below. */}
+              <button className="av2-btn av2-btn-primary" onClick={() => setShowRegister(true)} style={{ display: 'none' }}>
                 Register Now
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M5 12h14M12 5l7 7-7 7" />

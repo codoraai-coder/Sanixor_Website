@@ -41,7 +41,7 @@ const InteractiveSelector = () => {
     {
       title: "Nyay Ai",
       description: "Legal intelligence and analysis platform",
-      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80",
+      image: "https://images.unsplash.com/photo-1589994965851-a8f479c573a9?auto=format&fit=crop&w=800&q=80",
       icon: <Cpu size={24} className="text-white" />,
       link: "/nyayai"
     }

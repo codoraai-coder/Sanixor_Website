@@ -25,6 +25,8 @@ import AutoDash from "./routes/autodash";
 import About from "./routes/about";
 import NyayAi from "./routes/nyayai";
 import SocioAi from "./routes/socioai";
+import ConversationalUX from "./routes/conversational-ux";
+import AIArchitecture from "./routes/ai-architecture";
 import "./styles.css";
 
 import StandardScrollToTop from "./components/sanixor/StandardScrollToTop";
@@ -83,6 +85,8 @@ createRoot(document.getElementById("root")!).render(
               <Route path="/event-automation" element={<EventAutomation />} />
               <Route path="/nyayai" element={<NyayAi />} />
               <Route path="/socioai" element={<SocioAi />} />
+              <Route path="/conversational-ux" element={<ConversationalUX />} />
+              <Route path="/ai-architecture" element={<AIArchitecture />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </InitialLoader>

@@ -67,26 +67,26 @@ export function ServicesCube({
           <div
             key={row}
             className="absolute z-0 overflow-hidden pointer-events-none select-none"
-            style={{ top: `calc(35% + ${row * 160}px)`, left: 0, right: 0, transform: "translateY(-50%)" }}
+            style={{ top: `calc(45% + ${row} * clamp(70px, 15vw, 160px))`, left: 0, right: 0, transform: "translateY(-50%)" }}
           >
             <motion.div
               animate={{ x: ["0%", "-50%"] }}
               transition={{ repeat: Infinity, ease: "linear", duration: 25 + Math.abs(row) * 6 }}
-              className="whitespace-nowrap font-mono text-[7rem] md:text-[9rem] font-black flex gap-6"
+              className="whitespace-nowrap font-mono text-[2.25rem] sm:text-[4rem] md:text-[7rem] lg:text-[9rem] font-black flex gap-8 md:gap-24"
               style={{
                 width: "max-content",
                 backgroundImage: "radial-gradient(circle, #ffffff 2.2px, transparent 2.5px)",
                 backgroundSize: "8px 8px",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
-                opacity: 0.28 + Math.abs(row) * 0.04,
+                opacity: 0.35 + Math.abs(row) * 0.05,
               }}
             >
-              <div className="flex gap-6 shrink-0">
-                {Array.from({ length: 12 }).map((_, i) => <span key={i}>SERVICES ⊙ </span>)}
+              <div className="flex gap-12 md:gap-24 shrink-0">
+                {Array.from({ length: 12 }).map((_, i) => <span key={i}>Services @ Sanixor Ai</span>)}
               </div>
-              <div className="flex gap-6 shrink-0">
-                {Array.from({ length: 12 }).map((_, i) => <span key={i}>SERVICES ⊙ </span>)}
+              <div className="flex gap-12 md:gap-24 shrink-0">
+                {Array.from({ length: 12 }).map((_, i) => <span key={i}>Services @ Sanixor Ai</span>)}
               </div>
             </motion.div>
           </div>
