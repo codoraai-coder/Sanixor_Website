@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "sonner";
+import { formService } from "@/services/form.service";
+import { ApiError } from "@/utils/apiError";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -112,60 +115,34 @@ export function BookDemoModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Read the webhook URL from the Vite env variable
-    const webhookUrl = import.meta.env.VITE_N8N_WEBHOOK_URL as string | undefined;
-
-    if (!webhookUrl) {
-      console.error(
-        "[BookDemoModal] VITE_N8N_WEBHOOK_URL is not defined. " +
-        "Check your .env file and restart the dev server."
-      );
-      setErrorMessage(
-        "Configuration error: webhook URL is missing. Please contact support."
-      );
-      setSubmitStatus("error");
-      return;
-    }
+    // Guard against duplicate submits while a request is already in flight.
+    if (submitStatus === "submitting") return;
 
     setSubmitStatus("submitting");
     setErrorMessage("");
 
     try {
-      const response = await fetch(webhookUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: form.fullName,
-          email: form.businessEmail,
-          company: form.organization,
-          message: form.message,
-          productType,
-        }),
+      await formService.submitDemo({
+        name: form.fullName,
+        email: form.businessEmail,
+        organization: form.organization,
+        product: productType,
+        message: form.message || undefined,
       });
 
-      if (response.status === 409) {
-        setErrorMessage("You have already booked a demo with this email!");
-        setSubmitStatus("error");
-        return;
-      }
-
-      if (response.status === 200 || response.status === 201) {
-        // ✅ Success — persist flag and show confirmation
-        localStorage.setItem("sanixor_demo_booked", "true");
-        setAlreadyBooked(true);
-        setSubmitStatus("success");
-      } else {
-        // Server returned an unexpected status
-        throw new Error(`Server responded with status ${response.status}.`);
-      }
+      // ✅ Success — persist flag and show the confirmation screen.
+      localStorage.setItem("sanixor_demo_booked", "true");
+      setAlreadyBooked(true);
+      setSubmitStatus("success");
+      toast.success("Demo request received — we'll be in touch within 1 business day.");
     } catch (err) {
       const message =
-        err instanceof Error
+        err instanceof ApiError
           ? err.message
           : "An unexpected error occurred. Please try again.";
-      console.error("[BookDemoModal] Submission failed:", err);
       setErrorMessage(message);
       setSubmitStatus("error");
+      toast.error(message);
     }
   };
 

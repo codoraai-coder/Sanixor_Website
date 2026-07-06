@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Briefcase,
   MapPin,
-  Upload,
+  Link2,
   ArrowRight,
   Search,
   Users,
@@ -11,6 +11,9 @@ import {
   Sparkles,
 } from "lucide-react";
 import { Layout } from "@/components/sanixor/Layout";
+import { useFormSubmission } from "@/hooks/useFormSubmission";
+import { formService } from "@/services/form.service";
+import { Spinner } from "@/components/ui/spinner";
 
 const jobs = [
   {
@@ -75,10 +78,43 @@ const stats = [
 
 export default function HiringPage() {
   const [applyTo, setApplyTo] = useState<string | null>(null);
-  const [file, setFile] = useState<File | null>(null);
+  const [applicant, setApplicant] = useState({
+    name: "",
+    email: "",
+    linkedin: "",
+    portfolio: "",
+  });
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTeam, setSelectedTeam] = useState("All");
   const [selectedLocation, setSelectedLocation] = useState("All");
+
+  const resetApplicant = () =>
+    setApplicant({ name: "", email: "", linkedin: "", portfolio: "" });
+
+  // Reusable submission lifecycle: loading, toast, error handling, dedupe guard.
+  const { submit: submitApplication, isSubmitting } = useFormSubmission({
+    submit: formService.submitHiring,
+    successMessage: "Application received — we'll be in touch if there's a match.",
+    onSuccess: () => {
+      setApplyTo(null);
+      resetApplicant();
+    },
+  });
+
+  const handleApplicantChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setApplicant((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+
+  const handleApplySubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!applyTo) return;
+    await submitApplication({
+      name: applicant.name,
+      email: applicant.email,
+      role: applyTo,
+      linkedin: applicant.linkedin || undefined,
+      portfolio: applicant.portfolio || undefined,
+    });
+  };
 
   const filteredJobs = jobs.filter((job) => {
     const matchesSearch =
@@ -290,12 +326,7 @@ export default function HiringPage() {
         >
           <form
             onClick={(e) => e.stopPropagation()}
-            onSubmit={(e) => {
-              e.preventDefault();
-              alert(`Application for ${applyTo} submitted!`);
-              setApplyTo(null);
-              setFile(null);
-            }}
+            onSubmit={handleApplySubmit}
             className="w-full max-w-lg rounded-[2rem] glass-strong p-8 shadow-elegant"
           >
             <h3 className="text-2xl font-bold mb-2">Apply for {applyTo}</h3>
@@ -305,38 +336,56 @@ export default function HiringPage() {
             <div className="space-y-4">
               <input
                 required
+                name="name"
+                value={applicant.name}
+                onChange={handleApplicantChange}
                 placeholder="Full name"
+                autoComplete="name"
                 className="w-full rounded-xl bg-muted/40 px-4 py-3 text-sm outline-none ring-1 ring-border focus:ring-primary"
               />
               <input
                 required
                 type="email"
+                name="email"
+                value={applicant.email}
+                onChange={handleApplicantChange}
                 placeholder="Email"
+                autoComplete="email"
                 className="w-full rounded-xl bg-muted/40 px-4 py-3 text-sm outline-none ring-1 ring-border focus:ring-primary"
               />
               <input
                 required
+                type="url"
+                name="linkedin"
+                value={applicant.linkedin}
+                onChange={handleApplicantChange}
                 placeholder="LinkedIn URL"
                 className="w-full rounded-xl bg-muted/40 px-4 py-3 text-sm outline-none ring-1 ring-border focus:ring-primary"
               />
-              <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-border bg-muted/20 p-4 text-sm transition-all duration-300 hover:border-primary">
-                <Upload className="h-4 w-4 text-primary" />
-                <span className="flex-1 text-muted-foreground">
-                  {file ? file.name : "Upload resume (PDF)"}
-                </span>
+              <div className="flex items-center gap-3 rounded-xl border border-dashed border-border bg-muted/20 px-4 py-3 focus-within:border-primary transition-colors">
+                <Link2 className="h-4 w-4 text-primary shrink-0" />
                 <input
-                  type="file"
-                  accept=".pdf"
-                  hidden
-                  onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+                  type="url"
+                  name="portfolio"
+                  value={applicant.portfolio}
+                  onChange={handleApplicantChange}
+                  placeholder="Portfolio / resume link (optional)"
+                  className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
                 />
-              </label>
+              </div>
             </div>
             <button
               type="submit"
-              className="mt-6 w-full rounded-full bg-gradient-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-all duration-300 hover:scale-[1.02]"
+              disabled={isSubmitting}
+              className="mt-6 w-full inline-flex items-center justify-center gap-2 rounded-full bg-gradient-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-all duration-300 hover:scale-[1.02] disabled:opacity-70 disabled:hover:scale-100"
             >
-              Submit Application
+              {isSubmitting ? (
+                <>
+                  <Spinner className="h-4 w-4" /> Submitting…
+                </>
+              ) : (
+                "Submit Application"
+              )}
             </button>
           </form>
         </div>

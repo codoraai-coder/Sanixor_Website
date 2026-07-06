@@ -1,0 +1,9 @@
+# Cloudflare Pages redirects & SPA routing.
+# (Ignored by Vercel — Vercel uses vercel.json — so this file is safe in both.)
+
+# 1) Canonical host: send www → apex (301, forced).
+https://www.sanixor.space/*   https://sanixor.space/:splat   301!
+
+# 2) SPA fallback: every unmatched path serves the app shell so React Router
+#    can handle client-side routes (must be LAST).
+/*   /index.html   200

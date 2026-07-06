@@ -1,0 +1,19 @@
+# Cloudflare Pages response headers.
+# CSP is intentionally omitted here: the site embeds third-party origins
+# (Unsplash images, OpenStreetMap iframe, Razorpay checkout). Add a tuned CSP
+# later once those sources are enumerated. The backend API sets its own CSP.
+
+/*
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+
+# Vite emits content-hashed filenames under /assets — cache them forever.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Never cache the HTML shell, so new deploys are picked up immediately.
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate

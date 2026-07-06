@@ -158,7 +158,7 @@ export function ServicesCube({
           {/* 6 Labeled Buttons Redesigned (Spacious layout) */}
           <div className="flex flex-wrap justify-center gap-2.5 max-w-2xl mt-16">
             {services.slice(0, 6).map((s, idx) => {
-              const Icon = s.iconComponent;
+              const Icon = s.iconComponent as React.ComponentType<{ className?: string }>;
               const isActive = idx === active;
               return (
                 <button

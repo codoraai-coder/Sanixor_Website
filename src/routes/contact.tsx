@@ -13,12 +13,10 @@ import {
   Zap,
 } from "lucide-react";
 import { useState } from "react";
+import { useFormSubmission } from "@/hooks/useFormSubmission";
+import { formService, type ContactTopic } from "@/services/form.service";
 
-// Zero-Backend Form Endpoint Configurations
-const PUBLIC_FORM_ENDPOINT = "https://api.web3forms.com/submit";
-const PUBLIC_ACCESS_KEY = "YOUR_WEB3FORMS_ACCESS_KEY_HERE"; 
-
-const topics = ["General Inquiry", "Product Demo", "Training", "Partnership", "Careers", "Press"];
+const topics: ContactTopic[] = ["General Inquiry", "Product Demo", "Training", "Partnership", "Careers", "Press"];
 
 const contactInfo = [
   { icon: Mail, label: "Email", value: "team@sanixor.space", color: "from-blue-500 via-indigo-500 to-purple-600" },
@@ -57,9 +55,24 @@ export default function ContactPage() {
     company: "",
     message: ""
   });
-  const [selectedTopic, setSelectedTopic] = useState("General Inquiry");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [selectedTopic, setSelectedTopic] = useState<ContactTopic>("General Inquiry");
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+
+  // Centralized submission lifecycle: loading state, toast, error handling,
+  // duplicate-submission guard — all handled by the reusable hook.
+  const { submit, status, reset } = useFormSubmission({
+    submit: formService.submitContact,
+    successMessage: "Message sent — we'll reply within 24 hours.",
+    onSuccess: () => {
+      setFormData({ name: "", email: "", company: "", message: "" });
+      // Return the button to its idle label after a short confirmation.
+      setTimeout(reset, 4000);
+    },
+    onError: () => {
+      // Keep the entered values; briefly show the error state on the button.
+      setTimeout(reset, 4000);
+    },
+  });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -67,39 +80,13 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setStatus("loading");
-
-    try {
-      const payload = {
-        access_key: PUBLIC_ACCESS_KEY,
-        name: formData.name,
-        email: formData.email,
-        company: formData.company || "N/A",
-        topic: selectedTopic,
-        message: formData.message,
-        reply_to: formData.email, 
-      };
-
-      const response = await fetch(PUBLIC_FORM_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      const result = await response.json();
-
-      if (response.ok && result.success !== false) {
-        setStatus("success");
-        setFormData({ name: "", email: "", company: "", message: "" });
-        setTimeout(() => setStatus("idle"), 4000);
-      } else {
-        setStatus("error");
-        setTimeout(() => setStatus("idle"), 4000);
-      }
-    } catch (error) {
-      setStatus("error");
-      setTimeout(() => setStatus("idle"), 4000);
-    }
+    await submit({
+      name: formData.name,
+      email: formData.email,
+      company: formData.company || undefined,
+      topic: selectedTopic,
+      message: formData.message,
+    });
   };
 
   return (

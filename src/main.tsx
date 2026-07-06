@@ -3,6 +3,7 @@ import { StrictMode, type ReactNode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "./components/sanixor/ThemeProvider";
+import { Toaster } from "./components/ui/sonner";
 import { useSmoothScroll } from "./hooks/useSmoothScroll";
 import ScrollToTop from "./components/ScrollToTop";
 import Contact from "./routes/contact";
@@ -90,6 +91,7 @@ createRoot(document.getElementById("root")!).render(
               <Route path="*" element={<NotFound />} />
             </Routes>
           </InitialLoader>
+          <Toaster position="top-center" theme="dark" richColors closeButton />
         </SmoothScrollProvider>
       </BrowserRouter>
     </ThemeProvider>

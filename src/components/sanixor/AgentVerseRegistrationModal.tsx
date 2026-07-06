@@ -1,4 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
+import { toast } from "sonner";
+import { formService, type AgentVersePayload } from "@/services/form.service";
+import { ApiError } from "@/utils/apiError";
 
 const RazorpayButton = () => {
   const formRef = useRef<HTMLFormElement>(null);
@@ -38,56 +41,67 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
     participants: "",
   });
 
-  const SCRIPT_URL = import.meta.env.VITE_SCRIPT_URL || "";
-
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
 
-  const sendDataToGoogleSheet = async (currentForm: typeof form, type: string): Promise<boolean> => {
+  /** Build the typed backend payload for the selected profile. */
+  const buildPayload = (
+    currentForm: typeof form,
+    type: "student" | "professional" | "institution",
+  ): AgentVersePayload => {
+    if (type === "student") {
+      return {
+        userType: "student",
+        name: currentForm.name,
+        email: currentForm.email,
+        phone: currentForm.phone,
+        rollNo: currentForm.rollNo,
+        college: currentForm.college,
+      };
+    }
+    if (type === "professional") {
+      return {
+        userType: "professional",
+        name: currentForm.name,
+        email: currentForm.email,
+        phone: currentForm.phone,
+        experience: Number(currentForm.experience),
+        organization: currentForm.organization,
+      };
+    }
+    return {
+      userType: "institution",
+      name: currentForm.name,
+      email: currentForm.email,
+      phone: currentForm.phone,
+      organization: currentForm.organization,
+      participants: Number(currentForm.participants),
+    };
+  };
+
+  /**
+   * Persist the registration via the centralized backend. Returns true when the
+   * caller may proceed (to payment or confirmation). Backend validation and
+   * duplicate (409) errors surface inline; entered values are kept on failure.
+   */
+  const submitRegistration = async (
+    currentForm: typeof form,
+    type: "student" | "professional" | "institution",
+  ): Promise<boolean> => {
     setIsSendingToSheet(true);
     setErrorMessage("");
-    const formData = new FormData();
-
-    if (type === "student") {
-      formData.append("Student Name", currentForm.name);
-      formData.append("Student Email", currentForm.email);
-      formData.append("Student Contact", currentForm.phone);
-      formData.append("Roll No", currentForm.rollNo);
-      formData.append("College", currentForm.college);
-    } else if (type === "professional") {
-      formData.append("Professional Name", currentForm.name);
-      formData.append("Professional Email", currentForm.email);
-      formData.append("Professional Contact", currentForm.phone);
-      formData.append("Year of Experience", currentForm.experience);
-      formData.append("Organization Name", currentForm.organization);
-    } else if (type === "institution") {
-      formData.append("Institution/Org Name", currentForm.organization);
-      formData.append("POC Name", currentForm.name);
-      formData.append("POC Email", currentForm.email);
-      formData.append("POC Contact Number", currentForm.phone);
-      formData.append("Number of Participants", currentForm.participants);
-    }
-
     try {
-      const response = await fetch(SCRIPT_URL, {
-        method: "POST",
-        body: formData,
-      });
-
-      const textData = await response.text();
-      const data = textData ? JSON.parse(textData) : {};
-
-      if (data && data.status === "duplicate") {
-        setErrorMessage(data.message || "This email is already registered!");
-        return false;
-      }
-
-      console.log("Data successfully queued!");
+      await formService.submitAgentVerse(buildPayload(currentForm, type));
       return true;
-    } catch (error) {
-      console.error("Error sending data:", error);
-      return true;
+    } catch (err) {
+      const message =
+        err instanceof ApiError
+          ? err.message
+          : "Something went wrong. Please try again.";
+      setErrorMessage(message);
+      toast.error(message);
+      return false;
     } finally {
       setIsSendingToSheet(false);
     }
@@ -97,20 +111,21 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
     e.preventDefault();
     setErrorMessage("");
 
-    if ((userType === "student" || userType === "professional") && !isPaying) {
-      const isAllowed = await sendDataToGoogleSheet(form, userType);
-      if (isAllowed) {
-        setIsPaying(true);
-      }
-      return;
-    }
+    // Guard against duplicate submits while a request is already in flight.
+    if (isSendingToSheet) return;
 
-    if (userType === "institution") {
-      const isAllowed = await sendDataToGoogleSheet(form, userType);
-      if (isAllowed) {
-        setSubmitted(true);
-        setTimeout(() => onClose(), 3000);
-      }
+    const isAllowed = await submitRegistration(form, userType as
+      | "student"
+      | "professional"
+      | "institution");
+    if (!isAllowed) return;
+
+    if (userType === "student" || userType === "professional") {
+      setIsPaying(true);
+    } else if (userType === "institution") {
+      setSubmitted(true);
+      toast.success("Registration confirmed — check your inbox for details.");
+      setTimeout(() => onClose(), 3000);
     }
   };
 
