@@ -1,8 +1,18 @@
+import React from "react";
 import { Github, Linkedin, Twitter, ArrowRight } from "lucide-react";
 import { Layout } from "@/components/sanixor/Layout";
 import { Link } from "react-router-dom";
 
-const hierarchy = {
+interface HierarchyNode {
+  name?: string;
+  role?: string;
+  hue?: number;
+  children?: HierarchyNode[];
+  title?: string;
+  color?: string;
+}
+
+const hierarchy: HierarchyNode = {
   title: "Leadership",
   color: "primary",
   children: [
@@ -37,33 +47,27 @@ const hierarchy = {
   ],
 };
 
-interface TeamMember {
-  name: string;
-  role: string;
-  hue: number;
-  children?: TeamMember[];
-}
-
-function TreeNode({ node, level = 0 }: { node: TeamMember; level?: number }) {
+function TreeNode({ node, level = 0 }: { node: HierarchyNode; level?: number }) {
+  const hue = node.hue ?? 200;
   return (
     <div className="flex flex-col items-center">
       <div className="group relative flex flex-col items-center">
         <div
           className="relative h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 clip-diamond shadow-elegant transition-all duration-300 group-hover:shadow-glow group-hover:scale-105"
           style={{
-            background: `linear-gradient(135deg, oklch(0.7 0.15 ${node.hue}), oklch(0.3 0.1 ${node.hue + 30}))`,
+            background: `linear-gradient(135deg, oklch(0.7 0.15 ${hue}), oklch(0.3 0.1 ${hue + 30}))`,
           }}
         >
           <div
             className="absolute inset-0.5 sm:inset-1 clip-diamond"
             style={{
-              background: `radial-gradient(circle at 50% 40%, oklch(0.85 0.1 ${node.hue + 20}), transparent 60%)`,
+              background: `radial-gradient(circle at 50% 40%, oklch(0.85 0.1 ${hue + 20}), transparent 60%)`,
             }}
           />
         </div>
         <div className="mt-2 sm:mt-3 text-center">
-          <h3 className="text-xs sm:text-sm font-semibold">{node.name}</h3>
-          <p className="text-[10px] sm:text-xs text-muted-foreground">{node.role}</p>
+          <h3 className="text-xs sm:text-sm font-semibold">{node.name ?? node.title ?? ""}</h3>
+          <p className="text-[10px] sm:text-xs text-muted-foreground">{node.role ?? ""}</p>
         </div>
         <div className="mt-1 sm:mt-2 flex gap-0.5 sm:gap-1 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
           {[Linkedin, Twitter, Github].map((Icon, k) => (
@@ -81,8 +85,11 @@ function TreeNode({ node, level = 0 }: { node: TeamMember; level?: number }) {
         <>
           <div className="h-6 sm:h-8 w-px bg-gradient-to-b from-primary to-transparent" />
           <div className="flex gap-2 sm:gap-3">
-            {node.children.map((child: TeamMember) => (
-              <div key={child.name} className="flex flex-col items-center">
+            {node.children.map((child: HierarchyNode, index) => (
+              <div
+                key={child.name ?? child.title ?? String(index)}
+                className="flex flex-col items-center"
+              >
                 <TreeNode node={child} level={level + 1} />
               </div>
             ))}

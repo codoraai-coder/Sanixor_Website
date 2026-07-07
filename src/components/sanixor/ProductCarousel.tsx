@@ -121,6 +121,11 @@ function ProductDetailModal({
 }) {
   const [visible, setVisible] = useState(false);
 
+  const handleClose = useCallback(() => {
+    setVisible(false);
+    setTimeout(onClose, 400);
+  }, [onClose]);
+
   useEffect(() => {
     requestAnimationFrame(() => setVisible(true));
     const onKey = (e: KeyboardEvent) => {
@@ -129,11 +134,6 @@ function ProductDetailModal({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [handleClose]);
-
-  const handleClose = useCallback(() => {
-    setVisible(false);
-    setTimeout(onClose, 400);
-  }, [onClose]);
 
   if (typeof document === "undefined") return null;
 
