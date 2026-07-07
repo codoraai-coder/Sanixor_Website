@@ -65,11 +65,7 @@ const PRODUCT_META: Record<
 // ─── Submission status type ───────────────────────────────────────────────────
 type SubmitStatus = "idle" | "submitting" | "success" | "error";
 
-export function BookDemoModal({
-  isOpen,
-  onClose,
-  productType,
-}: BookDemoModalProps) {
+export function BookDemoModal({ isOpen, onClose, productType }: BookDemoModalProps) {
   // ── Form state ──────────────────────────────────────────────────────────────
   const [form, setForm] = useState<DemoForm>({
     fullName: "",
@@ -97,9 +93,7 @@ export function BookDemoModal({
   if (!isOpen) return null;
 
   // ── Handlers ────────────────────────────────────────────────────────────────
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
@@ -137,9 +131,7 @@ export function BookDemoModal({
       toast.success("Demo request received — we'll be in touch within 1 business day.");
     } catch (err) {
       const message =
-        err instanceof ApiError
-          ? err.message
-          : "An unexpected error occurred. Please try again.";
+        err instanceof ApiError ? err.message : "An unexpected error occurred. Please try again.";
       setErrorMessage(message);
       setSubmitStatus("error");
       toast.error(message);
@@ -583,14 +575,15 @@ export function BookDemoModal({
       {/* ── Overlay ────────────────────────────────────────────────────────── */}
       <div className="bdm-overlay" onClick={handleOverlayClick}>
         <div className="bdm-modal" onClick={handleModalClick}>
-
           {/* ── Header ───────────────────────────────────────────────────── */}
           <div className="bdm-head">
             <div className="bdm-head-left">
               <div className="bdm-product-icon">{meta.icon}</div>
               <div className="bdm-head-titles">
                 <h2>Book a Demo</h2>
-                <div className="bdm-head-tagline">{productType} · {meta.tagline}</div>
+                <div className="bdm-head-tagline">
+                  {productType} · {meta.tagline}
+                </div>
               </div>
             </div>
             <button
@@ -637,9 +630,8 @@ export function BookDemoModal({
               </div>
               <div className="bdm-booked-title">Demo Already Requested!</div>
               <p className="bdm-booked-sub">
-                You have already requested a demo. Our team will contact you
-                shortly at your registered email to schedule a personalised
-                walkthrough.
+                You have already requested a demo. Our team will contact you shortly at your
+                registered email to schedule a personalised walkthrough.
               </p>
             </div>
           ) : submitStatus === "success" ? (
@@ -660,8 +652,9 @@ export function BookDemoModal({
               <div className="bdm-success-title">Demo Request Sent!</div>
               <p className="bdm-success-sub">
                 Thank you! We've received your request for{" "}
-                <strong style={{ color: "#a7f3d0" }}>{productType}</strong>. Our
-                team will reach out to <strong style={{ color: "#a7f3d0" }}>{form.businessEmail || "your email"}</strong>{" "}
+                <strong style={{ color: "#a7f3d0" }}>{productType}</strong>. Our team will reach out
+                to{" "}
+                <strong style={{ color: "#a7f3d0" }}>{form.businessEmail || "your email"}</strong>{" "}
                 within 1 business day.
               </p>
             </div>
@@ -671,9 +664,8 @@ export function BookDemoModal({
               <div className="bdm-banner">
                 <div className="bdm-banner-dot" />
                 <p className="bdm-banner-text">
-                  Our team typically responds within{" "}
-                  <strong>1 business day</strong>. Fill in your details and
-                  we'll reach out to schedule a personalised walkthrough.
+                  Our team typically responds within <strong>1 business day</strong>. Fill in your
+                  details and we'll reach out to schedule a personalised walkthrough.
                 </p>
               </div>
 
@@ -781,11 +773,7 @@ export function BookDemoModal({
                   </div>
 
                   {/* Submit */}
-                  <button
-                    type="submit"
-                    className="bdm-submit"
-                    disabled={isSubmitting}
-                  >
+                  <button type="submit" className="bdm-submit" disabled={isSubmitting}>
                     {isSubmitting ? (
                       <>
                         <svg

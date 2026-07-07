@@ -39,14 +39,11 @@ export async function handleResponse<T>(res: Response): Promise<T> {
   }
 
   // Error path — prefer the backend's message + field errors when present.
-  const message =
-    (body && "message" in body && body.message) ||
-    `Request failed (${res.status}).`;
+  const message = (body && "message" in body && body.message) || `Request failed (${res.status}).`;
   const fieldErrors: FieldError[] =
     body && "errors" in body && Array.isArray(body.errors) ? body.errors : [];
 
-  const kind =
-    res.status === 400 || res.status === 422 ? "validation" : "http";
+  const kind = res.status === 400 || res.status === 422 ? "validation" : "http";
 
   throw new ApiError(message, { kind, status: res.status, fieldErrors });
 }

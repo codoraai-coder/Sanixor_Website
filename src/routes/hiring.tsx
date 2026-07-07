@@ -88,8 +88,7 @@ export default function HiringPage() {
   const [selectedTeam, setSelectedTeam] = useState("All");
   const [selectedLocation, setSelectedLocation] = useState("All");
 
-  const resetApplicant = () =>
-    setApplicant({ name: "", email: "", linkedin: "", portfolio: "" });
+  const resetApplicant = () => setApplicant({ name: "", email: "", linkedin: "", portfolio: "" });
 
   // Reusable submission lifecycle: loading, toast, error handling, dedupe guard.
   const { submit: submitApplication, isSubmitting } = useFormSubmission({

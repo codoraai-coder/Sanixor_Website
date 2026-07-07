@@ -3,30 +3,39 @@ import { ScrollReveal } from "@/components/sanixor/ScrollReveal";
 import { Footer } from "@/components/sanixor/Footer";
 import { InteractiveConsole } from "@/components/sanixor/InteractiveConsole";
 import { Navbar } from "@/components/sanixor/Navbar";
-import { ArrowRight, Target, Zap, Globe2, Briefcase, GraduationCap, Building2, Cpu } from "lucide-react";
+import {
+  ArrowRight,
+  Target,
+  Zap,
+  Globe2,
+  Briefcase,
+  GraduationCap,
+  Building2,
+  Cpu,
+} from "lucide-react";
 
 export default function About() {
   const missionItems = [
     {
       icon: Cpu,
       title: "Automate Processes",
-      desc: "Automate complex processes using advanced AI."
+      desc: "Automate complex processes using advanced AI.",
     },
     {
       icon: GraduationCap,
       title: "Empower Individuals",
-      desc: "Empower individuals with industry-relevant skills."
+      desc: "Empower individuals with industry-relevant skills.",
     },
     {
       icon: Building2,
       title: "Scalable Solutions",
-      desc: "Build scalable, highly resilient enterprise solutions."
+      desc: "Build scalable, highly resilient enterprise solutions.",
     },
     {
       icon: Briefcase,
       title: "Responsible AI",
-      desc: "Promote ethical and responsible AI adoption worldwide."
-    }
+      desc: "Promote ethical and responsible AI adoption worldwide.",
+    },
   ];
 
   return (
@@ -40,7 +49,7 @@ export default function About() {
       <section className="hero relative min-h-[80vh] flex flex-col justify-center">
         <div className="hero-glow" />
         <div className="hero-grid" />
-        
+
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -54,7 +63,8 @@ export default function About() {
             Culture, Work, and <span className="grad">Automation</span>
           </h1>
           <p className="hero-sub max-w-3xl text-center mt-4 text-xl leading-relaxed text-muted-foreground">
-            Sanixor AI is an AI-first technology company focused on building intelligent products, agentic services, and enterprise automation solutions.
+            Sanixor AI is an AI-first technology company focused on building intelligent products,
+            agentic services, and enterprise automation solutions.
           </p>
         </motion.div>
       </section>
@@ -64,20 +74,21 @@ export default function About() {
           <div className="mx-auto max-w-7xl px-4 md:px-6">
             <div className="grid md:grid-cols-2 gap-16 items-center">
               <div className="relative h-[500px] rounded-3xl overflow-hidden border border-border/50 shadow-glow">
-                <img 
-                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1000" 
-                  alt="Team Collaboration" 
+                <img
+                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1000"
+                  alt="Team Collaboration"
                   className="absolute inset-0 w-full h-full object-cover opacity-80"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
               </div>
-              
+
               <div>
                 <h2 className="text-4xl font-bold mb-6 flex items-center gap-3">
                   <Target className="w-8 h-8 text-primary" /> Our Vision
                 </h2>
                 <p className="text-xl text-muted-foreground leading-relaxed mb-12">
-                  To create intelligent systems that seamlessly collaborate with humans, enabling smarter decisions, efficient workflows, and scalable innovation.
+                  To create intelligent systems that seamlessly collaborate with humans, enabling
+                  smarter decisions, efficient workflows, and scalable innovation.
                 </p>
 
                 <h2 className="text-4xl font-bold mb-8 flex items-center gap-3">

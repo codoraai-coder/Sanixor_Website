@@ -1,7 +1,8 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
-export type Theme = "midnight"; 
+export type Theme = "midnight";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const THEMES: { id: Theme; label: string; swatch: string; mode: "dark" | "light" }[] = [
   {
     id: "midnight",
@@ -19,12 +20,14 @@ type Ctx = {
   setTheme: (t: Theme) => void;
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const ThemeCtx = createContext<Ctx>({
   theme: "midnight",
   mode: "dark",
   setTheme: () => {},
 });
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useTheme = () => useContext(ThemeCtx);
 
 function applyTheme(t: Theme) {
@@ -42,7 +45,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     // Read from localStorage if available
     const saved = localStorage.getItem("sanixor-theme") as Theme;
-    const initial: Theme = THEMES.find(t => t.id === saved) ? saved : "midnight";
+    const initial: Theme = THEMES.find((t) => t.id === saved) ? saved : "midnight";
     setThemeState(initial);
     applyTheme(initial);
   }, []);
@@ -52,12 +55,12 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     applyTheme(t);
     try {
       localStorage.setItem("sanixor-theme", t);
-    } catch {}
+    } catch {
+      // Ignore storage errors (e.g. sandboxed iframe or private browsing)
+    }
   };
 
   return (
-    <ThemeCtx.Provider value={{ theme, mode: "dark", setTheme }}>
-      {children}
-    </ThemeCtx.Provider>
+    <ThemeCtx.Provider value={{ theme, mode: "dark", setTheme }}>{children}</ThemeCtx.Provider>
   );
 }

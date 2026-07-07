@@ -1,6 +1,19 @@
 import { ScrollReveal } from "@/components/sanixor/ScrollReveal";
 import { AgentVerse2 } from "@/components/sanixor/AgentVerse2";
-import { ArrowRight, ArrowUpRight, Cpu, FlaskConical, GraduationCap, Network, PenTool, Smile, Code2, Play, Sparkles, Heart } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Cpu,
+  FlaskConical,
+  GraduationCap,
+  Network,
+  PenTool,
+  Smile,
+  Code2,
+  Play,
+  Sparkles,
+  Heart,
+} from "lucide-react";
 import { HeroParallax } from "@/components/sanixor/HeroParallax";
 import { Footer } from "@/components/sanixor/Footer";
 import { InteractiveConsole } from "@/components/sanixor/InteractiveConsole";
@@ -29,8 +42,11 @@ const services: ServiceCubeData[] = [
       { title: "Multi-Agent Systems", desc: "Deploy interconnected AI agents that collaborate." },
       { title: "Task Automation", desc: "Automate repetitive workflows with zero downtime." },
       { title: "Conversational AI", desc: "Engage users with context-aware capabilities." },
-      { title: "Zero Infrastructure", desc: "We manage the servers and scaling. You consume the API." },
-    ]
+      {
+        title: "Zero Infrastructure",
+        desc: "We manage the servers and scaling. You consume the API.",
+      },
+    ],
   },
   {
     num: "02",
@@ -43,10 +59,16 @@ const services: ServiceCubeData[] = [
     image: "/service-2.png",
     capabilities: [
       { title: "Domain Fine-tuning", desc: "Train models on your proprietary datasets securely." },
-      { title: "Complex Integrations", desc: "Connect custom agents to your internal ERPs & CRMs." },
-      { title: "Rigorous Evaluation", desc: "Red-teaming and benchmark testing before deployment." },
+      {
+        title: "Complex Integrations",
+        desc: "Connect custom agents to your internal ERPs & CRMs.",
+      },
+      {
+        title: "Rigorous Evaluation",
+        desc: "Red-teaming and benchmark testing before deployment.",
+      },
       { title: "Full Code Handover", desc: "Own the IP and the orchestration code entirely." },
-    ]
+    ],
   },
   {
     num: "03",
@@ -61,8 +83,11 @@ const services: ServiceCubeData[] = [
       { title: "Official SDKs", desc: "Python, Node.js, and Go clients with deep typing." },
       { title: "Legacy Adapters", desc: "On-premise database connectivity for AI." },
       { title: "Real-time Webhooks", desc: "Event-driven updates on agent state and output." },
-      { title: "Sub-millisecond Latency", desc: "Engineered for high-throughput enterprise scale." },
-    ]
+      {
+        title: "Sub-millisecond Latency",
+        desc: "Engineered for high-throughput enterprise scale.",
+      },
+    ],
   },
   {
     num: "04",
@@ -78,7 +103,7 @@ const services: ServiceCubeData[] = [
       { title: "Dynamic Scheduling", desc: "Agents that adapt itineraries based on delays." },
       { title: "Post-Event Analytics", desc: "Automated sentiment and engagement reports." },
       { title: "Speaker Coordination", desc: "Automated briefing and content collection." },
-    ]
+    ],
   },
   {
     num: "05",
@@ -94,7 +119,7 @@ const services: ServiceCubeData[] = [
       { title: "Contextual Memory", desc: "Remembering user preferences across sessions." },
       { title: "Voice & Text", desc: "Seamless switching between spoken and typed input." },
       { title: "Empathy Routing", desc: "Escalating to human agents based on frustration." },
-    ]
+    ],
   },
   {
     num: "06",
@@ -108,10 +133,13 @@ const services: ServiceCubeData[] = [
     capabilities: [
       { title: "Topology Planning", desc: "Designing robust multi-model infrastructures." },
       { title: "Security & Compliance", desc: "Ensuring SOC2 and GDPR readiness for AI." },
-      { title: "Cost Optimization", desc: "Minimizing inference costs without sacrificing quality." },
+      {
+        title: "Cost Optimization",
+        desc: "Minimizing inference costs without sacrificing quality.",
+      },
       { title: "Redundancy Systems", desc: "Failover strategies for mission-critical agents." },
-    ]
-  }
+    ],
+  },
 ];
 
 const learningTracks = [
@@ -169,30 +197,28 @@ export default function Index() {
 
       {/* Products */}
       <ScrollReveal>
-        <section id="products" className="relative z-10 bg-transparent pt-16 md:pt-32 pb-16 md:pb-32">
+        <section
+          id="products"
+          className="relative z-10 bg-transparent pt-16 md:pt-32 pb-16 md:pb-32"
+        >
           <div className="mx-auto max-w-7xl px-4 md:px-6">
-            <SectionHeader
-              label="Products"
-              title="Every tool is an AI agent."
-            />
+            <SectionHeader label="Products" title="Every tool is an AI agent." />
           </div>
           <InteractiveSelector />
         </section>
       </ScrollReveal>
 
       {/* Services — 3D Cube */}
-      <ServicesCube 
-        services={services} 
-        onSelectService={(service) => setSelectedService(service)} 
+      <ServicesCube
+        services={services}
+        onSelectService={(service) => setSelectedService(service)}
       />
 
       {/* Event */}
       <ScrollReveal delay={100}>
         <section id="event" className="mx-auto max-w-[1500px] px-4 py-8 md:py-12 md:px-6">
           <div className="mx-auto max-w-7xl px-4 md:px-6 mb-8 md:mb-12">
-            <SectionHeader
-              label="Events"
-            />
+            <SectionHeader label="Events" />
           </div>
           <AgentVerse2 />
         </section>
@@ -227,13 +253,11 @@ export default function Index() {
             ))}
           </div>
           <div className="glass-strong rounded-3xl p-6 md:p-10 text-center mt-12 mb-12">
-            <h3 className="text-2xl font-bold mb-3">
-              Want Structured AI Training?
-            </h3>
+            <h3 className="text-2xl font-bold mb-3">Want Structured AI Training?</h3>
 
             <p className="text-muted-foreground max-w-xl mx-auto mb-6">
-              Move beyond theory with curated AI, Agent Engineering,
-              LLM, RAG, and system design training tracks.
+              Move beyond theory with curated AI, Agent Engineering, LLM, RAG, and system design
+              training tracks.
             </p>
 
             <Link
@@ -255,10 +279,7 @@ export default function Index() {
 
       {/* Services Popup Modal */}
       {selectedService && (
-        <ServiceDetailsModal
-          service={selectedService}
-          onClose={() => setSelectedService(null)}
-        />
+        <ServiceDetailsModal service={selectedService} onClose={() => setSelectedService(null)} />
       )}
     </div>
   );

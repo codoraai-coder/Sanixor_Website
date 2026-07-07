@@ -37,7 +37,12 @@ const products = [
     tag: "Performance Intelligence",
     icon: Gauge,
     desc: "Benchmarks AI models, applications, and infrastructure using standardized metrics and comparative analytics.",
-    features: ["Model Benchmarking", "Infrastructure Scoring", "Comparative Analytics", "Visual Dashboards"],
+    features: [
+      "Model Benchmarking",
+      "Infrastructure Scoring",
+      "Comparative Analytics",
+      "Visual Dashboards",
+    ],
     color: 280,
     stats: "Enterprise scale",
   },
@@ -62,12 +67,7 @@ const products = [
     tag: "Legal Intelligence",
     icon: Bot,
     desc: "The legal and compliance intelligence engine built for enterprise scale. Actively flag risks and automate legal review.",
-    features: [
-      "Contract Analysis",
-      "Regulatory Compliance",
-      "Knowledge Graph",
-      "VPC Deployment",
-    ],
+    features: ["Contract Analysis", "Regulatory Compliance", "Knowledge Graph", "VPC Deployment"],
     color: 210,
     stats: "SOC2 Compliant",
   },
@@ -377,7 +377,10 @@ export default function ProductsPage() {
               ))}
             </div>
             <div className="flex flex-col sm:flex-row gap-4 mt-8">
-              <a href={`/${active.id}`} className="flex-1 text-center rounded-full bg-gradient-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-all duration-300 hover:scale-[1.02]">
+              <a
+                href={`/${active.id}`}
+                className="flex-1 text-center rounded-full bg-gradient-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-glow transition-all duration-300 hover:scale-[1.02]"
+              >
                 Learn More
               </a>
               <button className="flex-1 rounded-full glass px-6 py-3 text-sm font-semibold transition-all duration-300 hover:bg-muted">

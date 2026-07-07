@@ -324,13 +324,13 @@ export function ServiceDetailsModal({ service, onClose }: ServiceDetailsModalPro
         }
 
       `}</style>
-      
+
       <div className="sd-overlay" onClick={onClose}>
         <div className="sd-modal" onClick={(e) => e.stopPropagation()}>
           <button className="sd-close" onClick={onClose} aria-label="Close">
             <X strokeWidth={2.5} />
           </button>
-          
+
           <div className="sd-header">
             <div className="sd-header-bg" style={{ backgroundImage: `url(${service.image})` }} />
             <div className="sd-header-gradient" />
@@ -339,16 +339,18 @@ export function ServiceDetailsModal({ service, onClose }: ServiceDetailsModalPro
               <h2 className="sd-title">{service.title}</h2>
             </div>
           </div>
-          
+
           <div className="sd-body">
             <p className="sd-desc">{service.description}</p>
-            
+
             <div className="sd-tags">
-              {service.tags.map(t => (
-                <span key={t} className="sd-tag">{t}</span>
+              {service.tags.map((t) => (
+                <span key={t} className="sd-tag">
+                  {t}
+                </span>
               ))}
             </div>
-            
+
             <div className="sd-cap-grid">
               {service.capabilities.map((cap, i) => (
                 <div key={i} className="sd-cap-card">
@@ -357,7 +359,7 @@ export function ServiceDetailsModal({ service, onClose }: ServiceDetailsModalPro
                 </div>
               ))}
             </div>
-            
+
             <Link to={`/${service.id}`} onClick={onClose} className="sd-action">
               View Full Documentation <ArrowRight />
             </Link>

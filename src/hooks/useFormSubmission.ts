@@ -70,9 +70,7 @@ export function useFormSubmission<TInput, TResult>({
         return result;
       } catch (err) {
         const apiError =
-          err instanceof ApiError
-            ? err
-            : new ApiError("Something went wrong. Please try again.");
+          err instanceof ApiError ? err : new ApiError("Something went wrong. Please try again.");
         setStatus("error");
         setError(apiError);
         setFieldErrors(apiError.fieldErrorMap());

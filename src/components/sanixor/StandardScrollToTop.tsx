@@ -10,7 +10,7 @@ export default function StandardScrollToTop() {
     const handleScroll = () => {
       const currentScroll = window.scrollY;
       setScrollY(currentScroll);
-      
+
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       if (docHeight > 0) {
         setProgress(Math.min(100, Math.max(0, (currentScroll / docHeight) * 100)));
@@ -40,9 +40,9 @@ export default function StandardScrollToTop() {
       onClick={scrollToTop}
       className={cn(
         "fixed bottom-8 right-8 z-[90] group flex h-14 w-14 items-center justify-center rounded-full transition-all duration-500",
-        isVisible 
-          ? "opacity-100 translate-y-0 shadow-[0_8px_30px_rgb(0,0,0,0.4)] hover:shadow-[0_8px_40px_rgba(168,85,247,0.4)]" 
-          : "opacity-0 translate-y-10 pointer-events-none"
+        isVisible
+          ? "opacity-100 translate-y-0 shadow-[0_8px_30px_rgb(0,0,0,0.4)] hover:shadow-[0_8px_40px_rgba(168,85,247,0.4)]"
+          : "opacity-0 translate-y-10 pointer-events-none",
       )}
       aria-label="Scroll to top"
     >
@@ -53,17 +53,11 @@ export default function StandardScrollToTop() {
       <div className="absolute inset-0 rounded-full bg-primary/20 opacity-0 blur-md transition-opacity duration-300 group-hover:opacity-100 group-hover:scale-110" />
 
       {/* SVG Progress Ring */}
-      <svg 
-        className="absolute inset-0 h-full w-full -rotate-90 transition-transform duration-300 group-hover:scale-110" 
+      <svg
+        className="absolute inset-0 h-full w-full -rotate-90 transition-transform duration-300 group-hover:scale-110"
         viewBox="0 0 50 50"
       >
-        <circle
-          cx="25"
-          cy="25"
-          r={radius}
-          className="fill-none stroke-white/10"
-          strokeWidth="2"
-        />
+        <circle cx="25" cy="25" r={radius} className="fill-none stroke-white/10" strokeWidth="2" />
         <circle
           cx="25"
           cy="25"

@@ -3,8 +3,6 @@ import { cn } from "@/lib/utils";
 import { ArrowUpRight, Instagram, Linkedin, Twitter } from "lucide-react";
 import { useState } from "react";
 
-
-
 export function Footer() {
   // State tracking which original columns have been clicked/triggered to reveal smoothly
   const [revealedCols, setRevealedCols] = useState<{ [key: number]: boolean }>({
@@ -326,7 +324,17 @@ export function Footer() {
               <p className="sx-brand-tagline">Intelligence Built to Deploy.</p>
               <a href="mailto:team@sanixor.space" className="sx-brand-link">
                 team@sanixor.space
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17L17 7" /><path d="M7 7h10v10" /></svg>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M7 17L17 7" />
+                  <path d="M7 7h10v10" />
+                </svg>
               </a>
               <div className="flex gap-3 sm:gap-4 mt-4 sm:mt-6">
                 {/* Twitter / X */}
@@ -363,11 +371,21 @@ export function Footer() {
               <div className={cn("sx-link-col", revealedCols[1] && "is-revealed")}>
                 <h4 onClick={() => toggleColumnReveal(1)}>Products</h4>
                 <ul>
-                  <li><a href="/hackeval">HackEval</a></li>
-                  <li><a href="/bitbench">BitBench</a></li>
-                  <li><a href="/autodash">AutoDash</a></li>
-                  <li><a href="/socioai">Socio AI</a></li>
-                  <li><a href="/nyayai">Nyay AI</a></li>
+                  <li>
+                    <a href="/hackeval">HackEval</a>
+                  </li>
+                  <li>
+                    <a href="/bitbench">BitBench</a>
+                  </li>
+                  <li>
+                    <a href="/autodash">AutoDash</a>
+                  </li>
+                  <li>
+                    <a href="/socioai">Socio AI</a>
+                  </li>
+                  <li>
+                    <a href="/nyayai">Nyay AI</a>
+                  </li>
                 </ul>
               </div>
 
@@ -375,12 +393,24 @@ export function Footer() {
               <div className={cn("sx-link-col", revealedCols[2] && "is-revealed")}>
                 <h4 onClick={() => toggleColumnReveal(2)}>Services</h4>
                 <ul>
-                  <li><a href="/agent-as-a-service">Agent as a Service</a></li>
-                  <li><a href="/custom-agent-dev">Custom Agent Dev</a></li>
-                  <li><a href="/api-integration">API Integration</a></li>
-                  <li><a href="/event-automation">Event Operations</a></li>
-                  <li><a href="/conversational-ux">Conversational UX</a></li>
-                  <li><a href="/ai-architecture">AI Architecture</a></li>
+                  <li>
+                    <a href="/agent-as-a-service">Agent as a Service</a>
+                  </li>
+                  <li>
+                    <a href="/custom-agent-dev">Custom Agent Dev</a>
+                  </li>
+                  <li>
+                    <a href="/api-integration">API Integration</a>
+                  </li>
+                  <li>
+                    <a href="/event-automation">Event Operations</a>
+                  </li>
+                  <li>
+                    <a href="/conversational-ux">Conversational UX</a>
+                  </li>
+                  <li>
+                    <a href="/ai-architecture">AI Architecture</a>
+                  </li>
                 </ul>
               </div>
 
@@ -399,9 +429,15 @@ export function Footer() {
               <div className={cn("sx-link-col learn-col", revealedCols[4] && "is-revealed")}>
                 <h4 onClick={() => toggleColumnReveal(4)}>Learn</h4>
                 <ul>
-                  <li><a href="/training#architecture">Core Curriculum & Architecture</a></li>
-                  <li><a href="/training#design">Engineering Competency Matrix</a></li>
-                  <li><a href="/training#tracks">Available Specialized Tracks</a></li>
+                  <li>
+                    <a href="/training#architecture">Core Curriculum & Architecture</a>
+                  </li>
+                  <li>
+                    <a href="/training#design">Engineering Competency Matrix</a>
+                  </li>
+                  <li>
+                    <a href="/training#tracks">Available Specialized Tracks</a>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -410,7 +446,9 @@ export function Footer() {
           <div className="sx-footer-divider"></div>
 
           <div className="sx-footer-bottom">
-            <p className="sx-copyright">&copy; 2025 <span>Sanixor AI</span>. Built for the next generation.</p>
+            <p className="sx-copyright">
+              &copy; 2025 <span>Sanixor AI</span>. Built for the next generation.
+            </p>
             <div className="sx-footer-bottom-links">
               <a href="/contact">Contact Us</a>
               <a href="/privacy">Privacy Policy</a>

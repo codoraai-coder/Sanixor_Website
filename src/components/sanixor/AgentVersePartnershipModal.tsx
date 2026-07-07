@@ -26,7 +26,7 @@ export function AgentVersePartnershipModal({ onClose }: PartnershipModalProps) {
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -50,18 +50,35 @@ export function AgentVersePartnershipModal({ onClose }: PartnershipModalProps) {
         <div className="av2-modal-head">
           <h2>Become a Partner</h2>
           <button className="av2-modal-close" onClick={onClose} aria-label="Close">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
           </button>
         </div>
 
-        <div className="av2-modal-body" style={{ overflowY: 'auto', maxHeight: 'calc(85vh - 80px)' }}>
+        <div
+          className="av2-modal-body"
+          style={{ overflowY: "auto", maxHeight: "calc(85vh - 80px)" }}
+        >
           {submitted ? (
             <div className="av2-success">
               <div className="av2-success-ico">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
               </div>
@@ -74,16 +91,33 @@ export function AgentVersePartnershipModal({ onClose }: PartnershipModalProps) {
             <>
               <span className="av2-sec-label">Partnership Inquiry</span>
               <p className="av2-sec-text">
-                We are looking for forward-thinking partners to co-host, support, and grow the AgentVerse ecosystem. Fill out the form below to connect with us, or email us directly at <a href="mailto:team@sanixor.space" style={{ color: '#a855f7' }}>team@sanixor.space</a>.
+                We are looking for forward-thinking partners to co-host, support, and grow the
+                AgentVerse ecosystem. Fill out the form below to connect with us, or email us
+                directly at{" "}
+                <a href="mailto:team@sanixor.space" style={{ color: "#a855f7" }}>
+                  team@sanixor.space
+                </a>
+                .
               </p>
 
               {error && (
-                <div style={{ background: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#f87171', padding: '12px 16px', borderRadius: '12px', fontSize: '14px', marginTop: '20px', fontWeight: 500 }}>
+                <div
+                  style={{
+                    background: "rgba(239, 68, 68, 0.15)",
+                    border: "1px solid rgba(239, 68, 68, 0.3)",
+                    color: "#f87171",
+                    padding: "12px 16px",
+                    borderRadius: "12px",
+                    fontSize: "14px",
+                    marginTop: "20px",
+                    fontWeight: 500,
+                  }}
+                >
                   {error.message}
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} style={{ marginTop: '24px' }}>
+              <form onSubmit={handleSubmit} style={{ marginTop: "24px" }}>
                 <div className="av2-frow">
                   <div className="av2-fg">
                     <label className="av2-label">Full Name *</label>
@@ -141,9 +175,21 @@ export function AgentVersePartnershipModal({ onClose }: PartnershipModalProps) {
                   </div>
                 </div>
 
-                <button type="submit" className="av2-submit" style={{ marginTop: '32px' }} disabled={isSubmitting}>
+                <button
+                  type="submit"
+                  className="av2-submit"
+                  style={{ marginTop: "32px" }}
+                  disabled={isSubmitting}
+                >
                   {isSubmitting ? "Sending..." : "Send Partnership Inquiry"}
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
                     <line x1="22" y1="2" x2="11" y2="13" />
                     <polygon points="22 2 15 22 11 13 2 9 22 2" />
                   </svg>

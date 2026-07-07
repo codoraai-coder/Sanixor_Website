@@ -40,13 +40,29 @@ export function ServicesCube({
   const faceIndex = useTransform(scrollYProgress, [0, 1], [0, 5]);
 
   // Smoothly interpolate rotation values
-  const rotateX = useTransform(scrollYProgress, 
-    [0, 0.16, 0.33, 0.50, 0.66, 0.83],
-    [ROTATIONS[0].x, ROTATIONS[1].x, ROTATIONS[2].x, ROTATIONS[3].x, ROTATIONS[4].x, ROTATIONS[5].x]
+  const rotateX = useTransform(
+    scrollYProgress,
+    [0, 0.16, 0.33, 0.5, 0.66, 0.83],
+    [
+      ROTATIONS[0].x,
+      ROTATIONS[1].x,
+      ROTATIONS[2].x,
+      ROTATIONS[3].x,
+      ROTATIONS[4].x,
+      ROTATIONS[5].x,
+    ],
   );
-  const rotateY = useTransform(scrollYProgress,
-    [0, 0.16, 0.33, 0.50, 0.66, 0.83],
-    [ROTATIONS[0].y, ROTATIONS[1].y, ROTATIONS[2].y, ROTATIONS[3].y, ROTATIONS[4].y, ROTATIONS[5].y]
+  const rotateY = useTransform(
+    scrollYProgress,
+    [0, 0.16, 0.33, 0.5, 0.66, 0.83],
+    [
+      ROTATIONS[0].y,
+      ROTATIONS[1].y,
+      ROTATIONS[2].y,
+      ROTATIONS[3].y,
+      ROTATIONS[4].y,
+      ROTATIONS[5].y,
+    ],
   );
 
   // Update the active state for the buttons/counter display
@@ -73,11 +89,7 @@ export function ServicesCube({
 
   return (
     // Tall outer container — creates the scroll runway
-    <div
-      ref={scrollContainerRef}
-      className="relative"
-      style={{ height: "400vh" }}
-    >
+    <div ref={scrollContainerRef} className="relative" style={{ height: "400vh" }}>
       {/* Sticky inner — pins to viewport while user scrolls */}
       <div
         id="services"
@@ -91,13 +103,17 @@ export function ServicesCube({
 
         {/* Cube and controls wrapper */}
         <div className="relative w-full flex flex-col items-center justify-center z-10 flex-1 pb-12">
-
           {/* ── Background marquee ── */}
           {[-1, 0, 1].map((row) => (
             <div
               key={row}
               className="absolute z-0 overflow-hidden pointer-events-none select-none"
-              style={{ top: `calc(45% + ${row} * clamp(70px, 15vw, 160px))`, left: 0, right: 0, transform: "translateY(-50%)" }}
+              style={{
+                top: `calc(45% + ${row} * clamp(70px, 15vw, 160px))`,
+                left: 0,
+                right: 0,
+                transform: "translateY(-50%)",
+              }}
             >
               <motion.div
                 animate={{ x: ["0%", "-50%"] }}
@@ -113,10 +129,14 @@ export function ServicesCube({
                 }}
               >
                 <div className="flex gap-12 md:gap-24 shrink-0">
-                  {Array.from({ length: 12 }).map((_, i) => <span key={i}>Services @ Sanixor Ai</span>)}
+                  {Array.from({ length: 12 }).map((_, i) => (
+                    <span key={i}>Services @ Sanixor Ai</span>
+                  ))}
                 </div>
                 <div className="flex gap-12 md:gap-24 shrink-0">
-                  {Array.from({ length: 12 }).map((_, i) => <span key={i}>Services @ Sanixor Ai</span>)}
+                  {Array.from({ length: 12 }).map((_, i) => (
+                    <span key={i}>Services @ Sanixor Ai</span>
+                  ))}
                 </div>
               </motion.div>
             </div>
@@ -138,7 +158,6 @@ export function ServicesCube({
 
           {/* ── Cube & Controls ── */}
           <div className="relative z-10 flex flex-col items-center w-full max-w-4xl px-4 gap-8">
-
             {/* Cube and navigation arrows */}
             <div className="flex items-center gap-6 md:gap-10">
               <ArrowBtn dir="left" onClick={() => go(active - 1)} />
@@ -146,7 +165,8 @@ export function ServicesCube({
               <div style={{ perspective: "1000px", perspectiveOrigin: "50% 48%" }}>
                 <motion.div
                   style={{
-                    width: S, height: S,
+                    width: S,
+                    height: S,
                     transformStyle: "preserve-3d",
                     rotateX,
                     rotateY,
@@ -162,18 +182,46 @@ export function ServicesCube({
                   ].map(({ r, i }) => {
                     const s = services[i];
                     return s ? (
-                      <div key={s.id} className="absolute" style={{ width: S, height: S, transform: r, backfaceVisibility: "hidden" }}>
+                      <div
+                        key={s.id}
+                        className="absolute"
+                        style={{ width: S, height: S, transform: r, backfaceVisibility: "hidden" }}
+                      >
                         <CubeFace service={s} onClick={() => onSelectService(s)} index={i} />
                       </div>
                     ) : null;
                   })}
                   {/* Top face */}
-                  <div className="absolute" style={{ width: S, height: S, transform: `rotateX(90deg) translateZ(${H}px)`, backfaceVisibility: "hidden" }}>
-                    <CubeFace service={services[4]} onClick={() => onSelectService(services[4])} index={4} />
+                  <div
+                    className="absolute"
+                    style={{
+                      width: S,
+                      height: S,
+                      transform: `rotateX(90deg) translateZ(${H}px)`,
+                      backfaceVisibility: "hidden",
+                    }}
+                  >
+                    <CubeFace
+                      service={services[4]}
+                      onClick={() => onSelectService(services[4])}
+                      index={4}
+                    />
                   </div>
                   {/* Bottom face */}
-                  <div className="absolute" style={{ width: S, height: S, transform: `rotateX(-90deg) translateZ(${H}px)`, backfaceVisibility: "hidden" }}>
-                    <CubeFace service={services[5]} onClick={() => onSelectService(services[5])} index={5} />
+                  <div
+                    className="absolute"
+                    style={{
+                      width: S,
+                      height: S,
+                      transform: `rotateX(-90deg) translateZ(${H}px)`,
+                      backfaceVisibility: "hidden",
+                    }}
+                  >
+                    <CubeFace
+                      service={services[5]}
+                      onClick={() => onSelectService(services[5])}
+                      index={5}
+                    />
                   </div>
                 </motion.div>
               </div>
@@ -194,7 +242,7 @@ export function ServicesCube({
                       "flex items-center gap-2 px-3 py-2 rounded-lg text-xs md:text-sm font-mono uppercase tracking-wider transition-all duration-300 outline-none border",
                       isActive
                         ? "bg-white/10 text-foreground border-white shadow-[0_0_15px_rgba(255,255,255,0.1)]"
-                        : "bg-card/45 text-muted-foreground border-border hover:bg-card/85 hover:text-foreground"
+                        : "bg-card/45 text-muted-foreground border-border hover:bg-card/85 hover:text-foreground",
                     )}
                   >
                     <Icon className="w-4 h-4 text-current" />
@@ -211,13 +259,24 @@ export function ServicesCube({
             </p>
 
             {/* Scroll hint */}
-            <motion.div 
+            <motion.div
               className="flex flex-col items-center gap-2 text-muted-foreground/50"
               animate={{ opacity: [0.3, 0.7, 0.3] }}
               transition={{ repeat: Infinity, duration: 2 }}
             >
-              <span className="text-[10px] font-mono uppercase tracking-widest">Scroll to explore</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <span className="text-[10px] font-mono uppercase tracking-widest">
+                Scroll to explore
+              </span>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <polyline points="6 9 12 15 18 9" />
               </svg>
             </motion.div>
@@ -234,8 +293,22 @@ function ArrowBtn({ dir, onClick }: { dir: "left" | "right"; onClick: () => void
       onClick={onClick}
       className="w-9 h-9 md:w-11 md:h-11 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-card border border-border shrink-0"
     >
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-muted-foreground" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        {dir === "left" ? <polyline points="15 18 9 12 15 6" /> : <polyline points="9 18 15 12 9 6" />}
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        className="text-muted-foreground"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        {dir === "left" ? (
+          <polyline points="15 18 9 12 15 6" />
+        ) : (
+          <polyline points="9 18 15 12 9 6" />
+        )}
       </svg>
     </button>
   );
@@ -246,20 +319,28 @@ const FACE_COLORS = [
   "rgba(59, 130, 246, 0.12)", // Blue
   "rgba(236, 72, 153, 0.12)", // Pink
   "rgba(16, 185, 129, 0.12)", // Emerald
-  "rgba(245, 158, 11, 0.12)",  // Amber
-  "rgba(99, 102, 241, 0.12)"  // Indigo
+  "rgba(245, 158, 11, 0.12)", // Amber
+  "rgba(99, 102, 241, 0.12)", // Indigo
 ];
 
 const FACE_GLOWS = [
-  "rgba(124, 58, 237, 0.4)", 
+  "rgba(124, 58, 237, 0.4)",
   "rgba(59, 130, 246, 0.4)",
   "rgba(236, 72, 153, 0.4)",
   "rgba(16, 185, 129, 0.4)",
   "rgba(245, 158, 11, 0.4)",
-  "rgba(99, 102, 241, 0.4)"
+  "rgba(99, 102, 241, 0.4)",
 ];
 
-function CubeFace({ service, onClick, index = 0 }: { service: ServiceCubeData; onClick: () => void; index?: number }) {
+function CubeFace({
+  service,
+  onClick,
+  index = 0,
+}: {
+  service: ServiceCubeData;
+  onClick: () => void;
+  index?: number;
+}) {
   const color = FACE_COLORS[index % 6];
   const glow = FACE_GLOWS[index % 6];
 
@@ -275,15 +356,19 @@ function CubeFace({ service, onClick, index = 0 }: { service: ServiceCubeData; o
       }}
     >
       {/* ── High Frequency Noise Overlay (Film Grain / Static) ── */}
-      <div 
+      <div
         className="absolute inset-0 opacity-[0.4] mix-blend-overlay pointer-events-none"
-        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+        }}
       />
 
       {/* Shine on hover */}
       <div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-        style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 60%)" }}
+        style={{
+          background: "linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 60%)",
+        }}
       />
 
       {/* ── Simple Inner Frame ── */}
@@ -292,21 +377,34 @@ function CubeFace({ service, onClick, index = 0 }: { service: ServiceCubeData; o
       <h3 className="font-mono font-bold tracking-[0.15em] uppercase z-20 text-center mb-auto mt-12 text-sm md:text-base text-white/90 drop-shadow-md">
         {service.title}
       </h3>
-      
+
       <div className="flex-1 flex items-center justify-center z-20 w-full">
         {React.createElement(service.iconComponent, {
-          className: "w-24 h-24 md:w-32 md:h-32 transition-transform duration-500 group-hover:scale-110",
+          className:
+            "w-24 h-24 md:w-32 md:h-32 transition-transform duration-500 group-hover:scale-110",
           style: { color: "#ffffff", filter: `drop-shadow(0 0 15px ${glow})` },
         })}
       </div>
-      
+
       <div className="flex flex-col items-center justify-center h-10 z-20 mb-10 relative w-full">
         <p className="text-[10px] md:text-[11px] font-mono text-center text-white/50 uppercase tracking-widest transition-opacity duration-300 group-hover:opacity-0 absolute">
           ({service.shortSubtitle})
         </p>
-        <div className="flex items-center gap-2 text-[10px] md:text-[11px] font-mono font-bold text-white uppercase tracking-widest opacity-0 transform translate-y-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 absolute" style={{ textShadow: `0 0 8px ${glow}` }}>
+        <div
+          className="flex items-center gap-2 text-[10px] md:text-[11px] font-mono font-bold text-white uppercase tracking-widest opacity-0 transform translate-y-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 absolute"
+          style={{ textShadow: `0 0 8px ${glow}` }}
+        >
           <span>Click to explore</span>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <line x1="5" y1="12" x2="19" y2="12" />
             <polyline points="12 5 19 12 12 19" />
           </svg>

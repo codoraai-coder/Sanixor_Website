@@ -5,18 +5,15 @@ export default function Privacy() {
     <Layout>
       <div className="mx-auto max-w-4xl px-6 py-32">
         <h1 className="text-5xl font-bold mb-4">Privacy Policy</h1>
-        <p className="text-muted-foreground mb-10">
-          Last Updated: June 2026
-        </p>
+        <p className="text-muted-foreground mb-10">Last Updated: June 2026</p>
 
         <div className="space-y-8">
           <section>
             <h2 className="text-2xl font-semibold mb-3">1. Introduction</h2>
             <p>
-              Sanixor AI respects your privacy and is committed to protecting
-              your personal information. This Privacy Policy explains how we
-              collect, use, and safeguard information when you interact with
-              our website, products, and services.
+              Sanixor AI respects your privacy and is committed to protecting your personal
+              information. This Privacy Policy explains how we collect, use, and safeguard
+              information when you interact with our website, products, and services.
             </p>
           </section>
 
@@ -45,25 +42,24 @@ export default function Privacy() {
           <section>
             <h2 className="text-2xl font-semibold mb-3">4. Data Security</h2>
             <p>
-              We implement reasonable administrative and technical safeguards
-              to protect personal information against unauthorized access,
-              disclosure, or misuse.
+              We implement reasonable administrative and technical safeguards to protect personal
+              information against unauthorized access, disclosure, or misuse.
             </p>
           </section>
 
           <section>
             <h2 className="text-2xl font-semibold mb-3">5. Third-Party Services</h2>
             <p>
-              We may use trusted third-party providers for analytics,
-              communications, hosting, payment processing, and infrastructure.
+              We may use trusted third-party providers for analytics, communications, hosting,
+              payment processing, and infrastructure.
             </p>
           </section>
 
           <section>
             <h2 className="text-2xl font-semibold mb-3">6. Your Rights</h2>
             <p>
-              You may request access, correction, or deletion of your personal
-              information by contacting us.
+              You may request access, correction, or deletion of your personal information by
+              contacting us.
             </p>
           </section>
 

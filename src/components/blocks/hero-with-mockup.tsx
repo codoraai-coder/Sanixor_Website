@@ -56,8 +56,8 @@ export function HeroWithMockup({ className }: HeroWithMockupProps) {
               "text-base font-medium text-muted-foreground sm:text-lg md:text-xl",
             )}
           >
-            From code analysis to legal research — Sanixor AI builds production-grade AI agents
-            that actually work, for students, developers, and institutions.
+            From code analysis to legal research — Sanixor AI builds production-grade AI agents that
+            actually work, for students, developers, and institutions.
           </p>
 
           <div

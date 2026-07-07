@@ -9,7 +9,7 @@
 // Local:   npm run cf:preview     (serves the built dist/ via wrangler)
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-   "name": "sanixor-website",
+  "name": "sanixor-website",
   "account_id": "967cbb465e7f233f5c12ca274ae2910e",
   "compatibility_date": "2026-07-01",
 
@@ -27,11 +27,11 @@
   // path so React Router handles the route on the client.
   "assets": {
     "directory": "./dist",
-    "not_found_handling": "single-page-application"
+    "not_found_handling": "single-page-application",
   },
 
   "observability": {
     "enabled": true,
-    "head_sampling_rate": 0.1
-  }
+    "head_sampling_rate": 0.1,
+  },
 }

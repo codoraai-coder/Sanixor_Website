@@ -12,7 +12,7 @@ function getObserver() {
         if (cb) cb();
       }
     },
-    { threshold: 0.05, rootMargin: "0px 0px -40px 0px" }
+    { threshold: 0.05, rootMargin: "0px 0px -40px 0px" },
   );
   return sharedObserver;
 }
@@ -57,7 +57,8 @@ export function ScrollReveal({
       style={{
         opacity: 0,
         transform: "translateY(40px)",
-        transition: "opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
+        transition:
+          "opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
         transitionDelay: `${delay}ms`,
         willChange: "opacity, transform",
       }}

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { createPortal } from "react-dom";
 
@@ -48,8 +48,7 @@ const PRODUCTS = [
   {
     id: "autodash",
     name: "AUTODASH",
-    tagline:
-      "Automated CI/CD pipeline intelligence that predicts failures before they happen.",
+    tagline: "Automated CI/CD pipeline intelligence that predicts failures before they happen.",
     category: "DevOps",
     accent: "#F59E0B",
     video: "/videos/autodash.gif",
@@ -92,8 +91,7 @@ const PRODUCTS = [
     id: "cas",
     path: "/custom-agent-dev",
     name: "CUSTOMIZED AGENTIC SOLUTIONS",
-    tagline:
-      "Bespoke AI agent architectures engineered for your unique business challenges.",
+    tagline: "Bespoke AI agent architectures engineered for your unique business challenges.",
     category: "Enterprise",
     accent: "#EC4899",
     video: "/videos/custom-agent.gif",
@@ -130,14 +128,14 @@ function ProductDetailModal({
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [handleClose]);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setVisible(false);
     setTimeout(onClose, 400);
-  };
+  }, [onClose]);
 
-  if (typeof document === 'undefined') return null;
+  if (typeof document === "undefined") return null;
 
   return createPortal(
     <div
@@ -156,11 +154,7 @@ function ProductDetailModal({
         data-lenis-prevent="true"
       >
         <div className="modal-card-visual">
-          <img
-            src={product.video}
-            alt={product.name}
-            className="modal-card-video"
-          />
+          <img src={product.video} alt={product.name} className="modal-card-video" />
           <div
             style={{
               position: "absolute",
@@ -169,12 +163,7 @@ function ProductDetailModal({
             }}
           />
           <button className="modal-close" onClick={handleClose}>
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 14 14"
-              fill="none"
-            >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <path
                 d="M1 1L13 13M13 1L1 13"
                 stroke="white"
@@ -197,20 +186,13 @@ function ProductDetailModal({
             {product.category}
           </div>
 
-          <div className="animate-in animate-in-2 modal-title">
-            {product.name}
-          </div>
-          <div className="animate-in animate-in-2 modal-tagline">
-            {product.tagline}
-          </div>
+          <div className="animate-in animate-in-2 modal-title">{product.name}</div>
+          <div className="animate-in animate-in-2 modal-tagline">{product.tagline}</div>
 
           <div className="animate-in animate-in-3 modal-stats">
             {Object.entries(product.stats).map(([key, val]) => (
               <div key={key} className="modal-stat">
-                <div
-                  className="modal-stat-value"
-                  style={{ color: product.accent }}
-                >
+                <div className="modal-stat-value" style={{ color: product.accent }}>
                   {val}
                 </div>
                 <div className="modal-stat-label">{key}</div>
@@ -235,10 +217,7 @@ function ProductDetailModal({
             <div className="modal-section-title">Key Features</div>
             {product.features.map((f, idx) => (
               <div key={idx} className="modal-feature">
-                <div
-                  className="modal-feature-dot"
-                  style={{ background: product.accent }}
-                />
+                <div className="modal-feature-dot" style={{ background: product.accent }} />
                 <div className="modal-feature-text">{f}</div>
               </div>
             ))}
@@ -255,12 +234,7 @@ function ProductDetailModal({
             }}
           >
             Learn More
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 14 14"
-              fill="none"
-            >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <path
                 d="M1 7H13M13 7L8 2M13 7L8 12"
                 stroke="white"
@@ -273,15 +247,13 @@ function ProductDetailModal({
         </div>
       </div>
     </div>,
-    document.body
+    document.body,
   );
 }
 
 export function ProductCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [activeProduct, setActiveProduct] = useState<
-    (typeof PRODUCTS)[number] | null
-  >(null);
+  const [activeProduct, setActiveProduct] = useState<(typeof PRODUCTS)[number] | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
@@ -297,7 +269,7 @@ export function ProductCarousel() {
   const next = () => {
     setActiveIndex((prev) => {
       const nextIdx = (prev + 1) % PRODUCTS.length;
-      setSpinAngles(s => ({ ...s, [nextIdx]: (s[nextIdx] || 0) - 360 }));
+      setSpinAngles((s) => ({ ...s, [nextIdx]: (s[nextIdx] || 0) - 360 }));
       return nextIdx;
     });
   };
@@ -305,7 +277,7 @@ export function ProductCarousel() {
   const prev = () => {
     setActiveIndex((prev) => {
       const nextIdx = (prev - 1 + PRODUCTS.length) % PRODUCTS.length;
-      setSpinAngles(s => ({ ...s, [nextIdx]: (s[nextIdx] || 0) + 360 }));
+      setSpinAngles((s) => ({ ...s, [nextIdx]: (s[nextIdx] || 0) + 360 }));
       return nextIdx;
     });
   };
@@ -383,154 +355,182 @@ export function ProductCarousel() {
         .animate-in-4 { animation-delay: 0.2s; opacity: 0; }
         .animate-in-5 { animation-delay: 0.25s; opacity: 0; }
       `}</style>
-    <div className="relative w-full h-[600px] flex flex-col items-center justify-center overflow-hidden py-12 group">
-      {/* Navigation Buttons */}
-      <div className="absolute inset-y-0 left-2 md:left-8 flex items-center z-50 pointer-events-none">
-        <button 
-          onClick={prev} 
-          className="p-3 md:p-4 rounded-full bg-background/40 border border-foreground/10 text-foreground backdrop-blur-xl hover:bg-foreground/10 transition-all hover:scale-110 pointer-events-auto md:opacity-0 group-hover:opacity-100 md:-translate-x-4 group-hover:translate-x-0 duration-300"
-          aria-label="Previous product"
+      <div className="relative w-full h-[600px] flex flex-col items-center justify-center overflow-hidden py-12 group">
+        {/* Navigation Buttons */}
+        <div className="absolute inset-y-0 left-2 md:left-8 flex items-center z-50 pointer-events-none">
+          <button
+            onClick={prev}
+            className="p-3 md:p-4 rounded-full bg-background/40 border border-foreground/10 text-foreground backdrop-blur-xl hover:bg-foreground/10 transition-all hover:scale-110 pointer-events-auto md:opacity-0 group-hover:opacity-100 md:-translate-x-4 group-hover:translate-x-0 duration-300"
+            aria-label="Previous product"
+          >
+            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" strokeWidth={2.5} />
+          </button>
+        </div>
+        <div className="absolute inset-y-0 right-2 md:right-8 flex items-center z-50 pointer-events-none">
+          <button
+            onClick={next}
+            className="p-3 md:p-4 rounded-full bg-background/40 border border-foreground/10 text-foreground backdrop-blur-xl hover:bg-foreground/10 transition-all hover:scale-110 pointer-events-auto md:opacity-0 group-hover:opacity-100 md:translate-x-4 group-hover:translate-x-0 duration-300"
+            aria-label="Next product"
+          >
+            <ChevronRight className="w-5 h-5 md:w-6 md:h-6" strokeWidth={2.5} />
+          </button>
+        </div>
+
+        {/* Track */}
+        <div
+          className="relative flex items-center justify-center w-full h-full max-w-6xl mx-auto"
+          style={{ perspective: "1200px" }}
         >
-          <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" strokeWidth={2.5} />
-        </button>
-      </div>
-      <div className="absolute inset-y-0 right-2 md:right-8 flex items-center z-50 pointer-events-none">
-        <button 
-          onClick={next} 
-          className="p-3 md:p-4 rounded-full bg-background/40 border border-foreground/10 text-foreground backdrop-blur-xl hover:bg-foreground/10 transition-all hover:scale-110 pointer-events-auto md:opacity-0 group-hover:opacity-100 md:translate-x-4 group-hover:translate-x-0 duration-300"
-          aria-label="Next product"
-        >
-          <ChevronRight className="w-5 h-5 md:w-6 md:h-6" strokeWidth={2.5} />
-        </button>
-      </div>
+          {PRODUCTS.map((p, i) => {
+            let offset = i - activeIndex;
+            if (offset > PRODUCTS.length / 2) offset -= PRODUCTS.length;
+            if (offset < -PRODUCTS.length / 2) offset += PRODUCTS.length;
 
-      {/* Track */}
-      <div className="relative flex items-center justify-center w-full h-full max-w-6xl mx-auto" style={{ perspective: '1200px' }}>
-        {PRODUCTS.map((p, i) => {
-          let offset = i - activeIndex;
-          if (offset > PRODUCTS.length / 2) offset -= PRODUCTS.length;
-          if (offset < -PRODUCTS.length / 2) offset += PRODUCTS.length;
-          
-          const isActive = offset === 0;
-          const absOffset = Math.abs(offset);
-          const zIndex = 50 - absOffset;
-          const opacity = Math.max(0, 1 - absOffset * (isMobile ? 0.6 : 0.4));
-          const scale = Math.max(0.6, 1 - absOffset * (isMobile ? 0.2 : 0.15));
-          const translateX = offset * (isMobile ? 220 : 400); 
-          
-          // Mouse 3D Tilt for active card
-          const tiltX = isActive && isHovered ? mousePos.y * -15 : 0;
-          const tiltY = isActive && isHovered ? mousePos.x * 15 : 0;
-          
-          const extraSpin = spinAngles[i] || 0;
-          const rotateY = (offset * (isMobile ? -15 : -20)) + tiltY + extraSpin; 
-          const rotateX = tiltX;
-          const translateZ = -absOffset * (isMobile ? 120 : 150);
+            const isActive = offset === 0;
+            const absOffset = Math.abs(offset);
+            const zIndex = 50 - absOffset;
+            const opacity = Math.max(0, 1 - absOffset * (isMobile ? 0.6 : 0.4));
+            const scale = Math.max(0.6, 1 - absOffset * (isMobile ? 0.2 : 0.15));
+            const translateX = offset * (isMobile ? 220 : 400);
 
-          const cardWidth = isMobile ? '280px' : '500px';
-          const cardHeight = isMobile ? '380px' : '320px';
+            // Mouse 3D Tilt for active card
+            const tiltX = isActive && isHovered ? mousePos.y * -15 : 0;
+            const tiltY = isActive && isHovered ? mousePos.x * 15 : 0;
 
-          if (absOffset > (isMobile ? 1.5 : 2.5)) return null;
+            const extraSpin = spinAngles[i] || 0;
+            const rotateY = offset * (isMobile ? -15 : -20) + tiltY + extraSpin;
+            const rotateX = tiltX;
+            const translateZ = -absOffset * (isMobile ? 120 : 150);
 
-          return (
-            <div
-              key={p.id}
-              className="absolute transition-all duration-700 ease-[cubic-bezier(0.25,1,0.3,1)] cursor-pointer"
-              style={{
-                zIndex,
-                opacity,
-                transform: `translateX(${translateX}px) translateZ(${translateZ}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${scale})`,
-                width: cardWidth,
-                height: cardHeight,
-                transformStyle: 'preserve-3d',
-              }}
-              onClick={() => {
-                if (isActive) {
-                  setActiveProduct(p);
-                } else {
-                  setActiveIndex(i);
-                  setSpinAngles(s => ({ ...s, [i]: (s[i] || 0) + (offset > 0 ? -360 : 360) }));
-                }
-              }}
-              onMouseMove={(e) => {
-                if (!isActive) return;
-                const rect = e.currentTarget.getBoundingClientRect();
-                const x = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 to 0.5
-                const y = (e.clientY - rect.top) / rect.height - 0.5;
-                setMousePos({ x, y });
-              }}
-              onMouseEnter={() => {
-                if (isActive) setIsHovered(true);
-              }}
-              onMouseLeave={() => {
-                if (isActive) {
-                  setIsHovered(false);
-                  setMousePos({ x: 0, y: 0 });
-                }
-              }}
-            >
+            const cardWidth = isMobile ? "280px" : "500px";
+            const cardHeight = isMobile ? "380px" : "320px";
+
+            if (absOffset > (isMobile ? 1.5 : 2.5)) return null;
+
+            return (
               <div
-                className="w-full h-full rounded-[24px] overflow-hidden relative transition-all duration-500 group/card"
+                key={p.id}
+                className="absolute transition-all duration-700 ease-[cubic-bezier(0.25,1,0.3,1)] cursor-pointer"
                 style={{
-                  background: 'color-mix(in srgb, var(--card) 60%, transparent)',
-                  backdropFilter: 'blur(24px)',
-                  WebkitBackdropFilter: 'blur(24px)',
-                  border: `1px solid ${p.accent}50`,
-                  boxShadow: isActive ? `0 20px 50px -10px ${p.accent}40, inset 0 1px 1px rgba(255,255,255,0.1)` : 'none',
-                  clipPath: 'inset(0 0 0 0 round 24px)',
-                  WebkitClipPath: 'inset(0 0 0 0 round 24px)',
-                  transform: 'translateZ(0)',
+                  zIndex,
+                  opacity,
+                  transform: `translateX(${translateX}px) translateZ(${translateZ}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${scale})`,
+                  width: cardWidth,
+                  height: cardHeight,
+                  transformStyle: "preserve-3d",
+                }}
+                onClick={() => {
+                  if (isActive) {
+                    setActiveProduct(p);
+                  } else {
+                    setActiveIndex(i);
+                    setSpinAngles((s) => ({ ...s, [i]: (s[i] || 0) + (offset > 0 ? -360 : 360) }));
+                  }
+                }}
+                onMouseMove={(e) => {
+                  if (!isActive) return;
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const x = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 to 0.5
+                  const y = (e.clientY - rect.top) / rect.height - 0.5;
+                  setMousePos({ x, y });
+                }}
+                onMouseEnter={() => {
+                  if (isActive) setIsHovered(true);
+                }}
+                onMouseLeave={() => {
+                  if (isActive) {
+                    setIsHovered(false);
+                    setMousePos({ x: 0, y: 0 });
+                  }
                 }}
               >
-                {/* Fallback image + Video */}
-                <img src={p.image} alt="" className="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-lighten rounded-[24px]" />
-                <img src={p.video} alt="" className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-lighten rounded-[24px]" />
-                
-                {/* Elegant gradient overlay for text readability */}
-                <div 
-                  className="absolute inset-0 rounded-[24px]" 
-                  style={{ background: `linear-gradient(to top, var(--background) 0%, transparent 60%, ${p.accent}10 100%)` }}
-                />
-                
-                {/* Content */}
-                <div className="absolute inset-0 p-6 flex flex-col justify-end z-10 text-foreground">
-                  <div 
-                    className="mb-auto mt-2 inline-flex self-start px-3 py-1.5 text-[0.65rem] font-bold uppercase tracking-widest rounded-full backdrop-blur-md transition-all duration-300" 
-                    style={{ background: `${p.accent}15`, color: p.accent, border: `1px solid ${p.accent}40` }}
-                  >
-                    {p.category}
+                <div
+                  className="w-full h-full rounded-[24px] overflow-hidden relative transition-all duration-500 group/card"
+                  style={{
+                    background: "color-mix(in srgb, var(--card) 60%, transparent)",
+                    backdropFilter: "blur(24px)",
+                    WebkitBackdropFilter: "blur(24px)",
+                    border: `1px solid ${p.accent}50`,
+                    boxShadow: isActive
+                      ? `0 20px 50px -10px ${p.accent}40, inset 0 1px 1px rgba(255,255,255,0.1)`
+                      : "none",
+                    clipPath: "inset(0 0 0 0 round 24px)",
+                    WebkitClipPath: "inset(0 0 0 0 round 24px)",
+                    transform: "translateZ(0)",
+                  }}
+                >
+                  {/* Fallback image + Video */}
+                  <img
+                    src={p.image}
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-lighten rounded-[24px]"
+                  />
+                  <img
+                    src={p.video}
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-lighten rounded-[24px]"
+                  />
+
+                  {/* Elegant gradient overlay for text readability */}
+                  <div
+                    className="absolute inset-0 rounded-[24px]"
+                    style={{
+                      background: `linear-gradient(to top, var(--background) 0%, transparent 60%, ${p.accent}10 100%)`,
+                    }}
+                  />
+
+                  {/* Content */}
+                  <div className="absolute inset-0 p-6 flex flex-col justify-end z-10 text-foreground">
+                    <div
+                      className="mb-auto mt-2 inline-flex self-start px-3 py-1.5 text-[0.65rem] font-bold uppercase tracking-widest rounded-full backdrop-blur-md transition-all duration-300"
+                      style={{
+                        background: `${p.accent}15`,
+                        color: p.accent,
+                        border: `1px solid ${p.accent}40`,
+                      }}
+                    >
+                      {p.category}
+                    </div>
+
+                    <div className="space-y-2">
+                      <h3
+                        className="text-2xl font-extrabold tracking-tight"
+                        style={{
+                          textShadow:
+                            "0 4px 12px color-mix(in srgb, var(--foreground) 30%, transparent)",
+                        }}
+                      >
+                        {p.name}
+                      </h3>
+                      <p
+                        className="text-sm opacity-80 line-clamp-2 leading-relaxed"
+                        style={{
+                          textShadow:
+                            "0 2px 6px color-mix(in srgb, var(--foreground) 30%, transparent)",
+                        }}
+                      >
+                        {p.tagline}
+                      </p>
+                    </div>
                   </div>
-                  
-                  <div className="space-y-2">
-                    <h3 className="text-2xl font-extrabold tracking-tight" style={{ textShadow: '0 4px 12px color-mix(in srgb, var(--foreground) 30%, transparent)' }}>
-                      {p.name}
-                    </h3>
-                    <p className="text-sm opacity-80 line-clamp-2 leading-relaxed" style={{ textShadow: '0 2px 6px color-mix(in srgb, var(--foreground) 30%, transparent)' }}>
-                      {p.tagline}
-                    </p>
-                  </div>
+
+                  {/* Interaction indicator */}
+                  {isActive && (
+                    <div className="absolute top-7 right-7 flex items-center gap-2 text-[0.6rem] font-bold tracking-[0.2em] text-foreground opacity-0 group-hover/card:opacity-100 transition-opacity duration-300">
+                      <span className="w-2 h-2 rounded-full bg-foreground animate-ping" />
+                      <span className="relative">EXPLORE</span>
+                    </div>
+                  )}
                 </div>
-
-                {/* Interaction indicator */}
-                {isActive && (
-                  <div className="absolute top-7 right-7 flex items-center gap-2 text-[0.6rem] font-bold tracking-[0.2em] text-foreground opacity-0 group-hover/card:opacity-100 transition-opacity duration-300">
-                     <span className="w-2 h-2 rounded-full bg-foreground animate-ping" /> 
-                     <span className="relative">EXPLORE</span>
-                  </div>
-                )}
               </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
 
-      {activeProduct && (
-        <ProductDetailModal
-          product={activeProduct}
-          onClose={() => setActiveProduct(null)}
-        />
-      )}
-    </div>
+        {activeProduct && (
+          <ProductDetailModal product={activeProduct} onClose={() => setActiveProduct(null)} />
+        )}
+      </div>
     </>
   );
 }

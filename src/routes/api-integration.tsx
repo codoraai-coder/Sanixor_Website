@@ -12,18 +12,18 @@ export default function APIIntegration() {
     {
       icon: FileJson,
       title: "Comprehensive SDKs",
-      desc: "Integrate quickly with our official client libraries for Python, Node.js, and Go, complete with full typing support."
+      desc: "Integrate quickly with our official client libraries for Python, Node.js, and Go, complete with full typing support.",
     },
     {
       icon: Cable,
       title: "Legacy System Support",
-      desc: "We build custom adapters allowing modern AI agents to interact with on-premise databases and legacy enterprise software."
+      desc: "We build custom adapters allowing modern AI agents to interact with on-premise databases and legacy enterprise software.",
     },
     {
       icon: Braces,
       title: "Real-time Webhooks",
-      desc: "Receive instant, event-driven updates on agent state changes, completed tasks, and generated artifacts."
-    }
+      desc: "Receive instant, event-driven updates on agent state changes, completed tasks, and generated artifacts.",
+    },
   ];
 
   return (
@@ -37,7 +37,7 @@ export default function APIIntegration() {
       <section className="hero relative min-h-[90vh]">
         <div className="hero-glow" />
         <div className="hero-grid" />
-        
+
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -51,7 +51,8 @@ export default function APIIntegration() {
             Seamless API <span className="grad">Integration</span>
           </h1>
           <p className="hero-sub max-w-2xl text-center mt-6">
-            AI is only as powerful as the systems it can interact with. Connect our advanced agentic capabilities directly to your internal tools, CRMs, ERPs, and customer-facing apps.
+            AI is only as powerful as the systems it can interact with. Connect our advanced agentic
+            capabilities directly to your internal tools, CRMs, ERPs, and customer-facing apps.
           </p>
           <div className="hero-actions mt-8">
             <a href="#features" className="snx-btn-primary">
@@ -62,19 +63,28 @@ export default function APIIntegration() {
       </section>
 
       <ScrollReveal delay={100}>
-        <section id="features" className="relative z-10 border-y border-border/30 bg-card/20 py-20 md:py-28">
+        <section
+          id="features"
+          className="relative z-10 border-y border-border/30 bg-card/20 py-20 md:py-28"
+        >
           <div className="mx-auto max-w-7xl px-4 md:px-6">
             <div className="mx-auto mb-16 max-w-2xl text-center">
-              <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-primary">Integration Features</p>
+              <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-primary">
+                Integration Features
+              </p>
               <h2 className="text-3xl font-bold tracking-tight md:text-5xl">Connect Everything</h2>
               <p className="mt-4 text-muted-foreground md:text-lg">
-                Our APIs are designed by engineers, for engineers. Expect predictable responses, robust error handling, and sub-millisecond routing latency.
+                Our APIs are designed by engineers, for engineers. Expect predictable responses,
+                robust error handling, and sub-millisecond routing latency.
               </p>
             </div>
-            
+
             <div className="grid gap-6 md:grid-cols-3">
               {features.map((feat, idx) => (
-                <Card key={idx} className="group relative overflow-hidden border-border/50 bg-card/40 backdrop-blur-xl transition-all duration-500 hover:border-primary/25 hover:shadow-glow">
+                <Card
+                  key={idx}
+                  className="group relative overflow-hidden border-border/50 bg-card/40 backdrop-blur-xl transition-all duration-500 hover:border-primary/25 hover:shadow-glow"
+                >
                   <CardHeader>
                     <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-transform group-hover:scale-110">
                       <feat.icon className="h-6 w-6" strokeWidth={1.5} />

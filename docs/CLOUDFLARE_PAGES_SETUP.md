@@ -19,7 +19,7 @@ Deploy `sanixor-website` to Cloudflare Pages with auto-deploy on every push to
    - **Root directory:** (repo root)
 4. **Environment variables** → add:
    - `VITE_API_BASE_URL = https://api.sanixor.space`
-   (also committed in `.env.production`; the dashboard value wins.)
+     (also committed in `.env.production`; the dashboard value wins.)
 5. **Save and Deploy.** Every push to `main` now rebuilds automatically; PRs get
    preview deployments.
 

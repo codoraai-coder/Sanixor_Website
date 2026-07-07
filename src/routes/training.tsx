@@ -12,7 +12,7 @@ import {
   Server,
   Database,
   Cpu,
-  Network
+  Network,
 } from "lucide-react";
 import { Layout } from "@/components/sanixor/Layout";
 
@@ -25,8 +25,13 @@ const programs = [
     duration: "16 weeks",
     cohort: "Cohort 24B",
     desc: "Architect production-grade distributed AI systems. Focuses on orchestrating multi-agent environments, fine-tuning large models for edge deployment, and rigorous system design.",
-    features: ["Production deployments", "1:1 Senior Engineering Mentorship", "System Design Reviews", "Enterprise Certification"],
-    color: "#7c3aed", 
+    features: [
+      "Production deployments",
+      "1:1 Senior Engineering Mentorship",
+      "System Design Reviews",
+      "Enterprise Certification",
+    ],
+    color: "#7c3aed",
     level: "Intermediate - Advanced",
     price: "$3,499",
   },
@@ -37,8 +42,13 @@ const programs = [
     duration: "6 months",
     cohort: "Funded",
     desc: "Embedded directly within our core infrastructure team. Ship features to real users. High conversion rate to full-time engineering roles.",
-    features: ["Core product contribution", "Direct PR reviews", "Monthly Stipend", "Priority hiring track"],
-    color: "#3b82f6", 
+    features: [
+      "Core product contribution",
+      "Direct PR reviews",
+      "Monthly Stipend",
+      "Priority hiring track",
+    ],
+    color: "#3b82f6",
     level: "Advanced",
     price: "Funded",
   },
@@ -49,8 +59,13 @@ const programs = [
     duration: "8 weeks",
     cohort: "1:1 Mentored",
     desc: "Intensive preparation for senior technical interviews. System design mock interviews, deep architectural reviews, and algorithmic optimization.",
-    features: ["Whiteboard mock interviews", "Resume & GitHub audit", "Private hiring network", "Lifetime alumni access"],
-    color: "#b89830", 
+    features: [
+      "Whiteboard mock interviews",
+      "Resume & GitHub audit",
+      "Private hiring network",
+      "Lifetime alumni access",
+    ],
+    color: "#b89830",
     level: "All Levels",
     price: "$999",
   },
@@ -61,8 +76,13 @@ const programs = [
     duration: "10 weeks",
     cohort: "Cohort 24C",
     desc: "Build highly autonomous Retrieval-Augmented Generation pipelines. Learn to construct self-correcting agents, semantic routing, and integrate complex vector database topologies.",
-    features: ["Self-Reflection Agents", "Vector DB Optimization", "Knowledge Graph RAG", "LangChain & LlamaIndex Core"],
-    color: "#10b981", 
+    features: [
+      "Self-Reflection Agents",
+      "Vector DB Optimization",
+      "Knowledge Graph RAG",
+      "LangChain & LlamaIndex Core",
+    ],
+    color: "#10b981",
     level: "Advanced",
     price: "$2,499",
   },
@@ -73,8 +93,13 @@ const programs = [
     duration: "12 weeks",
     cohort: "Cohort 24C",
     desc: "A rigorous mathematical and algorithmic deep dive into machine learning. From backpropagation and gradient descent to transformer mechanics and latent space physics.",
-    features: ["Linear Algebra & Calculus", "Custom Neural Networks from scratch", "PyTorch Mastery", "Algorithmic Complexity"],
-    color: "#ec4899", 
+    features: [
+      "Linear Algebra & Calculus",
+      "Custom Neural Networks from scratch",
+      "PyTorch Mastery",
+      "Algorithmic Complexity",
+    ],
+    color: "#ec4899",
     level: "Intermediate",
     price: "$1,999",
   },
@@ -85,8 +110,13 @@ const programs = [
     duration: "14 weeks",
     cohort: "Cohort 24B",
     desc: "Bridge the gap between AI models and user interfaces. Build robust full-stack applications with streaming responses, real-time sockets, and scalable backend services.",
-    features: ["Next.js & React Server Components", "Streaming LLM Responses", "Database Architecture", "Edge Authentication"],
-    color: "#f59e0b", 
+    features: [
+      "Next.js & React Server Components",
+      "Streaming LLM Responses",
+      "Database Architecture",
+      "Edge Authentication",
+    ],
+    color: "#f59e0b",
     level: "Intermediate - Advanced",
     price: "$2,899",
   },
@@ -115,19 +145,19 @@ const domains = [
     icon: Database,
     title: "High-Dimensional Vector Data",
     desc: "Implement custom retrieval-augmented generation pipelines backed by robust vector DBs.",
-    color: "#10b981", 
+    color: "#10b981",
   },
   {
     icon: Workflow,
     title: "CI/CD for Machine Learning",
     desc: "Rigorous testing paradigms, automated evaluation pipelines, and blue/green model rollouts.",
-    color: "#ec4899", 
+    color: "#ec4899",
   },
   {
     icon: Code2,
     title: "Systems Level Programming",
     desc: "Memory management, concurrent processing, and highly optimized hardware interfacing.",
-    color: "#f59e0b", 
+    color: "#f59e0b",
   },
 ];
 
@@ -259,7 +289,7 @@ export default function TrainingPage() {
       {/* Hero */}
       <section className="relative min-h-[60vh] elite-bg overflow-hidden flex flex-col justify-center">
         <div className="absolute inset-0 elite-grid" />
-        
+
         <div className="relative mx-auto max-w-6xl px-6 pt-32 pb-16 z-10">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-3 px-3 py-1 mb-8 border border-foreground/10 bg-foreground/5 rounded-full text-xs font-mono uppercase tracking-widest text-foreground/70">
@@ -267,20 +297,23 @@ export default function TrainingPage() {
               Admissions Open: Cohort 24B
             </div>
             <h1 className="text-5xl md:text-7xl font-extrabold tracking-tighter mb-8 leading-tight">
-              Elite Engineering <br/>
+              Elite Engineering <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/40">
                 Protocols.
               </span>
             </h1>
             <p className="text-lg md:text-xl text-foreground/60 mb-12 max-w-2xl leading-relaxed">
-              Rigorous, production-focused technical training designed by core architects. Master distributed systems, agentic orchestration, and robust edge deployment.
+              Rigorous, production-focused technical training designed by core architects. Master
+              distributed systems, agentic orchestration, and robust edge deployment.
             </p>
 
             {/* Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 border-y border-foreground/10 py-8">
               {stats.map((stat) => (
                 <div key={stat.label}>
-                  <div className="text-2xl md:text-3xl font-bold text-foreground mb-1">{stat.value}</div>
+                  <div className="text-2xl md:text-3xl font-bold text-foreground mb-1">
+                    {stat.value}
+                  </div>
                   <div className="elite-text text-[0.65rem]">{stat.label}</div>
                 </div>
               ))}
@@ -338,7 +371,7 @@ export default function TrainingPage() {
               className="prof-card p-6 md:p-8 flex flex-col group cursor-pointer"
             >
               <div className="flex items-start justify-between mb-6">
-                <div 
+                <div
                   className="w-12 h-12 rounded-lg flex items-center justify-center border border-foreground/10"
                   style={{ background: `linear-gradient(135deg, ${program.color}20, transparent)` }}
                 >
@@ -349,9 +382,9 @@ export default function TrainingPage() {
                   <div className="text-sm font-semibold text-foreground">{program.price}</div>
                 </div>
               </div>
-              
+
               <h3 className="text-xl font-bold mb-3 tracking-tight">{program.title}</h3>
-              
+
               <div className="flex flex-wrap gap-3 text-xs font-mono text-foreground/50 mb-4 border-b border-foreground/10 pb-4">
                 <span className="flex items-center gap-1.5">
                   <Clock className="h-3 w-3" /> {program.duration}
@@ -359,11 +392,11 @@ export default function TrainingPage() {
                 <span>·</span>
                 <span>{program.level}</span>
               </div>
-              
+
               <p className="text-sm text-foreground/70 mb-6 flex-grow leading-relaxed">
                 {program.desc}
               </p>
-              
+
               <div className="flex flex-col gap-2 mb-8">
                 {program.features.slice(0, 3).map((f) => (
                   <div key={f} className="flex items-center gap-2 text-xs text-foreground/60">
@@ -372,7 +405,7 @@ export default function TrainingPage() {
                   </div>
                 ))}
               </div>
-              
+
               <button className="w-full flex items-center justify-between px-4 py-3 bg-foreground/5 hover:bg-foreground/10 border border-foreground/10 rounded-lg text-sm font-medium transition-colors mt-auto">
                 View Curriculum
                 <ArrowRight className="h-4 w-4 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
@@ -392,9 +425,12 @@ export default function TrainingPage() {
       <section id="design" className="border-y border-foreground/10 bg-[#050505] scroll-mt-24">
         <div className="mx-auto max-w-6xl px-6 py-24">
           <div className="mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">Competency Matrix</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">
+              Competency Matrix
+            </h2>
             <p className="text-foreground/60 max-w-xl">
-              Rigorous, specialized domains engineered for immediate integration into enterprise environments.
+              Rigorous, specialized domains engineered for immediate integration into enterprise
+              environments.
             </p>
           </div>
 
@@ -408,9 +444,7 @@ export default function TrainingPage() {
                   <d.icon className="h-5 w-5" style={{ color: d.color }} />
                   <h3 className="text-sm font-semibold tracking-wide">{d.title}</h3>
                 </div>
-                <p className="text-sm text-foreground/50 leading-relaxed pl-9">
-                  {d.desc}
-                </p>
+                <p className="text-sm text-foreground/50 leading-relaxed pl-9">{d.desc}</p>
               </div>
             ))}
           </div>
@@ -424,25 +458,36 @@ export default function TrainingPage() {
             <Target className="w-3 h-3" />
             Progression Model
           </div>
-          <h2 className="text-4xl md:text-5xl font-extrabold mb-6 tracking-tight">Curriculum <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Architecture</span></h2>
-          <p className="text-lg text-foreground/50 max-w-2xl mx-auto">A deterministic, engineering-grade progression model designed to take you from foundational concepts to architecting enterprise AI systems.</p>
+          <h2 className="text-4xl md:text-5xl font-extrabold mb-6 tracking-tight">
+            Curriculum{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+              Architecture
+            </span>
+          </h2>
+          <p className="text-lg text-foreground/50 max-w-2xl mx-auto">
+            A deterministic, engineering-grade progression model designed to take you from
+            foundational concepts to architecting enterprise AI systems.
+          </p>
         </div>
 
         <div className="relative pl-8 md:pl-0 mt-10">
           {/* Glowing center line */}
           <div className="hidden md:block absolute left-1/2 -ml-[1px] top-0 bottom-0 w-[2px] bg-gradient-to-b from-purple-500/0 via-purple-500/50 to-purple-500/0" />
           <div className="md:hidden absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-purple-500/0 via-purple-500/50 to-purple-500/0" />
-          
+
           <div className="flex flex-col gap-16 md:gap-24 relative z-10">
             {learningPath.map((step, i) => (
-              <div key={i} className={`relative flex items-center md:justify-between w-full group ${i % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
+              <div
+                key={i}
+                className={`relative flex items-center md:justify-between w-full group ${i % 2 === 0 ? "md:flex-row-reverse" : ""}`}
+              >
                 <div className="hidden md:block w-[45%]" />
-                
+
                 {/* Node */}
                 <div className="absolute left-[-40px] md:left-1/2 md:-translate-x-1/2 w-12 h-12 rounded-full bg-[#050505] border-2 border-purple-500/30 flex items-center justify-center transition-all duration-500 group-hover:border-purple-500 group-hover:bg-purple-500/10 group-hover:shadow-[0_0_30px_rgba(168,85,247,0.4)] group-hover:scale-110">
-                  <span className="text-sm font-mono font-bold text-foreground/50 group-hover:text-purple-300 transition-colors">{`0${i+1}`}</span>
+                  <span className="text-sm font-mono font-bold text-foreground/50 group-hover:text-purple-300 transition-colors">{`0${i + 1}`}</span>
                 </div>
-                
+
                 {/* Card */}
                 <div className="w-full md:w-[45%] ml-4 md:ml-0">
                   <div className="prof-card p-6 md:p-8 border border-foreground/5 bg-gradient-to-br from-white/[0.03] to-transparent hover:border-purple-500/30 transition-all duration-500">
@@ -450,10 +495,10 @@ export default function TrainingPage() {
                       <div className="elite-text text-purple-400 font-semibold">{step.phase}</div>
                       <div className="h-[1px] flex-1 bg-gradient-to-r from-purple-500/30 to-transparent" />
                     </div>
-                    <h3 className="text-2xl font-bold mb-4 text-foreground group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-purple-200 transition-all">{step.title}</h3>
-                    <p className="text-base text-foreground/60 leading-relaxed">
-                      {step.desc}
-                    </p>
+                    <h3 className="text-2xl font-bold mb-4 text-foreground group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-purple-200 transition-all">
+                      {step.title}
+                    </h3>
+                    <p className="text-base text-foreground/60 leading-relaxed">{step.desc}</p>
                   </div>
                 </div>
               </div>
@@ -469,7 +514,8 @@ export default function TrainingPage() {
             Ready to Compile?
           </h2>
           <p className="text-lg text-foreground/50 mb-10 max-w-xl mx-auto">
-            Admissions for the upcoming technical cohort are highly competitive. Initiate the technical screening process today.
+            Admissions for the upcoming technical cohort are highly competitive. Initiate the
+            technical screening process today.
           </p>
           <a
             href="/contact"

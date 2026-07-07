@@ -28,12 +28,12 @@ Only `VITE_`-prefixed variables are exposed to the browser build.
 
 ## 📜 Scripts
 
-| Script          | Purpose                       |
-| --------------- | ----------------------------- |
-| `npm run dev`   | Vite dev server (hot reload)  |
-| `npm run build` | Production build → `dist/`    |
+| Script            | Purpose                      |
+| ----------------- | ---------------------------- |
+| `npm run dev`     | Vite dev server (hot reload) |
+| `npm run build`   | Production build → `dist/`   |
 | `npm run preview` | Preview the production build |
-| `npm run lint`  | ESLint                        |
+| `npm run lint`    | ESLint                       |
 
 ## 🔌 Backend integration
 
@@ -46,12 +46,12 @@ for the full guide.
 `.github/workflows/ci.yml`. `public/_redirects` handles SPA routing + the
 `www → apex` redirect; `public/_headers` sets security/cache headers.
 
-| Form | Component | Endpoint |
-| ---- | --------- | -------- |
-| Contact | `routes/contact.tsx` | `POST /api/contact` |
-| Book a Demo | `components/sanixor/BookDemoModal.tsx` | `POST /api/demo` |
-| Hiring | `routes/hiring.tsx` | `POST /api/hiring` |
-| AgentVerse | `components/sanixor/AgentVerseRegistrationModal.tsx` | `POST /api/agentverse` |
+| Form        | Component                                            | Endpoint               |
+| ----------- | ---------------------------------------------------- | ---------------------- |
+| Contact     | `routes/contact.tsx`                                 | `POST /api/contact`    |
+| Book a Demo | `components/sanixor/BookDemoModal.tsx`               | `POST /api/demo`       |
+| Hiring      | `routes/hiring.tsx`                                  | `POST /api/hiring`     |
+| AgentVerse  | `components/sanixor/AgentVerseRegistrationModal.tsx` | `POST /api/agentverse` |
 
 **Architecture (in `src/`):**
 

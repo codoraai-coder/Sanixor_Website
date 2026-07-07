@@ -1,13 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import {
-  ArrowUpRight,
-  BarChart2,
-  BookOpen,
-  Check,
-  Layers,
-  Scale,
-  Trophy,
-} from "lucide-react";
+import { ArrowUpRight, BarChart2, BookOpen, Check, Layers, Scale, Trophy } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -93,7 +85,12 @@ function ProductCard({
             </div>
           )}
           {cta && (
-            <Button variant="ghost" size="sm" className="group/btn px-0 text-primary hover:bg-transparent" asChild>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="group/btn px-0 text-primary hover:bg-transparent"
+              asChild
+            >
               <a href="#">
                 {cta}
                 <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />

@@ -11,25 +11,38 @@ Component  ─►  useFormSubmission (hook)  ─►  formService.*  ─►  apiC
    UI            loading / toast / errors     typed payloads     fetch wrapper
 ```
 
-| File | Responsibility |
-| ---- | -------------- |
-| `config/api.config.ts` | `API_BASE_URL` (from `VITE_API_BASE_URL`), timeout, endpoint map |
-| `services/api.ts` | Single fetch wrapper: base URL, JSON, timeout (AbortController), typed errors, auth-ready header hook |
-| `services/form.service.ts` | One typed function per endpoint; payload types mirror backend Zod schemas |
-| `utils/responseHandler.ts` | Parses `{ success, message, data, errors, timestamp }`; throws `ApiError` on failure |
-| `utils/apiError.ts` | Typed `ApiError` with `kind`, `status`, and `fieldErrors` |
-| `hooks/useFormSubmission.ts` | Loading state, success/error toasts, duplicate guard, field-error map |
-| `components/ui/spinner.tsx` | Accessible loading spinner for buttons |
+| File                         | Responsibility                                                                                        |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `config/api.config.ts`       | `API_BASE_URL` (from `VITE_API_BASE_URL`), timeout, endpoint map                                      |
+| `services/api.ts`            | Single fetch wrapper: base URL, JSON, timeout (AbortController), typed errors, auth-ready header hook |
+| `services/form.service.ts`   | One typed function per endpoint; payload types mirror backend Zod schemas                             |
+| `utils/responseHandler.ts`   | Parses `{ success, message, data, errors, timestamp }`; throws `ApiError` on failure                  |
+| `utils/apiError.ts`          | Typed `ApiError` with `kind`, `status`, and `fieldErrors`                                             |
+| `hooks/useFormSubmission.ts` | Loading state, success/error toasts, duplicate guard, field-error map                                 |
+| `components/ui/spinner.tsx`  | Accessible loading spinner for buttons                                                                |
 
 ## Response envelope
 
 **Success**
+
 ```json
-{ "success": true, "message": "…", "data": { "persisted": true, "emailed": true }, "timestamp": "…" }
+{
+  "success": true,
+  "message": "…",
+  "data": { "persisted": true, "emailed": true },
+  "timestamp": "…"
+}
 ```
+
 **Error**
+
 ```json
-{ "success": false, "message": "…", "errors": [{ "field": "email", "message": "…" }], "timestamp": "…" }
+{
+  "success": false,
+  "message": "…",
+  "errors": [{ "field": "email", "message": "…" }],
+  "timestamp": "…"
+}
 ```
 
 `handleResponse` returns `data` on success and throws an `ApiError` (with
@@ -42,7 +55,7 @@ Component  ─►  useFormSubmission (hook)  ─►  formService.*  ─►  apiC
 const { submit, isSubmitting, fieldErrors } = useFormSubmission({
   submit: formService.submitContact,
   successMessage: "Message sent — we'll reply within 24 hours.",
-  onSuccess: () => resetForm(),          // reset / close modal
+  onSuccess: () => resetForm(), // reset / close modal
   // onError keeps values automatically; add inline handling if desired
 });
 

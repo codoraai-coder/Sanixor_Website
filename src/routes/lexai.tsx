@@ -12,18 +12,18 @@ export default function LexAI() {
     {
       icon: Search,
       title: "Deep Contract Analysis",
-      desc: "Instantly parse hundreds of pages of legal documentation to identify liabilities, obligations, and non-standard clauses."
+      desc: "Instantly parse hundreds of pages of legal documentation to identify liabilities, obligations, and non-standard clauses.",
     },
     {
       icon: ShieldCheck,
       title: "Regulatory Compliance",
-      desc: "Continuously monitor your operations and documents against changing local and international regulations."
+      desc: "Continuously monitor your operations and documents against changing local and international regulations.",
     },
     {
       icon: BookOpen,
       title: "Legal Knowledge Graph",
-      desc: "LexAI builds a dynamic, searchable knowledge graph of your company's entire legal history and precedent."
-    }
+      desc: "LexAI builds a dynamic, searchable knowledge graph of your company's entire legal history and precedent.",
+    },
   ];
 
   return (
@@ -37,7 +37,7 @@ export default function LexAI() {
       <section className="hero relative min-h-[90vh]">
         <div className="hero-glow" />
         <div className="hero-grid" />
-        
+
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -51,7 +51,8 @@ export default function LexAI() {
             LexAI by <span className="grad">Sanixor</span>
           </h1>
           <p className="hero-sub max-w-2xl text-center mt-6">
-            The legal and compliance intelligence engine built for enterprise scale. Actively flag risks, ensure compliance, and automate legal review with an always-on AI assistant.
+            The legal and compliance intelligence engine built for enterprise scale. Actively flag
+            risks, ensure compliance, and automate legal review with an always-on AI assistant.
           </p>
           <div className="hero-actions mt-8">
             <a href="#features" className="snx-btn-primary">
@@ -62,19 +63,30 @@ export default function LexAI() {
       </section>
 
       <ScrollReveal delay={100}>
-        <section id="features" className="relative z-10 border-y border-border/30 bg-card/20 py-20 md:py-28">
+        <section
+          id="features"
+          className="relative z-10 border-y border-border/30 bg-card/20 py-20 md:py-28"
+        >
           <div className="mx-auto max-w-7xl px-4 md:px-6">
             <div className="mx-auto mb-16 max-w-2xl text-center">
-              <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-primary">Capabilities</p>
-              <h2 className="text-3xl font-bold tracking-tight md:text-5xl">Protect Your Enterprise</h2>
+              <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-primary">
+                Capabilities
+              </p>
+              <h2 className="text-3xl font-bold tracking-tight md:text-5xl">
+                Protect Your Enterprise
+              </h2>
               <p className="mt-4 text-muted-foreground md:text-lg">
-                LexAI is trained specifically on legal reasoning, enabling it to catch nuances that general-purpose models miss entirely.
+                LexAI is trained specifically on legal reasoning, enabling it to catch nuances that
+                general-purpose models miss entirely.
               </p>
             </div>
-            
+
             <div className="grid gap-6 md:grid-cols-3">
               {features.map((feat, idx) => (
-                <Card key={idx} className="group relative overflow-hidden border-border/50 bg-card/40 backdrop-blur-xl transition-all duration-500 hover:border-primary/25 hover:shadow-glow">
+                <Card
+                  key={idx}
+                  className="group relative overflow-hidden border-border/50 bg-card/40 backdrop-blur-xl transition-all duration-500 hover:border-primary/25 hover:shadow-glow"
+                >
                   <CardHeader>
                     <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-transform group-hover:scale-110">
                       <feat.icon className="h-6 w-6" strokeWidth={1.5} />
@@ -93,12 +105,29 @@ export default function LexAI() {
               <div className="max-w-xl">
                 <h3 className="text-2xl font-bold mb-4">Enterprise-Grade Security</h3>
                 <p className="text-muted-foreground">
-                  We know your legal documents are your most sensitive assets. LexAI is deployable within your own VPC, ensuring zero data leakage and strict compliance with SOC2, GDPR, and HIPAA.
+                  We know your legal documents are your most sensitive assets. LexAI is deployable
+                  within your own VPC, ensuring zero data leakage and strict compliance with SOC2,
+                  GDPR, and HIPAA.
                 </p>
                 <div className="flex gap-3 mt-6 flex-wrap">
-                  <Badge variant="outline" className="border-primary/30 bg-primary/10 px-3 py-1 text-sm">VPC Deployment</Badge>
-                  <Badge variant="outline" className="border-primary/30 bg-primary/10 px-3 py-1 text-sm">Zero Data Retention</Badge>
-                  <Badge variant="outline" className="border-primary/30 bg-primary/10 px-3 py-1 text-sm">SOC2 Compliant</Badge>
+                  <Badge
+                    variant="outline"
+                    className="border-primary/30 bg-primary/10 px-3 py-1 text-sm"
+                  >
+                    VPC Deployment
+                  </Badge>
+                  <Badge
+                    variant="outline"
+                    className="border-primary/30 bg-primary/10 px-3 py-1 text-sm"
+                  >
+                    Zero Data Retention
+                  </Badge>
+                  <Badge
+                    variant="outline"
+                    className="border-primary/30 bg-primary/10 px-3 py-1 text-sm"
+                  >
+                    SOC2 Compliant
+                  </Badge>
                 </div>
               </div>
               <div className="w-full md:w-1/3 flex justify-center">

@@ -1,23 +1,69 @@
 import sanixorMark from "@/assets/sanixor-mark.png";
 import { cn } from "@/lib/utils";
-import { Box, Briefcase, Calendar, GraduationCap, Trophy, UserPlus, X, Twitter, Linkedin, Instagram } from "lucide-react";
+import {
+  Box,
+  Briefcase,
+  Calendar,
+  GraduationCap,
+  Trophy,
+  UserPlus,
+  X,
+  Twitter,
+  Linkedin,
+  Instagram,
+} from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MenuToggle } from "./MenuToggle";
 import { motion, AnimatePresence } from "framer-motion";
 
-
 const homeLinks = [
-  { href: "/#products", label: "Products", icon: Box, gradientFrom: "#a955ff", gradientTo: "#ea51ff" },
-  { href: "/#services", label: "Services", icon: Briefcase, gradientFrom: "#56CCF2", gradientTo: "#2F80ED" },
-  { href: "/#event", label: "Events", icon: Calendar, gradientFrom: "#FF9966", gradientTo: "#FF5E62" },
-  { href: "/#learn", label: "Learn", icon: GraduationCap, gradientFrom: "#80FF72", gradientTo: "#7EE8FA" },
+  {
+    href: "/#products",
+    label: "Products",
+    icon: Box,
+    gradientFrom: "#a955ff",
+    gradientTo: "#ea51ff",
+  },
+  {
+    href: "/#services",
+    label: "Services",
+    icon: Briefcase,
+    gradientFrom: "#56CCF2",
+    gradientTo: "#2F80ED",
+  },
+  {
+    href: "/#event",
+    label: "Events",
+    icon: Calendar,
+    gradientFrom: "#FF9966",
+    gradientTo: "#FF5E62",
+  },
+  {
+    href: "/#learn",
+    label: "Learn",
+    icon: GraduationCap,
+    gradientFrom: "#80FF72",
+    gradientTo: "#7EE8FA",
+  },
 ];
 
 // Route-based nav items (full pages, not home-page sections).
 const pageLinks = [
-  { to: "/achievements", label: "Achievements", icon: Trophy, gradientFrom: "#F7971E", gradientTo: "#FFD200" },
-  { to: "/hiring", label: "Careers", icon: UserPlus, gradientFrom: "#FF6A88", gradientTo: "#FF99AC" },
+  {
+    to: "/achievements",
+    label: "Achievements",
+    icon: Trophy,
+    gradientFrom: "#F7971E",
+    gradientTo: "#FFD200",
+  },
+  {
+    to: "/hiring",
+    label: "Careers",
+    icon: UserPlus,
+    gradientFrom: "#FF6A88",
+    gradientTo: "#FF99AC",
+  },
 ];
 
 const socialLinks = [
@@ -40,9 +86,9 @@ export function Navbar() {
     const onScroll = () => {
       setScrolled(window.scrollY > 20);
 
-      const sections = homeLinks.map(link => link.href.replace("/#", ""));
+      const sections = homeLinks.map((link) => link.href.replace("/#", ""));
       let currentActive = "";
-      
+
       const threshold = window.innerHeight * 0.4; // 40% from top of screen
 
       for (const section of sections) {
@@ -56,10 +102,10 @@ export function Navbar() {
           }
         }
       }
-      
+
       setActiveSection(currentActive);
     };
-    
+
     window.addEventListener("scroll", onScroll);
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
@@ -108,14 +154,20 @@ export function Navbar() {
       <header
         className={cn(
           "fixed inset-x-0 top-0 z-[100] flex items-center justify-between px-4 transition-all duration-500 md:px-8",
-          menuOpen 
-            ? "py-4 bg-transparent border-transparent shadow-none" 
+          menuOpen
+            ? "py-4 bg-transparent border-transparent shadow-none"
             : scrolled
-            ? "border-b border-foreground/10 bg-background/70 py-3 backdrop-blur-2xl shadow-[0_10px_30px_-10px_rgba(0,0,0,0.7)]"
-            : "border-b border-foreground/[0.03] bg-gradient-to-b from-background via-background/90 to-transparent backdrop-blur-md py-4",
+              ? "border-b border-foreground/10 bg-background/70 py-3 backdrop-blur-2xl shadow-[0_10px_30px_-10px_rgba(0,0,0,0.7)]"
+              : "border-b border-foreground/[0.03] bg-gradient-to-b from-background via-background/90 to-transparent backdrop-blur-md py-4",
         )}
       >
-        <Link to="/" className={cn("flex items-center gap-2.5 text-lg font-bold tracking-tight hover:opacity-80 transition-all duration-300", menuOpen && "blur-sm")}>
+        <Link
+          to="/"
+          className={cn(
+            "flex items-center gap-2.5 text-lg font-bold tracking-tight hover:opacity-80 transition-all duration-300",
+            menuOpen && "blur-sm",
+          )}
+        >
           <img src={sanixorMark} alt="Sanixor" className="h-8 w-8 rounded-lg shadow-lg" />
           Sanixor<span className="text-gradient animate-pulse">AI</span>
         </Link>
@@ -125,81 +177,119 @@ export function Navbar() {
           {homeLinks.map(({ href, label, icon: Icon, gradientFrom, gradientTo }) => {
             const isActive = activeSection === href.replace("/#", "");
             return (
-            <a
-              key={href}
-              href={href}
-              onClick={(e) => handleHashClick(e, href)}
-              style={{ '--gradient-from': gradientFrom, '--gradient-to': gradientTo } as React.CSSProperties}
-              className={cn(
-                "relative h-[48px] bg-foreground/5 border border-foreground/10 shadow-lg rounded-full flex items-center justify-center transition-all duration-500 hover:shadow-none group cursor-pointer",
-                isActive ? "w-[130px]" : "w-[48px] hover:w-[130px]"
-              )}
-            >
-              {/* Gradient background on hover */}
-              <span className={cn(
-                "absolute inset-0 rounded-full bg-[linear-gradient(45deg,var(--gradient-from),var(--gradient-to))] transition-all duration-500",
-                isActive ? "opacity-100" : "opacity-0 group-hover:opacity-100"
-              )}></span>
-              
-              {/* Blur glow */}
-              <span className={cn(
-                "absolute top-[8px] inset-x-0 h-full rounded-full bg-[linear-gradient(45deg,var(--gradient-from),var(--gradient-to))] blur-[15px] -z-10 transition-all duration-500",
-                isActive ? "opacity-40" : "opacity-0 group-hover:opacity-40"
-              )}></span>
+              <a
+                key={href}
+                href={href}
+                onClick={(e) => handleHashClick(e, href)}
+                style={
+                  {
+                    "--gradient-from": gradientFrom,
+                    "--gradient-to": gradientTo,
+                  } as React.CSSProperties
+                }
+                className={cn(
+                  "relative h-[48px] bg-foreground/5 border border-foreground/10 shadow-lg rounded-full flex items-center justify-center transition-all duration-500 hover:shadow-none group cursor-pointer",
+                  isActive ? "w-[130px]" : "w-[48px] hover:w-[130px]",
+                )}
+              >
+                {/* Gradient background on hover */}
+                <span
+                  className={cn(
+                    "absolute inset-0 rounded-full bg-[linear-gradient(45deg,var(--gradient-from),var(--gradient-to))] transition-all duration-500",
+                    isActive ? "opacity-100" : "opacity-0 group-hover:opacity-100",
+                  )}
+                ></span>
 
-              {/* Icon */}
-              <span className={cn(
-                "relative z-10 transition-all duration-500 flex items-center justify-center",
-                isActive ? "scale-0" : "group-hover:scale-0"
-              )}>
-                <Icon className={cn("h-[22px] w-[22px] transition-colors", isActive ? "text-foreground" : "text-foreground/70")} />
-              </span>
+                {/* Blur glow */}
+                <span
+                  className={cn(
+                    "absolute top-[8px] inset-x-0 h-full rounded-full bg-[linear-gradient(45deg,var(--gradient-from),var(--gradient-to))] blur-[15px] -z-10 transition-all duration-500",
+                    isActive ? "opacity-40" : "opacity-0 group-hover:opacity-40",
+                  )}
+                ></span>
 
-              {/* Title */}
-              <span className={cn(
-                "absolute text-foreground font-bold tracking-wide text-sm transition-all duration-500 delay-75",
-                isActive ? "scale-100" : "scale-0 group-hover:scale-100"
-              )}>
-                {label}
-              </span>
-            </a>
-          )})}
+                {/* Icon */}
+                <span
+                  className={cn(
+                    "relative z-10 transition-all duration-500 flex items-center justify-center",
+                    isActive ? "scale-0" : "group-hover:scale-0",
+                  )}
+                >
+                  <Icon
+                    className={cn(
+                      "h-[22px] w-[22px] transition-colors",
+                      isActive ? "text-foreground" : "text-foreground/70",
+                    )}
+                  />
+                </span>
+
+                {/* Title */}
+                <span
+                  className={cn(
+                    "absolute text-foreground font-bold tracking-wide text-sm transition-all duration-500 delay-75",
+                    isActive ? "scale-100" : "scale-0 group-hover:scale-100",
+                  )}
+                >
+                  {label}
+                </span>
+              </a>
+            );
+          })}
 
           {/* Page links (routes) — same pill style, client-side navigation */}
           {pageLinks.map(({ to, label, icon: Icon, gradientFrom, gradientTo }) => {
             const isActive = location.pathname === to;
             return (
-            <Link
-              key={to}
-              to={to}
-              style={{ '--gradient-from': gradientFrom, '--gradient-to': gradientTo } as React.CSSProperties}
-              className={cn(
-                "relative h-[48px] bg-foreground/5 border border-foreground/10 shadow-lg rounded-full flex items-center justify-center transition-all duration-500 hover:shadow-none group cursor-pointer",
-                isActive ? "w-[130px]" : "w-[48px] hover:w-[130px]"
-              )}
-            >
-              <span className={cn(
-                "absolute inset-0 rounded-full bg-[linear-gradient(45deg,var(--gradient-from),var(--gradient-to))] transition-all duration-500",
-                isActive ? "opacity-100" : "opacity-0 group-hover:opacity-100"
-              )}></span>
-              <span className={cn(
-                "absolute top-[8px] inset-x-0 h-full rounded-full bg-[linear-gradient(45deg,var(--gradient-from),var(--gradient-to))] blur-[15px] -z-10 transition-all duration-500",
-                isActive ? "opacity-40" : "opacity-0 group-hover:opacity-40"
-              )}></span>
-              <span className={cn(
-                "relative z-10 transition-all duration-500 flex items-center justify-center",
-                isActive ? "scale-0" : "group-hover:scale-0"
-              )}>
-                <Icon className={cn("h-[22px] w-[22px] transition-colors", isActive ? "text-foreground" : "text-foreground/70")} />
-              </span>
-              <span className={cn(
-                "absolute text-foreground font-bold tracking-wide text-sm transition-all duration-500 delay-75",
-                isActive ? "scale-100" : "scale-0 group-hover:scale-100"
-              )}>
-                {label}
-              </span>
-            </Link>
-          )})}
+              <Link
+                key={to}
+                to={to}
+                style={
+                  {
+                    "--gradient-from": gradientFrom,
+                    "--gradient-to": gradientTo,
+                  } as React.CSSProperties
+                }
+                className={cn(
+                  "relative h-[48px] bg-foreground/5 border border-foreground/10 shadow-lg rounded-full flex items-center justify-center transition-all duration-500 hover:shadow-none group cursor-pointer",
+                  isActive ? "w-[130px]" : "w-[48px] hover:w-[130px]",
+                )}
+              >
+                <span
+                  className={cn(
+                    "absolute inset-0 rounded-full bg-[linear-gradient(45deg,var(--gradient-from),var(--gradient-to))] transition-all duration-500",
+                    isActive ? "opacity-100" : "opacity-0 group-hover:opacity-100",
+                  )}
+                ></span>
+                <span
+                  className={cn(
+                    "absolute top-[8px] inset-x-0 h-full rounded-full bg-[linear-gradient(45deg,var(--gradient-from),var(--gradient-to))] blur-[15px] -z-10 transition-all duration-500",
+                    isActive ? "opacity-40" : "opacity-0 group-hover:opacity-40",
+                  )}
+                ></span>
+                <span
+                  className={cn(
+                    "relative z-10 transition-all duration-500 flex items-center justify-center",
+                    isActive ? "scale-0" : "group-hover:scale-0",
+                  )}
+                >
+                  <Icon
+                    className={cn(
+                      "h-[22px] w-[22px] transition-colors",
+                      isActive ? "text-foreground" : "text-foreground/70",
+                    )}
+                  />
+                </span>
+                <span
+                  className={cn(
+                    "absolute text-foreground font-bold tracking-wide text-sm transition-all duration-500 delay-75",
+                    isActive ? "scale-100" : "scale-0 group-hover:scale-100",
+                  )}
+                >
+                  {label}
+                </span>
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Right side actions (desktop) - empty since toggle moved */}
@@ -221,10 +311,9 @@ export function Navbar() {
         className={cn(
           "fixed z-[102] flex items-center gap-3 transition-all duration-500 md:hidden",
           "right-4",
-          menuOpen || !scrolled ? "top-4" : "top-3"
+          menuOpen || !scrolled ? "top-4" : "top-3",
         )}
       >
-
         <div className="flex h-10 w-10 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5">
           <MenuToggle open={menuOpen} onOpenChange={setMenuOpen} className="h-5 w-5" />
         </div>
@@ -243,7 +332,7 @@ export function Navbar() {
               className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden"
               onClick={() => setMenuOpen(false)}
             />
-            
+
             {/* Side Panel */}
             <motion.div
               initial={{ x: "100%" }}
@@ -259,7 +348,11 @@ export function Navbar() {
             >
               {/* Header */}
               <div className="flex items-center justify-between px-6 py-4 border-b border-foreground/10">
-                <Link to="/" className="flex items-center gap-2.5 text-lg font-bold tracking-tight hover:opacity-80 transition-all duration-300" onClick={() => setMenuOpen(false)}>
+                <Link
+                  to="/"
+                  className="flex items-center gap-2.5 text-lg font-bold tracking-tight hover:opacity-80 transition-all duration-300"
+                  onClick={() => setMenuOpen(false)}
+                >
                   <img src={sanixorMark} alt="Sanixor" className="h-8 w-8 rounded-lg shadow-lg" />
                   Sanixor<span className="text-gradient animate-pulse">AI</span>
                 </Link>
@@ -269,7 +362,9 @@ export function Navbar() {
               <div className="flex-1 overflow-y-auto px-6 py-6 space-y-8">
                 {/* Primary Navigation - Home Sections */}
                 <div>
-                  <h3 className="px-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">Explore</h3>
+                  <h3 className="px-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">
+                    Explore
+                  </h3>
                   <div className="space-y-3">
                     {homeLinks.map(({ href, label, icon: Icon, gradientFrom, gradientTo }, i) => (
                       <motion.div
@@ -282,14 +377,21 @@ export function Navbar() {
                         <a
                           href={href}
                           onClick={(e) => handleHashClick(e, href)}
-                          style={{ '--gradient-from': gradientFrom, '--gradient-to': gradientTo } as React.CSSProperties}
+                          style={
+                            {
+                              "--gradient-from": gradientFrom,
+                              "--gradient-to": gradientTo,
+                            } as React.CSSProperties
+                          }
                           className="group flex items-center gap-4 rounded-xl p-3 bg-foreground/5 border border-foreground/10 hover:bg-foreground/10 transition-all duration-300"
                         >
                           <span className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110">
                             <span className="absolute inset-0 rounded-lg bg-[linear-gradient(45deg,var(--gradient-from),var(--gradient-to))] opacity-0 transition-opacity duration-300 group-hover:opacity-20"></span>
                             <Icon className="relative z-10 h-5 w-5 text-foreground/70 transition-colors duration-300 group-hover:text-foreground" />
                           </span>
-                          <span className="font-medium text-foreground transition-colors group-hover:text-foreground">{label}</span>
+                          <span className="font-medium text-foreground transition-colors group-hover:text-foreground">
+                            {label}
+                          </span>
                         </a>
                       </motion.div>
                     ))}
@@ -299,19 +401,30 @@ export function Navbar() {
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -20 }}
-                        transition={{ delay: (homeLinks.length + i) * 0.06, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                        transition={{
+                          delay: (homeLinks.length + i) * 0.06,
+                          duration: 0.4,
+                          ease: [0.16, 1, 0.3, 1],
+                        }}
                       >
                         <Link
                           to={to}
                           onClick={() => setMenuOpen(false)}
-                          style={{ '--gradient-from': gradientFrom, '--gradient-to': gradientTo } as React.CSSProperties}
+                          style={
+                            {
+                              "--gradient-from": gradientFrom,
+                              "--gradient-to": gradientTo,
+                            } as React.CSSProperties
+                          }
                           className="group flex items-center gap-4 rounded-xl p-3 bg-foreground/5 border border-foreground/10 hover:bg-foreground/10 transition-all duration-300"
                         >
                           <span className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110">
                             <span className="absolute inset-0 rounded-lg bg-[linear-gradient(45deg,var(--gradient-from),var(--gradient-to))] opacity-0 transition-opacity duration-300 group-hover:opacity-20"></span>
                             <Icon className="relative z-10 h-5 w-5 text-foreground/70 transition-colors duration-300 group-hover:text-foreground" />
                           </span>
-                          <span className="font-medium text-foreground transition-colors group-hover:text-foreground">{label}</span>
+                          <span className="font-medium text-foreground transition-colors group-hover:text-foreground">
+                            {label}
+                          </span>
                         </Link>
                       </motion.div>
                     ))}
@@ -330,7 +443,9 @@ export function Navbar() {
 
                 {/* Social Links */}
                 <div>
-                  <h3 className="px-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">Follow</h3>
+                  <h3 className="px-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">
+                    Follow
+                  </h3>
                   <div className="flex gap-3">
                     {socialLinks.map(({ href, label, icon: Icon }) => (
                       <a
@@ -347,8 +462,6 @@ export function Navbar() {
                   </div>
                 </div>
               </div>
-
-
             </motion.div>
           </>
         )}

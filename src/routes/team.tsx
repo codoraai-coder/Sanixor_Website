@@ -37,7 +37,14 @@ const hierarchy = {
   ],
 };
 
-function TreeNode({ node, level = 0 }: { node: any; level?: number }) {
+interface TeamMember {
+  name: string;
+  role: string;
+  hue: number;
+  children?: TeamMember[];
+}
+
+function TreeNode({ node, level = 0 }: { node: TeamMember; level?: number }) {
   return (
     <div className="flex flex-col items-center">
       <div className="group relative flex flex-col items-center">
@@ -74,7 +81,7 @@ function TreeNode({ node, level = 0 }: { node: any; level?: number }) {
         <>
           <div className="h-6 sm:h-8 w-px bg-gradient-to-b from-primary to-transparent" />
           <div className="flex gap-2 sm:gap-3">
-            {node.children.map((child: any) => (
+            {node.children.map((child: TeamMember) => (
               <div key={child.name} className="flex flex-col items-center">
                 <TreeNode node={child} level={level + 1} />
               </div>

@@ -12,18 +12,18 @@ export default function EventAutomation() {
     {
       icon: Users,
       title: "Smart Registration",
-      desc: "Agents autonomously vet applications, parse resumes, and categorize attendees based on their profiles to optimize team formations."
+      desc: "Agents autonomously vet applications, parse resumes, and categorize attendees based on their profiles to optimize team formations.",
     },
     {
       icon: MessageSquare,
       title: "24/7 Support Bot",
-      desc: "A dedicated LLM instance trained on your event docs answers attendee questions via Discord, Slack, or Web Chat instantly."
+      desc: "A dedicated LLM instance trained on your event docs answers attendee questions via Discord, Slack, or Web Chat instantly.",
     },
     {
       icon: CalendarClock,
       title: "Dynamic Scheduling",
-      desc: "Automatically handle drop-outs, adjust presentation times, and notify judges of schedule shifts without manual spreadsheet edits."
-    }
+      desc: "Automatically handle drop-outs, adjust presentation times, and notify judges of schedule shifts without manual spreadsheet edits.",
+    },
   ];
 
   return (
@@ -37,7 +37,7 @@ export default function EventAutomation() {
       <section className="hero relative min-h-[90vh]">
         <div className="hero-glow" />
         <div className="hero-grid" />
-        
+
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -51,7 +51,8 @@ export default function EventAutomation() {
             Autonomous Event <span className="grad">Automation</span>
           </h1>
           <p className="hero-sub max-w-2xl text-center mt-6">
-            Streamline management for hackathons, conferences, and massive corporate events. Let AI handle the logistics, communication, and scheduling so you can focus on the experience.
+            Streamline management for hackathons, conferences, and massive corporate events. Let AI
+            handle the logistics, communication, and scheduling so you can focus on the experience.
           </p>
           <div className="hero-actions mt-8">
             <a href="#features" className="snx-btn-primary">
@@ -62,19 +63,30 @@ export default function EventAutomation() {
       </section>
 
       <ScrollReveal delay={100}>
-        <section id="features" className="relative z-10 border-y border-border/30 bg-card/20 py-20 md:py-28">
+        <section
+          id="features"
+          className="relative z-10 border-y border-border/30 bg-card/20 py-20 md:py-28"
+        >
           <div className="mx-auto max-w-7xl px-4 md:px-6">
             <div className="mx-auto mb-16 max-w-2xl text-center">
-              <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-primary">Core Modules</p>
-              <h2 className="text-3xl font-bold tracking-tight md:text-5xl">Run Events On Autopilot</h2>
+              <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-primary">
+                Core Modules
+              </p>
+              <h2 className="text-3xl font-bold tracking-tight md:text-5xl">
+                Run Events On Autopilot
+              </h2>
               <p className="mt-4 text-muted-foreground md:text-lg">
-                Say goodbye to chaotic discord channels and broken spreadsheets. Our agents orchestrate your event flawlessly.
+                Say goodbye to chaotic discord channels and broken spreadsheets. Our agents
+                orchestrate your event flawlessly.
               </p>
             </div>
-            
+
             <div className="grid gap-6 md:grid-cols-3">
               {features.map((feat, idx) => (
-                <Card key={idx} className="group relative overflow-hidden border-border/50 bg-card/40 backdrop-blur-xl transition-all duration-500 hover:border-primary/25 hover:shadow-glow">
+                <Card
+                  key={idx}
+                  className="group relative overflow-hidden border-border/50 bg-card/40 backdrop-blur-xl transition-all duration-500 hover:border-primary/25 hover:shadow-glow"
+                >
                   <CardHeader>
                     <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-transform group-hover:scale-110">
                       <feat.icon className="h-6 w-6" strokeWidth={1.5} />

@@ -52,10 +52,10 @@ export function InteractiveConsole({ className }: { className?: string }) {
   return (
     <section className={cn("mx-auto max-w-5xl px-4 py-20 md:px-6 md:py-28", className)}>
       <div className="mx-auto mb-12 max-w-2xl text-center">
-        <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-primary">Contact Us</p>
-        <h2 className=" text-3xl font-bold tracking-tight md:text-5xl">
-          Initialize connection.
-        </h2>
+        <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-primary">
+          Contact Us
+        </p>
+        <h2 className=" text-3xl font-bold tracking-tight md:text-5xl">Initialize connection.</h2>
         <p className="mt-4 text-muted-foreground md:text-lg">
           Run the terminal to open a secure channel and get in touch with our team.
         </p>
@@ -86,19 +86,26 @@ export function InteractiveConsole({ className }: { className?: string }) {
           className="h-[250px] sm:h-[300px] overflow-y-auto p-4 sm:p-6 font-mono text-xs sm:text-sm"
         >
           <div className="mb-4 text-muted-foreground">
-            $ Welcome to Sanixor Network v2.4.1<br />
-            $ Ready to establish secure connection.
+            $ Welcome to Sanixor Network v2.4.1
+            <br />$ Ready to establish secure connection.
           </div>
 
           {logs.map((log, i) => (
-            <div key={i} className="mb-2 flex items-start gap-2 sm:gap-3 animate-in fade-in slide-in-from-bottom-2 duration-300">
-              <span className="mt-0.5 shrink-0 text-muted-foreground opacity-70">[{new Date().toISOString().split('T')[1].slice(0, 8)}]</span>
-              <span className={cn(
-                "leading-relaxed",
-                log.type === 'info' && "text-blue-400",
-                log.type === 'success' && "text-green-400",
-                log.type === 'warning' && "text-yellow-400"
-              )}>
+            <div
+              key={i}
+              className="mb-2 flex items-start gap-2 sm:gap-3 animate-in fade-in slide-in-from-bottom-2 duration-300"
+            >
+              <span className="mt-0.5 shrink-0 text-muted-foreground opacity-70">
+                [{new Date().toISOString().split("T")[1].slice(0, 8)}]
+              </span>
+              <span
+                className={cn(
+                  "leading-relaxed",
+                  log.type === "info" && "text-blue-400",
+                  log.type === "success" && "text-green-400",
+                  log.type === "warning" && "text-yellow-400",
+                )}
+              >
                 {log.text}
               </span>
             </div>

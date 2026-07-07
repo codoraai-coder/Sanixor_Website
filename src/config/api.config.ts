@@ -9,9 +9,10 @@
 const DEFAULT_BASE_URL = "https://api.sanixor.space";
 
 /** Backend base URL (no trailing slash). */
-export const API_BASE_URL = (
-  import.meta.env.VITE_API_BASE_URL || DEFAULT_BASE_URL
-).replace(/\/+$/, "");
+export const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || DEFAULT_BASE_URL).replace(
+  /\/+$/,
+  "",
+);
 
 /** Default per-request timeout (ms). Forms shouldn't hang forever on slow nets. */
 export const API_TIMEOUT_MS = 15_000;

@@ -57,8 +57,8 @@ export default function Achievements() {
           Our <span className="text-amber-400">Achievements</span>
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-base text-muted-foreground md:text-lg">
-          The milestones, metrics, and moments that mark Sanixor AI's journey building
-          autonomous agents that ship real outcomes.
+          The milestones, metrics, and moments that mark Sanixor AI's journey building autonomous
+          agents that ship real outcomes.
         </p>
       </section>
 
@@ -70,9 +70,7 @@ export default function Achievements() {
               key={label}
               className="rounded-2xl border border-foreground/10 bg-foreground/5 p-6 text-center"
             >
-              <div className="text-3xl font-bold text-amber-400 md:text-4xl">
-                {value}
-              </div>
+              <div className="text-3xl font-bold text-amber-400 md:text-4xl">{value}</div>
               <div className="mt-1 text-sm text-muted-foreground">{label}</div>
             </div>
           ))}

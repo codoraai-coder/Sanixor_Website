@@ -40,10 +40,7 @@ async function request<T>(
 ): Promise<T> {
   const url = `${API_BASE_URL}${path}`;
   const controller = new AbortController();
-  const timeout = setTimeout(
-    () => controller.abort(),
-    options.timeoutMs ?? API_TIMEOUT_MS,
-  );
+  const timeout = setTimeout(() => controller.abort(), options.timeoutMs ?? API_TIMEOUT_MS);
 
   // Compose caller signal with our timeout signal.
   if (options.signal) {
@@ -77,8 +74,7 @@ async function request<T>(
 }
 
 export const apiClient = {
-  get: <T>(path: string, options?: RequestOptions) =>
-    request<T>("GET", path, undefined, options),
+  get: <T>(path: string, options?: RequestOptions) => request<T>("GET", path, undefined, options),
   post: <T>(path: string, body?: unknown, options?: RequestOptions) =>
     request<T>("POST", path, body, options),
 };

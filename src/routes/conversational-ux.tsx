@@ -11,33 +11,33 @@ export default function ConversationalUX() {
     {
       icon: Smile,
       title: "Sentiment Tracking",
-      desc: "Real-time emotion detection during interactions to guide responses."
+      desc: "Real-time emotion detection during interactions to guide responses.",
     },
     {
       icon: MessageSquare,
       title: "Contextual Memory",
-      desc: "Remembering user preferences across sessions for a personalized experience."
+      desc: "Remembering user preferences across sessions for a personalized experience.",
     },
     {
       icon: Mic,
       title: "Voice & Text",
-      desc: "Seamless switching between spoken and typed input interfaces."
+      desc: "Seamless switching between spoken and typed input interfaces.",
     },
     {
       icon: Shield,
       title: "Empathy Routing",
-      desc: "Escalating to human agents based on user frustration or complex needs."
+      desc: "Escalating to human agents based on user frustration or complex needs.",
     },
     {
       icon: Zap,
       title: "Low Latency",
-      desc: "Lightning-fast conversational responses for natural dialogue flow."
+      desc: "Lightning-fast conversational responses for natural dialogue flow.",
     },
     {
       icon: Sparkles,
       title: "Next-Gen Interfaces",
-      desc: "Moving beyond chat boxes to immersive conversational experiences."
-    }
+      desc: "Moving beyond chat boxes to immersive conversational experiences.",
+    },
   ];
 
   return (
@@ -51,7 +51,7 @@ export default function ConversationalUX() {
       <section className="hero relative min-h-[90vh]">
         <div className="hero-glow" />
         <div className="hero-grid" />
-        
+
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -65,25 +65,26 @@ export default function ConversationalUX() {
             Conversational <span className="grad">UX</span>
           </h1>
           <p className="hero-sub max-w-3xl text-center mt-4 text-lg md:text-xl leading-relaxed text-muted-foreground">
-            Design and deploy next-generation conversational interfaces that understand context, sentiment, and user intent across voice and text.
+            Design and deploy next-generation conversational interfaces that understand context,
+            sentiment, and user intent across voice and text.
           </p>
-          
+
           <div className="hero-actions mt-10">
             <a href="#details" className="snx-btn-primary">
               Explore Features <ArrowRight className="ml-2 w-4 h-4" />
             </a>
           </div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
             className="w-full mt-16 rounded-2xl overflow-hidden border border-border/50 shadow-glow relative"
           >
             <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10" />
-            <img 
-              src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=2000" 
-              alt="Conversational UX" 
+            <img
+              src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=2000"
+              alt="Conversational UX"
               className="w-full h-[400px] object-cover opacity-60"
             />
           </motion.div>
@@ -91,20 +92,33 @@ export default function ConversationalUX() {
       </section>
 
       <ScrollReveal delay={100}>
-        <section id="details" className="relative z-10 border-y border-border/30 bg-card/20 py-20 md:py-28">
+        <section
+          id="details"
+          className="relative z-10 border-y border-border/30 bg-card/20 py-20 md:py-28"
+        >
           <div className="mx-auto max-w-7xl px-4 md:px-6">
             <div className="grid md:grid-cols-2 gap-16">
-              <motion.div whileHover={{ scale: 1.02 }} className="glass-strong rounded-3xl p-10 border-l-4 border-l-destructive/60">
-                <h3 className="text-2xl font-bold mb-4 text-destructive-foreground">Problem Statement</h3>
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                className="glass-strong rounded-3xl p-10 border-l-4 border-l-destructive/60"
+              >
+                <h3 className="text-2xl font-bold mb-4 text-destructive-foreground">
+                  Problem Statement
+                </h3>
                 <p className="text-muted-foreground leading-relaxed text-lg">
-                  Standard chatbots often frustrate users due to a lack of context, empathy, and inability to handle complex, nuanced queries smoothly.
+                  Standard chatbots often frustrate users due to a lack of context, empathy, and
+                  inability to handle complex, nuanced queries smoothly.
                 </p>
               </motion.div>
-              
-              <motion.div whileHover={{ scale: 1.02 }} className="glass-strong rounded-3xl p-10 border-l-4 border-l-primary/60">
+
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                className="glass-strong rounded-3xl p-10 border-l-4 border-l-primary/60"
+              >
                 <h3 className="text-2xl font-bold mb-4 text-primary">Solution</h3>
                 <p className="text-muted-foreground leading-relaxed text-lg">
-                  Conversational UX integrates sentiment tracking and contextual memory to deliver natural, engaging, and highly effective AI interactions.
+                  Conversational UX integrates sentiment tracking and contextual memory to deliver
+                  natural, engaging, and highly effective AI interactions.
                 </p>
               </motion.div>
             </div>
@@ -116,10 +130,12 @@ export default function ConversationalUX() {
         <section className="relative z-10 py-20 md:py-28">
           <div className="mx-auto max-w-7xl px-4 md:px-6">
             <div className="mx-auto mb-16 max-w-2xl text-center">
-              <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-primary">Capabilities</p>
+              <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-primary">
+                Capabilities
+              </p>
               <h2 className="text-3xl font-bold tracking-tight md:text-5xl">Key Features</h2>
             </div>
-            
+
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {features.map((feat, idx) => (
                 <motion.div
@@ -152,8 +168,14 @@ export default function ConversationalUX() {
               <div>
                 <h3 className="text-2xl font-bold mb-4 text-primary">Target Customers</h3>
                 <ul className="space-y-3">
-                  {["Product Teams", "Customer Experience Leaders", "Support Departments", "E-commerce Brands", "App Developers"].map((item, i) => (
-                    <motion.li 
+                  {[
+                    "Product Teams",
+                    "Customer Experience Leaders",
+                    "Support Departments",
+                    "E-commerce Brands",
+                    "App Developers",
+                  ].map((item, i) => (
+                    <motion.li
                       key={i}
                       initial={{ opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
@@ -167,17 +189,18 @@ export default function ConversationalUX() {
                   ))}
                 </ul>
               </div>
-              
+
               <div className="relative h-[300px] md:h-[400px] rounded-3xl overflow-hidden border border-border/50 glow-ring">
-                <img 
-                  src="https://images.unsplash.com/photo-1531746790731-6c087fecd65a?auto=format&fit=crop&q=80&w=1000" 
-                  alt="Conversational Experience" 
+                <img
+                  src="https://images.unsplash.com/photo-1531746790731-6c087fecd65a?auto=format&fit=crop&q=80&w=1000"
+                  alt="Conversational Experience"
                   className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay"
                 />
                 <div className="absolute inset-0 bg-gradient-to-tr from-background via-background/80 to-transparent p-10 flex flex-col justify-end">
                   <h3 className="text-3xl font-bold mb-3 text-foreground">Value Proposition</h3>
                   <p className="text-xl text-gray-300 font-light">
-                    Move beyond simple chat boxes to truly immersive and empathetic conversational experiences.
+                    Move beyond simple chat boxes to truly immersive and empathetic conversational
+                    experiences.
                   </p>
                 </div>
               </div>

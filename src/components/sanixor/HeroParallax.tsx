@@ -1,11 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useSpring,
-  MotionValue,
-} from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, MotionValue } from "framer-motion";
 
 interface Product {
   title: string;
@@ -54,8 +48,8 @@ export const Header = () => {
         className="max-w-lg text-base md:text-lg mt-6 leading-relaxed font-light"
         style={{ color: "rgba(255,255,255,0.5)" }}
       >
-        We build production-grade AI agents with cutting-edge frameworks.
-        Our team of passionate engineers crafts agents that actually work.
+        We build production-grade AI agents with cutting-edge frameworks. Our team of passionate
+        engineers crafts agents that actually work.
       </p>
     </div>
   );
@@ -98,8 +92,7 @@ export const ProductCard = ({
           padding: "1.5px",
           background:
             "linear-gradient(180deg, rgba(107,70,193,0) 0%, rgba(107,70,193,0) 30%, rgba(107,70,193,0.35) 70%, rgba(107,70,193,0.35) 100%)",
-          WebkitMask:
-            "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
           WebkitMaskComposite: "xor",
           maskComposite: "exclude",
         }}
@@ -108,8 +101,7 @@ export const ProductCard = ({
       <div
         className="absolute inset-0 rounded-3xl pointer-events-none opacity-0 group-hover/product:opacity-100 transition-opacity duration-500"
         style={{
-          boxShadow:
-            "0 25px 60px rgba(107,70,193,0.18), 0 0 100px rgba(107,70,193,0.04)",
+          boxShadow: "0 25px 60px rgba(107,70,193,0.18), 0 0 100px rgba(107,70,193,0.04)",
         }}
       />
 
@@ -144,97 +136,112 @@ const products = [
     title: "CodeLens",
     category: "Analysis",
     link: "#",
-    thumbnail: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=640&h=480&fit=crop&auto=format&q=80",
+    thumbnail:
+      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=640&h=480&fit=crop&auto=format&q=80",
   },
   {
     title: "LegalMind",
     category: "Legal",
     link: "#",
-    thumbnail: "https://images.unsplash.com/photo-1589994965851-a8f479c573a9?w=640&h=480&fit=crop&auto=format&q=80",
+    thumbnail:
+      "https://images.unsplash.com/photo-1589994965851-a8f479c573a9?w=640&h=480&fit=crop&auto=format&q=80",
   },
   {
     title: "DataForge",
     category: "Data",
     link: "#",
-    thumbnail: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=640&h=480&fit=crop&auto=format&q=80",
+    thumbnail:
+      "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=640&h=480&fit=crop&auto=format&q=80",
   },
   {
     title: "AgentPilot",
     category: "Agents",
     link: "#",
-    thumbnail: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=640&h=480&fit=crop&auto=format&q=80",
+    thumbnail:
+      "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=640&h=480&fit=crop&auto=format&q=80",
   },
   {
     title: "NexusAI",
     category: "Platform",
     link: "#",
-    thumbnail: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=640&h=480&fit=crop&auto=format&q=80",
+    thumbnail:
+      "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=640&h=480&fit=crop&auto=format&q=80",
   },
   {
     title: "QueryFlow",
     category: "Database",
     link: "#",
-    thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=640&h=480&fit=crop&auto=format&q=80",
+    thumbnail:
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=640&h=480&fit=crop&auto=format&q=80",
   },
   {
     title: "SynthDoc",
     category: "Documents",
     link: "#",
-    thumbnail: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=640&h=480&fit=crop&auto=format&q=80",
+    thumbnail:
+      "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=640&h=480&fit=crop&auto=format&q=80",
   },
   {
     title: "VectorBase",
     category: "Search",
     link: "#",
-    thumbnail: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=640&h=480&fit=crop&auto=format&q=80",
+    thumbnail:
+      "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=640&h=480&fit=crop&auto=format&q=80",
   },
   {
     title: "PromptLab",
     category: "AI Tools",
     link: "#",
-    thumbnail: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=640&h=480&fit=crop&auto=format&q=80",
+    thumbnail:
+      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=640&h=480&fit=crop&auto=format&q=80",
   },
   {
     title: "InsightAI",
     category: "Analytics",
     link: "#",
-    thumbnail: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=640&h=480&fit=crop&auto=format&q=80",
+    thumbnail:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=640&h=480&fit=crop&auto=format&q=80",
   },
   {
     title: "AutoSpec",
     category: "Testing",
     link: "#",
-    thumbnail: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=640&h=480&fit=crop&auto=format&q=80",
+    thumbnail:
+      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=640&h=480&fit=crop&auto=format&q=80",
   },
   {
     title: "NeuralDraft",
     category: "Generation",
     link: "#",
-    thumbnail: "https://images.unsplash.com/photo-1509228468518-180dd4864904?w=640&h=480&fit=crop&auto=format&q=80",
+    thumbnail:
+      "https://images.unsplash.com/photo-1509228468518-180dd4864904?w=640&h=480&fit=crop&auto=format&q=80",
   },
   {
     title: "ScanLogic",
     category: "Security",
     link: "#",
-    thumbnail: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=640&h=480&fit=crop&auto=format&q=80",
+    thumbnail:
+      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=640&h=480&fit=crop&auto=format&q=80",
   },
   {
     title: "BridgeAI",
     category: "Integration",
     link: "#",
-    thumbnail: "https://images.unsplash.com/photo-1535378917042-10a22c95931a?w=640&h=480&fit=crop&auto=format&q=80",
+    thumbnail:
+      "https://images.unsplash.com/photo-1535378917042-10a22c95931a?w=640&h=480&fit=crop&auto=format&q=80",
   },
   {
     title: "CoreWeave",
     category: "Infrastructure",
     link: "#",
-    thumbnail: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=640&h=480&fit=crop&auto=format&q=80",
+    thumbnail:
+      "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=640&h=480&fit=crop&auto=format&q=80",
   },
 ];
 
 export function HeroParallax() {
   const [isMobile, setIsMobile] = useState(false);
-  
+
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 768);
     checkMobile();
@@ -257,28 +264,25 @@ export function HeroParallax() {
 
   const rotateX = useSpring(
     useTransform(scrollYProgress, [0, 1], [isMobile ? 12 : 15, 0]),
-    springConfig
+    springConfig,
   );
   const rotateZ = useSpring(
     useTransform(scrollYProgress, [0, 1], [isMobile ? 10 : 20, 0]),
-    springConfig
+    springConfig,
   );
   const translateY = useSpring(
     useTransform(scrollYProgress, [0, 1], [isMobile ? -350 : -700, isMobile ? 40 : 100]),
-    springConfig
+    springConfig,
   );
-  const opacity = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0.2, 1]),
-    springConfig
-  );
+  const opacity = useSpring(useTransform(scrollYProgress, [0, 1], [0.2, 1]), springConfig);
 
   const translateX = useSpring(
     useTransform(scrollYProgress, [0, 1], [0, isMobile ? 300 : 800]),
-    springConfig
+    springConfig,
   );
   const translateXReverse = useSpring(
     useTransform(scrollYProgress, [0, 1], [0, isMobile ? -300 : -800]),
-    springConfig
+    springConfig,
   );
 
   const headerOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
@@ -303,31 +307,19 @@ export function HeroParallax() {
       >
         <motion.div className="flex flex-row-reverse space-x-reverse space-x-4 md:space-x-6 mb-4 md:mb-6">
           {firstRow.map((product) => (
-            <ProductCard
-              product={product}
-              translate={translateX}
-              key={product.title}
-            />
+            <ProductCard product={product} translate={translateX} key={product.title} />
           ))}
         </motion.div>
 
         <motion.div className="flex flex-row space-x-4 md:space-x-6 mb-4 md:mb-6">
           {secondRow.map((product) => (
-            <ProductCard
-              product={product}
-              translate={translateXReverse}
-              key={product.title}
-            />
+            <ProductCard product={product} translate={translateXReverse} key={product.title} />
           ))}
         </motion.div>
 
         <motion.div className="flex flex-row-reverse space-x-reverse space-x-4 md:space-x-6">
           {thirdRow.map((product) => (
-            <ProductCard
-              product={product}
-              translate={translateX}
-              key={product.title}
-            />
+            <ProductCard product={product} translate={translateX} key={product.title} />
           ))}
         </motion.div>
       </motion.div>

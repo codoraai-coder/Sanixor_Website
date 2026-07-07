@@ -1,17 +1,32 @@
-const fs = require('fs');
-const https = require('https');
-const { exec } = require('child_process');
-const path = require('path');
+const fs = require("fs");
+const https = require("https");
+const { exec } = require("child_process");
+const path = require("path");
 
 const videos = [
-  { url: "https://kceggzvolonyqavvowwc.supabase.co/storage/v1/object/public/codoora/hackevel%20video.mp4", name: "hackeval" },
-  { url: "https://kceggzvolonyqavvowwc.supabase.co/storage/v1/object/public/codoora/BitBenchmark%20video.mp4", name: "bitbenchmark" },
-  { url: "https://kceggzvolonyqavvowwc.supabase.co/storage/v1/object/public/codoora/AutoDash%20video.mp4", name: "autodash" },
-  { url: "https://kceggzvolonyqavvowwc.supabase.co/storage/v1/object/public/codoora/Agent%20as%20a%20Service%20video.mp4", name: "agent-as-a-service" },
-  { url: "https://kceggzvolonyqavvowwc.supabase.co/storage/v1/object/public/codoora/customized%20Agentic%20Solutionsvideo.mp4", name: "custom-agent" }
+  {
+    url: "https://kceggzvolonyqavvowwc.supabase.co/storage/v1/object/public/codoora/hackevel%20video.mp4",
+    name: "hackeval",
+  },
+  {
+    url: "https://kceggzvolonyqavvowwc.supabase.co/storage/v1/object/public/codoora/BitBenchmark%20video.mp4",
+    name: "bitbenchmark",
+  },
+  {
+    url: "https://kceggzvolonyqavvowwc.supabase.co/storage/v1/object/public/codoora/AutoDash%20video.mp4",
+    name: "autodash",
+  },
+  {
+    url: "https://kceggzvolonyqavvowwc.supabase.co/storage/v1/object/public/codoora/Agent%20as%20a%20Service%20video.mp4",
+    name: "agent-as-a-service",
+  },
+  {
+    url: "https://kceggzvolonyqavvowwc.supabase.co/storage/v1/object/public/codoora/customized%20Agentic%20Solutionsvideo.mp4",
+    name: "custom-agent",
+  },
 ];
 
-const publicDir = path.join(__dirname, 'public', 'videos');
+const publicDir = path.join(__dirname, "public", "videos");
 if (!fs.existsSync(publicDir)) {
   fs.mkdirSync(publicDir, { recursive: true });
 }
@@ -19,15 +34,17 @@ if (!fs.existsSync(publicDir)) {
 function download(url, dest) {
   return new Promise((resolve, reject) => {
     const file = fs.createWriteStream(dest);
-    https.get(url, (response) => {
-      response.pipe(file);
-      file.on('finish', () => {
-        file.close(resolve);
+    https
+      .get(url, (response) => {
+        response.pipe(file);
+        file.on("finish", () => {
+          file.close(resolve);
+        });
+      })
+      .on("error", (err) => {
+        fs.unlink(dest, () => {});
+        reject(err);
       });
-    }).on('error', (err) => {
-      fs.unlink(dest, () => {});
-      reject(err);
-    });
   });
 }
 
@@ -50,13 +67,13 @@ async function processAll() {
   for (const video of videos) {
     const mp4Path = path.join(publicDir, `${video.name}.mp4`);
     const gifPath = path.join(publicDir, `${video.name}.gif`);
-    
+
     console.log(`Downloading ${video.name}...`);
     await download(video.url, mp4Path);
-    
+
     console.log(`Converting ${video.name} to GIF...`);
     await convertToGif(mp4Path, gifPath);
-    
+
     // Clean up mp4
     fs.unlinkSync(mp4Path);
     console.log(`Finished ${video.name}`);
