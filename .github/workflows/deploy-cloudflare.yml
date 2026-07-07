@@ -1,46 +1,55 @@
 name: Deploy to Cloudflare
 
 # Builds the SPA and deploys it to Cloudflare Workers (static assets) on every
-# push to the deploy branch. The existing CI workflow (ci.yml) still gates on
-# typecheck + build; this one performs the actual deploy.
+# push to main. This is the canonical production deployment pipeline.
 #
 # Required repository secrets (Settings → Secrets and variables → Actions):
 #   CLOUDFLARE_API_TOKEN   — token with the "Edit Cloudflare Workers" template
 #   CLOUDFLARE_ACCOUNT_ID  — from the Cloudflare dashboard (Workers & Pages)
-#
-# NOTE: while the frontend also deploys to Vercel, keep only one host as the
-# canonical production origin to avoid two live copies diverging.
+#   VITE_API_BASE_URL      — production API base URL (defaults to https://api.sanixor.space)
 
 on:
   push:
-    branches: [master]
+    branches: [main]
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+    timeout-minutes: 15
+    concurrency:
+      group: deploy-frontend-${{ github.ref }}
+      cancel-in-progress: true
 
-      - uses: actions/setup-node@v4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
         run: npm ci
 
+      - name: Type-check
+        run: npm run typecheck
+
       - name: Build
         run: npm run build
         env:
-          # The production API base URL. Update this to the deployed backend
-          # Worker URL if api.sanixor.space is not yet wired up.
-          VITE_API_BASE_URL: https://api.sanixor.space
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL || 'https://api.sanixor.space' }}
 
+      # Use the project's pinned Wrangler (v4, from package.json) rather than
+      # cloudflare/wrangler-action's bundled v3.90.0, which is too old for this
+      # config (static-assets SPA + account_id) and fails the deploy.
       - name: Deploy to Cloudflare Workers
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          # dist/ is already built above; deploy without rebuilding.
-          command: deploy
+        run: npx wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

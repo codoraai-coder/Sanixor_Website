@@ -9,8 +9,9 @@
 // Local:   npm run cf:preview     (serves the built dist/ via wrangler)
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "sanixor-website",
-  "compatibility_date": "2026-07-07",
+   "name": "sanixor-website",
+  "account_id": "967cbb465e7f233f5c12ca274ae2910e",
+  "compatibility_date": "2026-07-01",
 
   // Deploy to the account's *.workers.dev subdomain.
   //
@@ -31,6 +32,6 @@
 
   "observability": {
     "enabled": true,
-    "head_sampling_rate": 1
+    "head_sampling_rate": 0.1
   }
 }

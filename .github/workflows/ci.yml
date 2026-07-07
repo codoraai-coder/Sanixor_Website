@@ -1,25 +1,30 @@
 name: CI
 
-# Build-failure detection for the frontend. Runs on every push/PR to the deploy
-# branch (this repo deploys from `master`). The host (Vercel / Cloudflare Pages)
-# performs the actual deploy on push; this gate catches type/build errors early
-# so a broken build never ships.
+# Build-failure detection for the frontend. Runs on every push/PR to main.
+# This gate catches type/build errors early so a broken build never ships.
 
 on:
   push:
-    branches: [master, main]
+    branches: [main]
   pull_request:
-    branches: [master, main]
+    branches: [main]
+
+permissions:
+  contents: read
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+    timeout-minutes: 15
 
-      - uses: actions/setup-node@v4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
@@ -28,7 +33,10 @@ jobs:
       - name: Type-check
         run: npm run typecheck
 
+      - name: Lint
+        run: npm run lint
+
       - name: Build
         run: npm run build
         env:
-          VITE_API_BASE_URL: https://api.sanixor.space
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL || 'https://api.sanixor.space' }}
