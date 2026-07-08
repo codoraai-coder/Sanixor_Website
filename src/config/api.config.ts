@@ -26,5 +26,7 @@ export const API_ENDPOINTS = {
   demo: "/api/demo",
   hiring: "/api/hiring",
   agentverse: "/api/agentverse",
+  paymentsCreateOrder: "/api/payments/create-order",
+  paymentsVerify: "/api/payments/verify",
   health: "/health",
 } as const;

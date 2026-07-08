@@ -1,40 +1,41 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useRef, useState } from "react";
 import { toast } from "sonner";
-import { formService, type AgentVersePayload } from "@/services/form.service";
+import {
+  paymentService,
+  type CreateOrderPayload,
+  type CreateOrderResult,
+} from "@/services/payment.service";
+import type { RazorpayOptions, RazorpaySuccessResponse } from "@/types/razorpay";
 import { ApiError } from "@/utils/apiError";
-
-const RazorpayButton = () => {
-  const formRef = useRef<HTMLFormElement>(null);
-
-  useEffect(() => {
-    if (formRef.current && formRef.current.children.length === 0) {
-      const script = document.createElement("script");
-      script.src = "https://checkout.razorpay.com/v1/payment-button.js";
-      script.setAttribute("data-payment_button_id", "pl_T905xEsNxKZXoU");
-      script.async = true;
-      formRef.current.appendChild(script);
-    }
-  }, []);
-
-  return (
-    <form
-      ref={formRef}
-      className="w-full flex justify-center py-2 relative z-10 min-h-[60px]"
-    ></form>
-  );
-};
 
 interface Props {
   onClose: () => void;
 }
 
+/** Paid tiers only — institution registration is deferred (no online payment). */
+type PaidUserType = "student" | "professional";
+type SelectedType = PaidUserType | "";
+
+/**
+ * Registration flow phases:
+ *   form        — collecting profile + details (default)
+ *   redirecting — creating the order and opening secure checkout
+ *   verifying   — payment returned; backend is verifying the signature
+ *   success     — backend verified the payment (PAYMENT_SUCCESS)
+ *   failed      — backend could not verify the payment
+ *   dismissed   — checkout was closed without completing payment
+ *
+ * Success is NEVER shown from the Checkout callback alone — only after the
+ * backend `verify` call resolves (Phase 2). The client never trusts Razorpay's
+ * client-side success on its own.
+ */
+type Phase = "form" | "redirecting" | "verifying" | "success" | "failed" | "dismissed";
+
 export function AgentVerseRegistrationModal({ onClose }: Props) {
-  const [submitted, setSubmitted] = useState(false);
-  const [isPaying, setIsPaying] = useState(false);
-  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
-  const [isSendingToSheet, setIsSendingToSheet] = useState(false);
+  const [phase, setPhase] = useState<Phase>("form");
   const [errorMessage, setErrorMessage] = useState("");
-  const [userType, setUserType] = useState<"student" | "professional" | "institution" | "">("");
+  const [registrationId, setRegistrationId] = useState("");
+  const [userType, setUserType] = useState<SelectedType>("");
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -43,18 +44,21 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
     college: "",
     experience: "",
     organization: "",
-    participants: "",
   });
+
+  // Guards against `ondismiss` overwriting the verification flow when the
+  // checkout modal closes immediately after a successful payment handler.
+  const paymentSettledRef = useRef(false);
+  // Last successful Checkout response, kept so verification can be retried on a
+  // transient network failure without re-running the whole payment.
+  const lastResponseRef = useRef<RazorpaySuccessResponse | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
 
-  /** Build the typed backend payload for the selected profile. */
-  const buildPayload = (
-    currentForm: typeof form,
-    type: "student" | "professional" | "institution",
-  ): AgentVersePayload => {
+  /** Build the typed create-order payload for the selected paid profile. */
+  const buildPayload = (currentForm: typeof form, type: PaidUserType): CreateOrderPayload => {
     if (type === "student") {
       return {
         userType: "student",
@@ -65,78 +69,135 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
         college: currentForm.college,
       };
     }
-    if (type === "professional") {
-      return {
-        userType: "professional",
-        name: currentForm.name,
-        email: currentForm.email,
-        phone: currentForm.phone,
-        experience: Number(currentForm.experience),
-        organization: currentForm.organization,
-      };
-    }
     return {
-      userType: "institution",
+      userType: "professional",
       name: currentForm.name,
       email: currentForm.email,
       phone: currentForm.phone,
+      experience: Number(currentForm.experience),
       organization: currentForm.organization,
-      participants: Number(currentForm.participants),
     };
   };
 
   /**
-   * Persist the registration via the centralized backend. Returns true when the
-   * caller may proceed (to payment or confirmation). Backend validation and
-   * duplicate (409) errors surface inline; entered values are kept on failure.
+   * Send the Checkout response to the backend for verification. Success is only
+   * declared once the backend confirms it — a valid signature the browser
+   * cannot forge. Transient failures surface a retry path.
    */
-  const submitRegistration = async (
-    currentForm: typeof form,
-    type: "student" | "professional" | "institution",
-  ): Promise<boolean> => {
-    setIsSendingToSheet(true);
+  const runVerification = async (response: RazorpaySuccessResponse) => {
+    lastResponseRef.current = response;
     setErrorMessage("");
+    setPhase("verifying");
     try {
-      await formService.submitAgentVerse(buildPayload(currentForm, type));
-      return true;
+      const result = await paymentService.verifyPayment({
+        razorpay_order_id: response.razorpay_order_id,
+        razorpay_payment_id: response.razorpay_payment_id,
+        razorpay_signature: response.razorpay_signature,
+      });
+      console.info("[AgentVerse] Payment verified", {
+        status: result.status,
+        registrationId: result.registrationId,
+      });
+      setRegistrationId(result.registrationId);
+      setPhase("success");
     } catch (err) {
       const message =
-        err instanceof ApiError ? err.message : "Something went wrong. Please try again.";
+        err instanceof ApiError
+          ? err.message
+          : "We couldn't verify your payment. If any amount was deducted, it will be refunded.";
+      console.warn("[AgentVerse] Payment verification failed");
       setErrorMessage(message);
-      toast.error(message);
-      return false;
-    } finally {
-      setIsSendingToSheet(false);
+      setPhase("failed");
     }
+  };
+
+  /** Launch Razorpay Checkout for a created order. No registration is completed here. */
+  const launchCheckout = async (order: CreateOrderResult) => {
+    await paymentService.loadRazorpayCheckout();
+    paymentSettledRef.current = false;
+
+    const options: RazorpayOptions = {
+      key: order.keyId,
+      order_id: order.orderId,
+      amount: order.amount,
+      currency: order.currency,
+      name: "Sanixor AI",
+      description: "AgentVerse 2.0 Registration",
+      prefill: { name: form.name, email: form.email, contact: form.phone },
+      theme: { color: "#7c3aed" },
+      handler: (response) => {
+        // Payment captured client-side — now VERIFY it server-side before
+        // declaring any success. Never trust this callback on its own.
+        paymentSettledRef.current = true;
+        console.info("[AgentVerse] Payment Initiated", {
+          paymentId: response.razorpay_payment_id,
+        });
+        void runVerification(response);
+      },
+      modal: {
+        ondismiss: () => {
+          if (paymentSettledRef.current) return;
+          console.info("[AgentVerse] Checkout dismissed");
+          setPhase("dismissed");
+        },
+      },
+    };
+
+    const rzp = new window.Razorpay(options);
+    rzp.on("payment.failed", () => {
+      setErrorMessage("Payment failed. Please try again.");
+    });
+    console.info("[AgentVerse] Checkout Opened", { orderId: order.orderId });
+    rzp.open();
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage("");
 
-    // Guard against duplicate submits while a request is already in flight.
-    if (isSendingToSheet) return;
+    // Only the paid tiers reach payment; guard against duplicate/invalid submits.
+    if (phase !== "form") return;
+    if (userType !== "student" && userType !== "professional") return;
 
-    const isAllowed = await submitRegistration(
-      form,
-      userType as "student" | "professional" | "institution",
-    );
-    if (!isAllowed) return;
-
-    if (userType === "student" || userType === "professional") {
-      setIsPaying(true);
-    } else if (userType === "institution") {
-      setSubmitted(true);
-      toast.success("Registration confirmed — check your inbox for details.");
-      setTimeout(() => onClose(), 3000);
+    setPhase("redirecting");
+    try {
+      const order = await paymentService.createOrder(buildPayload(form, userType));
+      console.info("[AgentVerse] Order created", { orderId: order.orderId });
+      await launchCheckout(order);
+    } catch (err) {
+      const message =
+        err instanceof ApiError ? err.message : "Something went wrong. Please try again.";
+      setErrorMessage(message);
+      toast.error(message);
+      setPhase("form");
     }
   };
 
   const handleClose = () => {
-    if (!isProcessingPayment && !isSendingToSheet) {
-      onClose();
-    }
+    // Never close mid-flight (order being created / checkout opening / verifying).
+    if (phase !== "redirecting" && phase !== "verifying") onClose();
   };
+
+  const retryPayment = () => {
+    setErrorMessage("");
+    setPhase("form");
+  };
+
+  /** Re-run verification for the last payment (used after a transient failure). */
+  const retryVerification = () => {
+    if (lastResponseRef.current) void runVerification(lastResponseRef.current);
+  };
+
+  const headTitle =
+    phase === "verifying"
+      ? "Verifying Payment"
+      : phase === "success"
+        ? "Registration Confirmed"
+        : phase === "failed"
+          ? "Verification Failed"
+          : phase === "dismissed"
+            ? "Payment Incomplete"
+            : "Register for AgentVerse";
 
   return (
     <div
@@ -149,13 +210,9 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
     >
       <div className="av2-modal" onClick={(e) => e.stopPropagation()} data-lenis-prevent="true">
         <div className="av2-modal-head">
-          <h2>{submitted ? "Registration Complete" : "Register for AgentVerse"}</h2>
-          {!submitted && (
-            <button
-              className="av2-modal-close"
-              onClick={handleClose}
-              disabled={isProcessingPayment || isSendingToSheet}
-            >
+          <h2>{headTitle}</h2>
+          {phase !== "redirecting" && phase !== "verifying" && (
+            <button className="av2-modal-close" onClick={handleClose}>
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
@@ -174,7 +231,7 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
           className="av2-modal-body"
           style={{ overflowY: "auto", maxHeight: "calc(85vh - 80px)" }}
         >
-          {errorMessage && (
+          {errorMessage && phase !== "failed" && (
             <div
               style={{
                 background: "rgba(239, 68, 68, 0.15)",
@@ -205,9 +262,86 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
             </div>
           )}
 
-          {submitted ? (
-            <div className="av2-success">
-              <div className="av2-success-ico">
+          {phase === "redirecting" ? (
+            <div className="av2-payment-step flex flex-col items-center justify-center gap-4 w-full py-10 text-center animate-in fade-in duration-300">
+              <div className="w-12 h-12 rounded-full border-2 border-primary/30 border-t-primary animate-spin" />
+              <div className="text-lg font-bold text-white">Redirecting to Secure Payment…</div>
+              <p className="text-[13px] text-muted-foreground max-w-[280px]">
+                Please wait while we open the secure Razorpay checkout. Do not close this window.
+              </p>
+            </div>
+          ) : phase === "verifying" ? (
+            <div className="av2-payment-step flex flex-col items-center justify-center gap-4 w-full py-10 text-center animate-in fade-in duration-300">
+              <div className="w-12 h-12 rounded-full border-2 border-primary/30 border-t-primary animate-spin" />
+              <div className="text-lg font-bold text-white">Verifying your payment…</div>
+              <p className="text-[13px] text-muted-foreground max-w-[300px]">
+                Please wait while we securely confirm your payment. Do not close this window.
+              </p>
+            </div>
+          ) : phase === "success" ? (
+            <div className="av2-payment-step flex flex-col items-center justify-center gap-4 w-full py-10 text-center animate-in fade-in zoom-in-95 duration-300">
+              <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="w-6 h-6"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </div>
+              <div className="text-lg font-bold text-white">Registration Successful</div>
+              {registrationId && (
+                <div className="w-full max-w-[300px] rounded-xl border border-emerald-500/20 bg-emerald-500/[0.06] px-4 py-3">
+                  <div className="text-[10px] font-semibold uppercase tracking-widest text-emerald-400/80 mb-1">
+                    Your Registration ID
+                  </div>
+                  <div className="text-xl font-bold tracking-wide text-white">{registrationId}</div>
+                </div>
+              )}
+              <p className="text-[13px] text-muted-foreground max-w-[300px]">
+                You're registered for AgentVerse 2.0. A confirmation with your Registration ID and a
+                check-in QR code has been sent to {form.email || "your email"}.
+              </p>
+              <button
+                type="button"
+                className="av2-submit mt-2"
+                style={{ width: "auto", paddingInline: "28px" }}
+                onClick={onClose}
+              >
+                Done
+              </button>
+            </div>
+          ) : phase === "failed" ? (
+            <div className="av2-payment-step flex flex-col items-center justify-center gap-4 w-full py-10 text-center animate-in fade-in duration-300">
+              <div className="w-12 h-12 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  className="w-6 h-6"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="15" y1="9" x2="9" y2="15" />
+                  <line x1="9" y1="9" x2="15" y2="15" />
+                </svg>
+              </div>
+              <div className="text-lg font-bold text-white">Payment verification failed</div>
+              <p className="text-[13px] text-muted-foreground max-w-[320px]">
+                {errorMessage ||
+                  "We couldn't verify your payment. If any amount was deducted, it will be refunded automatically."}
+              </p>
+              <button
+                type="button"
+                className="av2-submit mt-2"
+                style={{ width: "auto", paddingInline: "28px" }}
+                onClick={retryVerification}
+              >
+                Retry Verification
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -216,90 +350,48 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 >
-                  <polyline points="20 6 9 17 4 12" />
+                  <path d="M23 4v6h-6M1 20v-6h6" />
+                  <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
                 </svg>
-              </div>
-              <div className="av2-success-title">Registration Successful</div>
-              <p className="av2-success-sub">
-                Thank you for registering. We'll send confirmation to {form.email || "your email"}.
-              </p>
+              </button>
             </div>
-          ) : isPaying ? (
-            <div className="av2-payment-step flex flex-col gap-4 w-full relative animate-in fade-in zoom-in-95 duration-300">
-              <div className="text-center mb-1">
-                <span className="av2-sec-label text-xs">Secure Checkout</span>
-                <h3 className="text-xl font-bold text-white mt-1">Complete Registration</h3>
-              </div>
-
-              {/* Compact Combined Payment Card */}
-              <div className="bg-card/40 backdrop-blur-md border border-border/50 rounded-2xl overflow-hidden shadow-glow relative z-10 flex flex-col">
-                {/* Slim Order Details */}
-                <div className="p-4 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
-                  <div className="flex items-center gap-3 overflow-hidden">
-                    <div className="w-10 h-10 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold text-sm shrink-0 border border-primary/20">
-                      {form.name ? form.name.charAt(0).toUpperCase() : "A"}
-                    </div>
-                    <div className="flex flex-col min-w-0">
-                      <span className="text-sm font-medium text-white truncate">
-                        {form.name || "Participant"}
-                      </span>
-                      <span className="text-xs text-muted-foreground truncate">
-                        {form.email || "email@example.com"}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="text-right shrink-0 ml-4">
-                    <div className="text-[10px] uppercase tracking-wider text-primary font-semibold mb-0.5">
-                      Total
-                    </div>
-                    <div className="text-sm font-bold text-white">Standard Entry</div>
-                  </div>
-                </div>
-
-                {/* Payment Area */}
-                <div className="px-5 py-6 flex flex-col items-center justify-center relative">
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-primary/5 pointer-events-none" />
-
-                  <div className="w-10 h-10 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-3 shadow-[0_0_15px_rgba(59,130,246,0.15)]">
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      className="w-5 h-5"
-                    >
-                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                      <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                    </svg>
-                  </div>
-
-                  <p className="text-[13px] text-center text-muted-foreground mb-5 max-w-[260px]">
-                    Processed securely by Razorpay with 256-bit SSL encryption.
-                  </p>
-
-                  <div className="w-full flex justify-center min-h-[45px] relative z-10">
-                    <RazorpayButton />
-                  </div>
-                </div>
-              </div>
-
-              <button
-                type="button"
-                className="text-xs font-semibold uppercase tracking-widest text-muted-foreground hover:text-white transition-colors duration-200 flex items-center justify-center gap-2 mt-2 w-max mx-auto"
-                onClick={() => setIsPaying(false)}
-                disabled={isProcessingPayment || isSendingToSheet}
-              >
+          ) : phase === "dismissed" ? (
+            <div className="av2-payment-step flex flex-col items-center justify-center gap-4 w-full py-10 text-center animate-in fade-in duration-300">
+              <div className="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2.5"
-                  className="w-3.5 h-3.5"
+                  className="w-6 h-6"
                 >
-                  <line x1="19" y1="12" x2="5" y2="12" />
-                  <polyline points="12 19 5 12 12 5" />
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="8" x2="12" y2="12" />
+                  <line x1="12" y1="16" x2="12.01" y2="16" />
                 </svg>
-                Go Back
+              </div>
+              <div className="text-lg font-bold text-white">Payment was not completed.</div>
+              <p className="text-[13px] text-muted-foreground max-w-[300px]">
+                Your registration has not been created. You can try the payment again to complete
+                it.
+              </p>
+              <button
+                type="button"
+                className="av2-submit mt-2"
+                style={{ width: "auto", paddingInline: "28px" }}
+                onClick={retryPayment}
+              >
+                Try Again
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
               </button>
             </div>
           ) : !userType ? (
@@ -360,7 +452,10 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
                 <button
                   type="button"
                   className="av2-type-btn"
-                  onClick={() => setUserType("institution")}
+                  disabled
+                  aria-disabled="true"
+                  title="Institution registration is coming soon"
+                  style={{ opacity: 0.55, cursor: "not-allowed" }}
                 >
                   <div className="av2-type-btn-icon">
                     <svg
@@ -381,7 +476,10 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
                     </svg>
                   </div>
                   <div>
-                    <div className="av2-type-btn-title">Institution</div>
+                    <div className="av2-type-btn-title">
+                      Institution{" "}
+                      <span style={{ opacity: 0.7, fontWeight: 500 }}>· Coming soon</span>
+                    </div>
                     <div className="av2-type-btn-desc">Register an institution or large cohort</div>
                   </div>
                 </button>
@@ -389,12 +487,7 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
             </>
           ) : (
             <form onSubmit={handleSubmit}>
-              <button
-                type="button"
-                className="av2-back-btn"
-                onClick={() => setUserType("")}
-                disabled={isSendingToSheet}
-              >
+              <button type="button" className="av2-back-btn" onClick={() => setUserType("")}>
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -559,87 +652,8 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
                 </>
               )}
 
-              {userType === "institution" && (
-                <>
-                  <div className="av2-fg">
-                    <label className="av2-label">Point of Contact *</label>
-                    <input
-                      className="av2-input"
-                      name="name"
-                      value={form.name}
-                      onChange={handleChange}
-                      placeholder="Full Name"
-                      required
-                      pattern="^[A-Za-z\s]+$"
-                      title="Only letters and spaces allowed"
-                    />
-                  </div>
-                  <div className="av2-frow">
-                    <div className="av2-fg">
-                      <label className="av2-label">Email *</label>
-                      <input
-                        className="av2-input"
-                        type="email"
-                        name="email"
-                        value={form.email}
-                        onChange={handleChange}
-                        placeholder="you@institution.edu"
-                        required
-                      />
-                    </div>
-                    <div className="av2-fg">
-                      <label className="av2-label">Contact Number *</label>
-                      <input
-                        className="av2-input"
-                        type="tel"
-                        name="phone"
-                        value={form.phone}
-                        onChange={handleChange}
-                        placeholder="9876543210"
-                        required
-                        pattern="^[0-9]{10}$"
-                        title="Enter a valid 10-digit phone number"
-                      />
-                    </div>
-                  </div>
-                  <div className="av2-frow">
-                    <div className="av2-fg">
-                      <label className="av2-label">Institution / Organization *</label>
-                      <input
-                        className="av2-input"
-                        name="organization"
-                        value={form.organization}
-                        onChange={handleChange}
-                        placeholder="College / Organization Name"
-                        required
-                        pattern="^[A-Za-z0-9\s.,&'-]+$"
-                        title="Enter a valid organization name"
-                      />
-                    </div>
-                    <div className="av2-fg">
-                      <label className="av2-label">Expected Participants *</label>
-                      <input
-                        className="av2-input"
-                        type="number"
-                        name="participants"
-                        value={form.participants}
-                        onChange={handleChange}
-                        placeholder="e.g. 100"
-                        required
-                        min="1"
-                        max="10000"
-                      />
-                    </div>
-                  </div>
-                </>
-              )}
-
-              <button type="submit" className="av2-submit" disabled={isSendingToSheet}>
-                {isSendingToSheet
-                  ? "Processing..."
-                  : userType === "institution"
-                    ? "Submit Registration"
-                    : "Proceed to Payment"}
+              <button type="submit" className="av2-submit">
+                Proceed to Payment
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
