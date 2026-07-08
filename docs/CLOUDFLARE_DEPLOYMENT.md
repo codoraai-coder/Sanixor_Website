@@ -48,7 +48,7 @@ The app reads `VITE_API_BASE_URL` at build time (`.env.production` →
 - If the backend Worker is on `*.workers.dev`, set this to that URL until
   `api.sanixor.space` is wired up (custom domains need the zone on Cloudflare).
 - Update it in `.env.production`, `.github/workflows/ci.yml`,
-  `.github/workflows/deploy-cloudflare.yml`, and the Cloudflare/Vercel dashboards.
+  `.github/workflows/deploy-cloudflare.yml`, and the Cloudflare dashboard.
 
 ## Custom domain (sanixor.space)
 
@@ -59,8 +59,3 @@ deployment lives at `*.workers.dev` unless/until that decision changes. The
 `_redirects` www→apex rule and `_headers` only take effect once a custom domain
 is attached.
 
-## Relationship to Vercel
-
-The site currently also deploys to Vercel (`vercel.json`, branch `master`, live
-at www.sanixor.space). Cloudflare and Vercel deploys are independent — pick one
-as the canonical production origin so two live copies don't diverge.

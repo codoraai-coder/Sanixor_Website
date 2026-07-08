@@ -18,7 +18,7 @@ export type ContactTopic =
   | "Product Demo"
   | "Training"
   | "Partnership"
-  | "Careers"
+  // | "Careers"
   | "Press";
 
 export interface ContactPayload {

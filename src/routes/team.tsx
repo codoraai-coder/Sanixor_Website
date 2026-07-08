@@ -120,7 +120,7 @@ export default function TeamPage() {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* CTA 
       <section className="mx-auto max-w-4xl px-4 sm:px-6 pb-16 sm:pb-24">
         <div className="rounded-2xl sm:rounded-3xl glass-strong p-6 sm:p-8 md:p-10 text-center shadow-elegant">
           <h3 className="text-lg sm:text-xl md:text-2xl font-semibold">Join Our Team</h3>
@@ -139,6 +139,7 @@ export default function TeamPage() {
           </Link>
         </div>
       </section>
+      */}
     </Layout>
   );
 }
