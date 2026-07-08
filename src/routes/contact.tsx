@@ -38,7 +38,8 @@ const contactInfo = [
 const faqs = [
   {
     question: "What does Sanixor AI do?",
-    answer: "Sanixor AI builds intelligent products and AI-powered solutions for students, developers, institutions, and enterprises.",
+    answer:
+      "Sanixor AI builds intelligent products and AI-powered solutions for students, developers, institutions, and enterprises.",
   },
   {
     question: "Can I request a product demo?",
@@ -46,7 +47,8 @@ const faqs = [
   },
   {
     question: "Do you provide custom AI development?",
-    answer: "Absolutely. We offer custom AI agents, automation workflows, integrations, and enterprise solutions.",
+    answer:
+      "Absolutely. We offer custom AI agents, automation workflows, integrations, and enterprise solutions.",
   },
 ];
 
@@ -90,7 +92,6 @@ export default function ContactPage() {
   return (
     <Layout>
       <main className="relative min-h-screen w-full bg-black text-white overflow-hidden font-sans">
-        
         {/* --- DYNAMIC MESH BACKGROUND (STRICT PURPLE/BLACK/WHITE) --- */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
           <div className="absolute top-[-10%] left-[20%] w-[50vw] h-[50vw] rounded-full bg-purple-600/10 blur-[120px] mix-blend-screen animate-pulse duration-[8000ms]" />
@@ -99,7 +100,6 @@ export default function ContactPage() {
         </div>
 
         <div className="relative z-10 flex flex-col items-center">
-          
           {/* --- HERO SECTION --- */}
           <section className="mx-auto w-full max-w-4xl px-6 pt-32 pb-12 text-center">
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[1.0] mb-6">
@@ -109,20 +109,18 @@ export default function ContactPage() {
               </span>
             </h1>
             <p className="mx-auto text-base sm:text-lg text-white/60 max-w-xl font-light leading-relaxed balance">
-              Deploy agents, schedule a technical demo, or explore enterprise integrations. 
+              Deploy agents, schedule a technical demo, or explore enterprise integrations.
             </p>
           </section>
 
           {/* --- BENTO BOX GRID --- */}
           <section className="w-full max-w-[1300px] px-4 sm:px-6 pb-32">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:auto-rows-[minmax(280px,auto)]">
-              
               {/* BENTO BLOCK 1: MAIN FORM (Spans 8 columns, 2 rows) */}
               <div className="lg:col-span-8 lg:row-span-2 group relative">
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl pointer-events-none" />
                 <div className="relative h-full bg-white/[0.02] backdrop-blur-[40px] border border-white/10 rounded-[2.5rem] p-6 sm:p-10 transition-colors duration-500 hover:bg-white/[0.04] hover:border-white/20">
                   <form onSubmit={handleSubmit} className="flex flex-col h-full space-y-8">
-                    
                     {/* Topics Pill Toggle */}
                     <div>
                       <label className="text-[10px] font-mono uppercase tracking-[0.2em] text-purple-400 block mb-4">
@@ -149,33 +147,55 @@ export default function ContactPage() {
                     {/* Inputs Matrix */}
                     <div className="grid sm:grid-cols-2 gap-6">
                       <div className="space-y-1.5">
-                        <label className="text-[10px] font-mono uppercase tracking-wider text-white/50 ml-1">Name</label>
+                        <label className="text-[10px] font-mono uppercase tracking-wider text-white/50 ml-1">
+                          Name
+                        </label>
                         <input
-                          required type="text" name="name" value={formData.name} onChange={handleInputChange}
+                          required
+                          type="text"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleInputChange}
                           className="w-full rounded-2xl bg-white/[0.03] px-4 py-4 text-sm border border-white/5 text-white focus:border-purple-500/50 focus:bg-white/10 focus:ring-1 focus:ring-purple-500/50 outline-none transition-all duration-300"
                         />
                       </div>
                       <div className="space-y-1.5">
-                        <label className="text-[10px] font-mono uppercase tracking-wider text-white/50 ml-1">Email</label>
+                        <label className="text-[10px] font-mono uppercase tracking-wider text-white/50 ml-1">
+                          Email
+                        </label>
                         <input
-                          required type="email" name="email" value={formData.email} onChange={handleInputChange}
+                          required
+                          type="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleInputChange}
                           className="w-full rounded-2xl bg-white/[0.03] px-4 py-4 text-sm border border-white/5 text-white focus:border-purple-500/50 focus:bg-white/10 focus:ring-1 focus:ring-purple-500/50 outline-none transition-all duration-300"
                         />
                       </div>
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-mono uppercase tracking-wider text-white/50 ml-1">Company (Optional)</label>
+                      <label className="text-[10px] font-mono uppercase tracking-wider text-white/50 ml-1">
+                        Company (Optional)
+                      </label>
                       <input
-                        type="text" name="company" value={formData.company} onChange={handleInputChange}
+                        type="text"
+                        name="company"
+                        value={formData.company}
+                        onChange={handleInputChange}
                         className="w-full rounded-2xl bg-white/[0.03] px-4 py-4 text-sm border border-white/5 text-white focus:border-purple-500/50 focus:bg-white/10 focus:ring-1 focus:ring-purple-500/50 outline-none transition-all duration-300"
                       />
                     </div>
 
                     <div className="space-y-1.5 flex-grow flex flex-col">
-                      <label className="text-[10px] font-mono uppercase tracking-wider text-white/50 ml-1">Message Payload</label>
+                      <label className="text-[10px] font-mono uppercase tracking-wider text-white/50 ml-1">
+                        Message Payload
+                      </label>
                       <textarea
-                        required name="message" value={formData.message} onChange={handleInputChange}
+                        required
+                        name="message"
+                        value={formData.message}
+                        onChange={handleInputChange}
                         className="w-full flex-grow rounded-2xl bg-white/[0.03] px-4 py-4 text-sm border border-white/5 text-white focus:border-purple-500/50 focus:bg-white/10 focus:ring-1 focus:ring-purple-500/50 outline-none transition-all duration-300 resize-none min-h-[120px]"
                       />
                     </div>
@@ -191,10 +211,23 @@ export default function ContactPage() {
                             : "bg-white text-black hover:scale-[1.01] hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:bg-purple-100"
                       }`}
                     >
-                      {status === "loading" && <><Loader2 className="h-4 w-4 animate-spin" /> Processing...</>}
-                      {status === "success" && <><Check className="h-4 w-4 animate-bounce" /> Transmission Successful</>}
+                      {status === "loading" && (
+                        <>
+                          <Loader2 className="h-4 w-4 animate-spin" /> Processing...
+                        </>
+                      )}
+                      {status === "success" && (
+                        <>
+                          <Check className="h-4 w-4 animate-bounce" /> Transmission Successful
+                        </>
+                      )}
                       {status === "error" && "Transmission Failed. Retry."}
-                      {status === "idle" && <>Initiate Transmission <Send className="h-4 w-4 ml-2 transition-transform group-hover:translate-x-1" /></>}
+                      {status === "idle" && (
+                        <>
+                          Initiate Transmission{" "}
+                          <Send className="h-4 w-4 ml-2 transition-transform group-hover:translate-x-1" />
+                        </>
+                      )}
                     </button>
                   </form>
                 </div>
@@ -212,7 +245,7 @@ export default function ContactPage() {
                     className="absolute inset-0 w-full h-full border-0 grayscale opacity-40 group-hover:opacity-70 transition-all duration-700 ease-out scale-125 pointer-events-none filter sepia-[0.3] hue-rotate-[250deg]"
                     loading="lazy"
                   />
-                  
+
                   {/* Floating Overlay Label */}
                   <div className="absolute bottom-6 left-6 z-30">
                     <div className="px-3 py-1.5 rounded-full bg-black/80 backdrop-blur-md border border-white/20 text-[10px] font-mono uppercase tracking-widest text-white/80">
@@ -229,7 +262,7 @@ export default function ContactPage() {
                   <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-purple-400 mb-6">
                     Operational Status
                   </h3>
-                  
+
                   <div className="grid grid-cols-2 gap-y-8 gap-x-4 flex-grow content-center">
                     {contactInfo.map((info, idx) => (
                       <div key={idx} className="flex flex-col gap-2 group/item">
@@ -240,9 +273,7 @@ export default function ContactPage() {
                           <p className="text-[9px] font-mono uppercase tracking-widest text-white/50 mb-0.5">
                             {info.label}
                           </p>
-                          <p className="text-sm font-medium text-white break-all">
-                            {info.value}
-                          </p>
+                          <p className="text-sm font-medium text-white break-all">{info.value}</p>
                         </div>
                       </div>
                     ))}
@@ -255,7 +286,6 @@ export default function ContactPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-purple-500/10 to-transparent rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl pointer-events-none" />
                 <div className="relative h-full bg-white/[0.02] backdrop-blur-[40px] border border-white/10 rounded-[2.5rem] p-6 sm:p-10 transition-colors duration-500 hover:bg-white/[0.04] hover:border-white/20">
                   <div className="flex flex-col md:flex-row gap-10 items-start">
-                    
                     <div className="w-full md:w-1/3 shrink-0">
                       <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-purple-400 mb-4">
                         Intelligence Database
@@ -272,19 +302,28 @@ export default function ContactPage() {
                       {faqs.map((faq, index) => {
                         const isOpen = openFaq === index;
                         return (
-                          <div key={index} className="border border-white/5 bg-white/[0.01] rounded-2xl overflow-hidden transition-all duration-300">
+                          <div
+                            key={index}
+                            className="border border-white/5 bg-white/[0.01] rounded-2xl overflow-hidden transition-all duration-300"
+                          >
                             <button
                               onClick={() => setOpenFaq(isOpen ? null : index)}
                               className="w-full flex items-center justify-between p-5 sm:p-6 text-left transition-colors hover:bg-white/[0.03] group"
                             >
-                              <span className={`font-medium text-sm sm:text-base transition-colors ${isOpen ? "text-purple-300" : "text-white/80 group-hover:text-white"}`}>
+                              <span
+                                className={`font-medium text-sm sm:text-base transition-colors ${isOpen ? "text-purple-300" : "text-white/80 group-hover:text-white"}`}
+                              >
                                 {faq.question}
                               </span>
-                              <div className={`text-xs ml-4 transition-transform duration-300 ${isOpen ? "rotate-180 text-purple-400" : "text-white/40"}`}>
+                              <div
+                                className={`text-xs ml-4 transition-transform duration-300 ${isOpen ? "rotate-180 text-purple-400" : "text-white/40"}`}
+                              >
                                 ▼
                               </div>
                             </button>
-                            <div className={`grid transition-all duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
+                            <div
+                              className={`grid transition-all duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+                            >
                               <div className="overflow-hidden">
                                 <div className="px-5 sm:px-6 pb-6 text-sm text-white/60 leading-relaxed">
                                   {faq.answer}
@@ -295,14 +334,11 @@ export default function ContactPage() {
                         );
                       })}
                     </div>
-                    
                   </div>
                 </div>
               </div>
-
             </div>
           </section>
-
         </div>
       </main>
     </Layout>

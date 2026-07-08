@@ -1,5 +1,11 @@
 import React, { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useMotionValueEvent, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useMotionValueEvent,
+  AnimatePresence,
+} from "framer-motion";
 import { ServiceInfo } from "@/components/sanixor/ServiceDetailsModal";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
@@ -22,11 +28,7 @@ const ROTATIONS = [
   { x: 90, y: -360 },
 ];
 
-export function ServicesCube({
-  services,
-}: {
-  services: ServiceCubeData[];
-}) {
+export function ServicesCube({ services }: { services: ServiceCubeData[] }) {
   const [active, setActive] = useState(0);
   const [mobileModalOpen, setMobileModalOpen] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -61,7 +63,7 @@ export function ServicesCube({
   });
 
   const [windowWidth, setWindowWidth] = useState(
-    typeof window !== "undefined" ? window.innerWidth : 1200
+    typeof window !== "undefined" ? window.innerWidth : 1200,
   );
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -133,27 +135,62 @@ export function ServicesCube({
 
         {/* 3-Column Grid Wrapper */}
         <div className="relative z-10 flex flex-col lg:grid lg:grid-cols-[1fr_auto_1fr] items-center w-full max-w-[100rem] mx-auto px-4 lg:px-12 gap-8 lg:gap-16 pb-12">
-          
           {/* ========================================= */}
           {/* LEFT COLUMN: Premium Full-Circle Arc Menu */}
           {/* ========================================= */}
           <div className="hidden lg:flex flex-col justify-center items-start w-full max-w-[360px] relative h-[550px] shrink-0">
-            
             {/* The High-Tech Rotary Wheel */}
             <div className="absolute top-1/2 -translate-y-1/2 left-[-600px] w-[700px] h-[700px] pointer-events-none rounded-full flex items-center justify-center shadow-[inset_0_0_120px_rgba(168,85,247,0.05)] bg-gradient-to-r from-transparent via-white/[0.01] to-purple-900/[0.1] border border-white/[0.08] backdrop-blur-[2px]">
-              
               {/* Spinning Dial Ticks */}
-              <svg viewBox="0 0 700 700" className="w-full h-full absolute inset-0 animate-[spin_90s_linear_infinite] opacity-80">
-                <circle cx="350" cy="350" r="348" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1" strokeDasharray="2 8" />
-                <circle cx="350" cy="350" r="335" fill="none" stroke="rgba(168,85,247,0.4)" strokeWidth="2" strokeDasharray="1 15" />
-                <circle cx="350" cy="350" r="320" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="4" strokeDasharray="2 30" />
+              <svg
+                viewBox="0 0 700 700"
+                className="w-full h-full absolute inset-0 animate-[spin_90s_linear_infinite] opacity-80"
+              >
+                <circle
+                  cx="350"
+                  cy="350"
+                  r="348"
+                  fill="none"
+                  stroke="rgba(255,255,255,0.15)"
+                  strokeWidth="1"
+                  strokeDasharray="2 8"
+                />
+                <circle
+                  cx="350"
+                  cy="350"
+                  r="335"
+                  fill="none"
+                  stroke="rgba(168,85,247,0.4)"
+                  strokeWidth="2"
+                  strokeDasharray="1 15"
+                />
+                <circle
+                  cx="350"
+                  cy="350"
+                  r="320"
+                  fill="none"
+                  stroke="rgba(255,255,255,0.05)"
+                  strokeWidth="4"
+                  strokeDasharray="2 30"
+                />
               </svg>
 
-              <svg viewBox="0 0 700 700" className="w-full h-full absolute inset-0 animate-[spin_120s_linear_infinite_reverse] opacity-60">
-                <circle cx="350" cy="350" r="290" fill="none" stroke="rgba(168,85,247,0.2)" strokeWidth="1" strokeDasharray="4 40" />
+              <svg
+                viewBox="0 0 700 700"
+                className="w-full h-full absolute inset-0 animate-[spin_120s_linear_infinite_reverse] opacity-60"
+              >
+                <circle
+                  cx="350"
+                  cy="350"
+                  r="290"
+                  fill="none"
+                  stroke="rgba(168,85,247,0.2)"
+                  strokeWidth="1"
+                  strokeDasharray="4 40"
+                />
               </svg>
             </div>
-            
+
             {/* Mechanical Active Lock/Node */}
             <div className="absolute top-1/2 -translate-y-1/2 left-[96px] w-[6px] h-[32px] bg-purple-400 rounded-full shadow-[0_0_20px_rgba(168,85,247,1)] pointer-events-none border border-white/50" />
             <div className="absolute top-1/2 -translate-y-1/2 left-[60px] w-[80px] h-[100px] bg-purple-500/30 rounded-full blur-2xl pointer-events-none" />
@@ -162,10 +199,10 @@ export function ServicesCube({
             {services.map((s, idx) => {
               const Icon = s.iconComponent as React.ComponentType<{ className?: string }>;
               const isActive = idx === active;
-              
+
               // Math for the arc (R=350, Right Edge=100)
               const d = idx - active;
-              const y = d * 105; 
+              const y = d * 105;
               const x = -Math.pow(Math.abs(d), 2.1) * 16;
               const opacity = isActive ? 1 : 1 - Math.abs(d) * 0.25;
               const scale = isActive ? 1 : 1 - Math.abs(d) * 0.15;
@@ -181,26 +218,36 @@ export function ServicesCube({
                     "group absolute left-[68px] top-1/2 -mt-8 flex items-center h-16 rounded-full transition-[width,background-color,border-color,box-shadow] duration-300 ease-out outline-none text-left border overflow-hidden",
                     isActive
                       ? "bg-gradient-to-r from-purple-900/60 to-purple-900/20 border-purple-400 shadow-[0_0_40px_rgba(168,85,247,0.4)] backdrop-blur-2xl w-[300px] px-6 gap-5 z-20"
-                      : "bg-white/[0.03] border-white/10 hover:bg-white/[0.1] hover:border-white/30 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] w-16 justify-center px-0 gap-0 z-10 cursor-pointer backdrop-blur-md"
+                      : "bg-white/[0.03] border-white/10 hover:bg-white/[0.1] hover:border-white/30 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] w-16 justify-center px-0 gap-0 z-10 cursor-pointer backdrop-blur-md",
                   )}
                 >
                   {/* Icon */}
-                  <div className={cn(
-                    "flex items-center justify-center w-12 h-12 transition-all duration-300 shrink-0",
-                    isActive ? "rounded-2xl bg-purple-400/30 text-purple-100 rotate-6 shadow-[inset_0_0_20px_rgba(168,85,247,0.7)]" : "rounded-full bg-transparent text-muted-foreground group-hover:text-white group-hover:scale-110"
-                  )}>
+                  <div
+                    className={cn(
+                      "flex items-center justify-center w-12 h-12 transition-all duration-300 shrink-0",
+                      isActive
+                        ? "rounded-2xl bg-purple-400/30 text-purple-100 rotate-6 shadow-[inset_0_0_20px_rgba(168,85,247,0.7)]"
+                        : "rounded-full bg-transparent text-muted-foreground group-hover:text-white group-hover:scale-110",
+                    )}
+                  >
                     <Icon className="w-6 h-6 shrink-0" />
                   </div>
 
                   {/* Text content */}
-                  <div className={cn(
-                    "flex flex-col whitespace-nowrap transition-all duration-300",
-                    isActive ? "opacity-100 translate-x-0" : "opacity-0 translate-x-4 w-0"
-                  )}>
-                    <span className={cn(
-                      "font-mono text-sm uppercase tracking-wider font-bold transition-colors duration-300",
-                      isActive ? "text-white drop-shadow-[0_0_10px_rgba(168,85,247,0.9)]" : "text-muted-foreground group-hover:text-white"
-                    )}>
+                  <div
+                    className={cn(
+                      "flex flex-col whitespace-nowrap transition-all duration-300",
+                      isActive ? "opacity-100 translate-x-0" : "opacity-0 translate-x-4 w-0",
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        "font-mono text-sm uppercase tracking-wider font-bold transition-colors duration-300",
+                        isActive
+                          ? "text-white drop-shadow-[0_0_10px_rgba(168,85,247,0.9)]"
+                          : "text-muted-foreground group-hover:text-white",
+                      )}
+                    >
                       {s.title}
                     </span>
                   </div>
@@ -219,7 +266,7 @@ export function ServicesCube({
                 SERVICES
               </p>
             </div>
-            
+
             <motion.div
               animate={{ rotateX: tiltX, rotateY: tiltY }}
               transition={{ type: "spring", stiffness: 100, damping: 30 }}
@@ -301,7 +348,8 @@ export function ServicesCube({
             {/* Desktop Counter */}
             <div className="hidden lg:flex absolute -bottom-32 left-1/2 -translate-x-1/2 flex-col items-center gap-1 pointer-events-none">
               <p className="font-mono text-sm tracking-[0.3em] uppercase text-muted-foreground font-semibold">
-                <span className="text-white">{String(active + 1).padStart(2, "0")}</span> <span className="opacity-40">/ 06</span>
+                <span className="text-white">{String(active + 1).padStart(2, "0")}</span>{" "}
+                <span className="opacity-40">/ 06</span>
               </p>
             </div>
           </div>
@@ -321,7 +369,7 @@ export function ServicesCube({
               >
                 {/* Slow animated border gradient */}
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
-                
+
                 {/* Content */}
                 <div className="relative z-10 flex flex-col h-full">
                   <div className="mb-6 text-center">
@@ -344,21 +392,27 @@ export function ServicesCube({
                     {services[active].capabilities?.map((cap, i) => (
                       <div key={i} className="flex items-start gap-2">
                         <div className="w-1.5 h-1.5 rounded-full bg-purple-500 mt-1.5 shrink-0" />
-                        <span className="text-xs text-white/80"><strong className="text-white font-medium">{cap.title}</strong>: {cap.desc}</span>
+                        <span className="text-xs text-white/80">
+                          <strong className="text-white font-medium">{cap.title}</strong>:{" "}
+                          {cap.desc}
+                        </span>
                       </div>
                     ))}
                   </div>
 
                   <div className="flex flex-wrap gap-2 mb-8 mt-auto">
                     {services[active].tags?.map((tag, i) => (
-                      <span key={i} className="px-2 py-1 text-[10px] font-mono uppercase tracking-wider bg-white/5 border border-white/10 rounded-md text-white/60 transition-all duration-300 hover:-translate-y-0.5 cursor-default">
+                      <span
+                        key={i}
+                        className="px-2 py-1 text-[10px] font-mono uppercase tracking-wider bg-white/5 border border-white/10 rounded-md text-white/60 transition-all duration-300 hover:-translate-y-0.5 cursor-default"
+                      >
                         {tag}
                       </span>
                     ))}
                   </div>
 
                   <div className="mt-auto flex justify-center w-full">
-                    <Link 
+                    <Link
                       to={`/${services[active].slug}`}
                       className="inline-flex items-center gap-2 px-8 py-3 bg-white text-black font-semibold rounded-full hover:bg-purple-100 transition-colors group/btn shadow-[0_0_20px_rgba(255,255,255,0.1)]"
                     >
@@ -373,13 +427,12 @@ export function ServicesCube({
 
           {/* Mobile Fallback: Horizontal Scroll Menu instead of Arrow Nav */}
           <div className="flex lg:hidden flex-col gap-6 w-full mt-6 relative z-10 px-2 pb-10">
-            
             {/* Horizontal Scroll Menu (Icons Only) */}
             <div className="flex justify-between w-full max-w-[320px] mx-auto py-4 items-center px-1">
               {services.map((s, idx) => {
                 const Icon = s.iconComponent as React.ComponentType<{ className?: string }>;
                 const isActive = active === idx;
-                
+
                 return (
                   <button
                     key={s.id}
@@ -391,23 +444,27 @@ export function ServicesCube({
                       "flex items-center justify-center w-9 h-9 rounded-full border transition-all duration-300",
                       isActive
                         ? "bg-purple-500/40 border-purple-400 shadow-[0_0_20px_rgba(168,85,247,0.5)] scale-110"
-                        : "bg-white/[0.05] border-white/10 hover:bg-white/[0.1]"
+                        : "bg-white/[0.05] border-white/10 hover:bg-white/[0.1]",
                     )}
                   >
-                    <Icon className={cn("w-4 h-4 transition-colors duration-300", isActive ? "text-white" : "text-muted-foreground")} />
+                    <Icon
+                      className={cn(
+                        "w-4 h-4 transition-colors duration-300",
+                        isActive ? "text-white" : "text-muted-foreground",
+                      )}
+                    />
                   </button>
                 );
               })}
             </div>
           </div>
-          
         </div>
       </div>
 
       {/* Mobile Modal Popup for Detail View */}
       <AnimatePresence>
         {mobileModalOpen && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -423,40 +480,63 @@ export function ServicesCube({
               onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
             >
               {/* Close Handle */}
-              <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-12 h-1.5 bg-white/20 rounded-full cursor-pointer" onClick={() => setMobileModalOpen(false)} />
-              
+              <div
+                className="absolute -top-12 left-1/2 -translate-x-1/2 w-12 h-1.5 bg-white/20 rounded-full cursor-pointer"
+                onClick={() => setMobileModalOpen(false)}
+              />
+
               <div className="absolute inset-0 bg-gradient-to-b from-purple-500/10 to-transparent opacity-80 rounded-3xl blur-xl pointer-events-none" />
               <div className="relative w-full bg-[#0a0a0a]/95 border border-white/10 rounded-3xl p-6 shadow-[0_-20px_60px_-15px_rgba(168,85,247,0.3),inset_0_0_40px_rgba(255,255,255,0.02)] overflow-hidden">
                 {/* Background Glow */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/20 blur-3xl rounded-full pointer-events-none" />
-                
+
                 <div className="flex justify-between items-start mb-4">
                   <p className="text-[10px] font-mono uppercase tracking-[0.3em] text-purple-400 font-bold flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse" />
                     {services[active].shortSubtitle}
                   </p>
-                  <button onClick={() => setMobileModalOpen(false)} className="text-white/50 hover:text-white p-1">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                  <button
+                    onClick={() => setMobileModalOpen(false)}
+                    className="text-white/50 hover:text-white p-1"
+                  >
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
                   </button>
                 </div>
-                
-                <h3 className="text-2xl font-bold mb-3 text-white tracking-tight">{services[active].title}</h3>
-                
+
+                <h3 className="text-2xl font-bold mb-3 text-white tracking-tight">
+                  {services[active].title}
+                </h3>
+
                 <p className="text-sm text-white/70 leading-relaxed mb-6">
                   {services[active].description}
                 </p>
-                
+
                 <div className="space-y-3 mb-8">
                   {services[active].capabilities?.slice(0, 3).map((cap, i) => (
                     <div key={i} className="flex items-start gap-3">
                       <div className="w-1.5 h-1.5 rounded-full bg-purple-500 mt-1.5 shrink-0 shadow-[0_0_10px_rgba(168,85,247,0.8)]" />
-                      <span className="text-sm text-white/80 leading-snug"><strong className="text-white font-semibold">{cap.title}</strong>: {cap.desc}</span>
+                      <span className="text-sm text-white/80 leading-snug">
+                        <strong className="text-white font-semibold">{cap.title}</strong>:{" "}
+                        {cap.desc}
+                      </span>
                     </div>
                   ))}
                 </div>
 
-                <Link 
-                  to={`/${services[active].slug}`} 
+                <Link
+                  to={`/${services[active].slug}`}
                   onClick={() => setMobileModalOpen(false)}
                   className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-white text-black text-sm font-bold rounded-xl hover:bg-purple-100 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.2)]"
                 >
@@ -472,21 +552,15 @@ export function ServicesCube({
 }
 
 const FACE_GLOWS = [
-  "rgba(168, 85, 247, 0.5)",  // Purple 500
+  "rgba(168, 85, 247, 0.5)", // Purple 500
   "rgba(216, 180, 254, 0.4)", // Purple 300 (Whiter)
-  "rgba(126, 34, 206, 0.6)",  // Purple 700 (Darker)
+  "rgba(126, 34, 206, 0.6)", // Purple 700 (Darker)
   "rgba(233, 213, 255, 0.3)", // Purple 200 (Almost white)
-  "rgba(147, 51, 234, 0.5)",  // Purple 600
+  "rgba(147, 51, 234, 0.5)", // Purple 600
   "rgba(192, 132, 252, 0.4)", // Purple 400
 ];
 
-function CubeFace({
-  service,
-  index = 0,
-}: {
-  service: ServiceCubeData;
-  index?: number;
-}) {
+function CubeFace({ service, index = 0 }: { service: ServiceCubeData; index?: number }) {
   const glow = FACE_GLOWS[index % 6];
 
   return (
