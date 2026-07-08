@@ -35,7 +35,8 @@ const services: ServiceCubeData[] = [
     title: "Agent as a Service",
     shortSubtitle: "Fully Managed Agents",
     iconComponent: Sparkles,
-    description: "",
+    description: "Build intelligent workflows and deploy interconnected AI agents that collaborate to automate your most complex business processes with zero downtime.",
+    slug: "agent-as-a-service",
     tags: ["API Integration", "Event Automation", "Custom Workflows", "Managed Hosting"],
     image: "/service-1.png",
     capabilities: [
@@ -54,7 +55,8 @@ const services: ServiceCubeData[] = [
     title: "Custom Agent Dev",
     shortSubtitle: "Bespoke AI Solutions",
     iconComponent: Code2,
-    description: "",
+    description: "Train models on your proprietary datasets securely and connect custom agents to your internal ERPs & CRMs with full IP ownership.",
+    slug: "custom-agent-dev",
     tags: ["Domain-Specific", "Full Ownership", "Docs & Handover", "Institutional"],
     image: "/service-2.png",
     capabilities: [
@@ -76,7 +78,8 @@ const services: ServiceCubeData[] = [
     title: "API Integration",
     shortSubtitle: "Enterprise Connectivity",
     iconComponent: Network,
-    description: "",
+    description: "Engineered for high-throughput enterprise scale, our SDKs and webhooks provide sub-millisecond latency for real-time event-driven updates.",
+    slug: "api-integration",
     tags: ["Comprehensive SDKs", "Webhooks", "Legacy Support", "REST/GraphQL"],
     image: "/service-3.png",
     capabilities: [
@@ -95,7 +98,8 @@ const services: ServiceCubeData[] = [
     title: "Event Operations",
     shortSubtitle: "Autonomous Management",
     iconComponent: Play,
-    description: "",
+    description: "Deploy 24/7 autonomous agents for instant attendee support, dynamic scheduling, and post-event analytics for seamless live operations.",
+    slug: "event-automation",
     tags: ["Live Q&A Agents", "Ticketing", "Scheduling", "Analytics"],
     image: "/service-4.png",
     capabilities: [
@@ -111,7 +115,8 @@ const services: ServiceCubeData[] = [
     title: "Conversational UX",
     shortSubtitle: "Next-Gen Interfaces",
     iconComponent: Smile,
-    description: "",
+    description: "Next-generation interfaces featuring real-time emotion detection, contextual memory, and seamless switching between voice and text.",
+    slug: "conversational-ux",
     tags: ["Sentiment Analysis", "Voice Interfaces", "Emotion AI", "UX Design"],
     image: "/service-1.png",
     capabilities: [
@@ -127,7 +132,8 @@ const services: ServiceCubeData[] = [
     title: "AI Architecture",
     shortSubtitle: "Strategic System Design",
     iconComponent: PenTool,
-    description: "",
+    description: "Design robust, SOC2 and GDPR compliant multi-model infrastructures with failover strategies for mission-critical enterprise agents.",
+    slug: "ai-architecture",
     tags: ["System Design", "Compliance", "Security Audits", "Scalability"],
     image: "/service-2.png",
     capabilities: [
