@@ -2,12 +2,6 @@
 
 Deploy `sanixor-website` to Cloudflare Pages with auto-deploy on every push to
 `main`.
-
-> **Current state:** the site is live on **Vercel** today. Migrating to
-> Cloudflare Pages is optional — this repo already ships the Cloudflare-native
-> files (`public/_redirects`, `public/_headers`) which Vercel ignores, so both
-> hosts work from the same repo.
-
 ## Create the Pages project
 
 1. Cloudflare Dashboard → **Workers & Pages → Create → Pages → Connect to Git**.
@@ -62,6 +56,3 @@ Then load the site and submit a form — it should POST to
 
 - `wrangler.jsonc` in the repo is a leftover Workers template and is **not** used
   by Pages Git builds; it can be ignored or deleted.
-- `vercel.json` only affects Vercel; harmless on Cloudflare.
-- To fully cut over from Vercel: add the domains to Pages, then remove them from
-  Vercel so only one host serves production.

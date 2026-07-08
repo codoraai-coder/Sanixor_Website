@@ -57,13 +57,13 @@ const pageLinks = [
     gradientFrom: "#F7971E",
     gradientTo: "#FFD200",
   },
-  {
-    to: "/hiring",
-    label: "Careers",
-    icon: UserPlus,
-    gradientFrom: "#FF6A88",
-    gradientTo: "#FF99AC",
-  },
+  // {
+  //   to: "/hiring",
+  //   label: "Careers",
+  //   icon: UserPlus,
+  //   gradientFrom: "#FF6A88",
+  //   gradientTo: "#FF99AC",
+  // },
 ];
 
 const socialLinks = [

@@ -21,7 +21,7 @@ const topics: ContactTopic[] = [
   "Product Demo",
   "Training",
   "Partnership",
-  "Careers",
+  // "Careers",
   "Press",
 ];
 

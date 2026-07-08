@@ -95,7 +95,7 @@ export default function Achievements() {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* CTA 
       <section className="mx-auto max-w-6xl px-4 pb-24 pt-6 text-center">
         <p className="text-muted-foreground">Want to build the next milestone with us?</p>
         <Link
@@ -106,6 +106,7 @@ export default function Achievements() {
           <ArrowRight className="h-4 w-4" />
         </Link>
       </section>
+      */}
     </Layout>
   );
 }

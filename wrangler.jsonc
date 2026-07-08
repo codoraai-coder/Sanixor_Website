@@ -14,13 +14,6 @@
   "compatibility_date": "2026-07-01",
 
   // Deploy to the account's *.workers.dev subdomain.
-  //
-  // Custom domains (sanixor.space + www): the zone is on Cloudflare, but the
-  // apex/www still hold the old Vercel DNS records, which block Wrangler from
-  // provisioning the domain automatically. Attach them via the dashboard once
-  // (Workers & Pages → sanixor-website → Settings → Domains & Routes → Add
-  // Custom Domain) — that flow replaces the stale record for you. After that,
-  // these can optionally be declared here as `routes` with `custom_domain: true`.
   "workers_dev": true,
 
   // Static SPA: serve ./dist, and serve index.html (200) for any unmatched
