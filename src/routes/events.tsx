@@ -1,7 +1,7 @@
-import { Navbar } from '@/components/sanixor/Navbar';
-import { Footer } from '@/components/sanixor/Footer';
-import { ScrollReveal } from '@/components/sanixor/ScrollReveal';
-import { EventCard } from '@/components/events/EventCard';
+import { Navbar } from "@/components/sanixor/Navbar";
+import { Footer } from "@/components/sanixor/Footer";
+import { ScrollReveal } from "@/components/sanixor/ScrollReveal";
+import { EventCard } from "@/components/events/EventCard";
 
 export default function Events() {
   return (

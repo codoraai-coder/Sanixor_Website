@@ -65,7 +65,7 @@ export function SmartScrollNav({ items, offset = 120 }: SmartScrollNavProps) {
             setActiveId(id);
           }
         },
-        { threshold: 0.15, rootMargin: `-${offset}px 0px -40% 0px` }
+        { threshold: 0.15, rootMargin: `-${offset}px 0px -40% 0px` },
       );
       observer.observe(el);
       observers.push(observer);
@@ -212,10 +212,7 @@ export function SmartScrollNav({ items, offset = 120 }: SmartScrollNavProps) {
       </div>
 
       {/* Sticky navigation */}
-      <div
-        ref={navRef}
-        className={`av2-nav-bar ${isSticky ? "av2-nav-sticky" : ""}`}
-      >
+      <div ref={navRef} className={`av2-nav-bar ${isSticky ? "av2-nav-sticky" : ""}`}>
         <div className="av2-nav-inner" ref={scrollContainerRef}>
           {items.map((item) => (
             <button

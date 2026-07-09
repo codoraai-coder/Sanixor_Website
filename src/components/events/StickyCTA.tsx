@@ -198,9 +198,7 @@ export function StickyCTA({ label, statusBadge, onClick, heroRef, footerRef }: S
         }
       `}</style>
 
-      <div
-        className={`av2-sticky-wrap ${visible ? "av2-sticky-visible" : "av2-sticky-hidden"}`}
-      >
+      <div className={`av2-sticky-wrap ${visible ? "av2-sticky-visible" : "av2-sticky-hidden"}`}>
         {statusBadge && <span className="av2-sticky-badge">{statusBadge}</span>}
         <button className="av2-sticky-btn" onClick={onClick}>
           {label}

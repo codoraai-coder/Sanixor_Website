@@ -58,4 +58,3 @@ project's DNS constraint the GoDaddy nameservers stay, so the Cloudflare
 deployment lives at `*.workers.dev` unless/until that decision changes. The
 `_redirects` www→apex rule and `_headers` only take effect once a custom domain
 is attached.
-

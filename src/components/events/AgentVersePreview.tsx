@@ -445,9 +445,9 @@ export function AgentVersePreview() {
             Agent<em>Verse</em> 2.0
           </h1>
           <p className="av2-desc">
-            The world is not waiting for AI to arrive. It already has. 
-            Join AgentVerse 2.0 — a high-stakes hacking environment for Agentic AI Swarms 
-            and MCP Servers. Build, compile, and battle live.
+            The world is not waiting for AI to arrive. It already has. Join AgentVerse 2.0 — a
+            high-stakes hacking environment for Agentic AI Swarms and MCP Servers. Build, compile,
+            and battle live.
           </p>
 
           {/* 4-Step Journey */}
@@ -485,15 +485,24 @@ export function AgentVersePreview() {
             <div className="av2-highlights">
               <div className="av2-high-item">
                 <span className="av2-high-bullet" />
-                <span><strong>Act I &amp; II</strong>: High-throughput swarms workshop &amp; problem release.</span>
+                <span>
+                  <strong>Act I &amp; II</strong>: High-throughput swarms workshop &amp; problem
+                  release.
+                </span>
               </div>
               <div className="av2-high-item">
                 <span className="av2-high-bullet" />
-                <span><strong>Act III</strong>: Continuous live local benchmark leaderboard test iterations.</span>
+                <span>
+                  <strong>Act III</strong>: Continuous live local benchmark leaderboard test
+                  iterations.
+                </span>
               </div>
               <div className="av2-high-item">
                 <span className="av2-high-bullet" />
-                <span><strong>Act IV</strong>: Evaluation run, final showcases, and internship selections.</span>
+                <span>
+                  <strong>Act IV</strong>: Evaluation run, final showcases, and internship
+                  selections.
+                </span>
               </div>
             </div>
           </div>

@@ -2,6 +2,7 @@
 
 Deploy `sanixor-website` to Cloudflare Pages with auto-deploy on every push to
 `main`.
+
 ## Create the Pages project
 
 1. Cloudflare Dashboard → **Workers & Pages → Create → Pages → Connect to Git**.

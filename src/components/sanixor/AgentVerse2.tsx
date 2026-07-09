@@ -879,8 +879,8 @@ export function AgentVerse2({ mode = "full", registerTriggerRef }: AgentVerse2Pr
               </div>
 
               <p className="av2-desc">
-                The world is not waiting for AI to arrive. It already has. The only question is — are
-                you building it, or watching it happen? AgentVerse 2.0 is a live, pressured
+                The world is not waiting for AI to arrive. It already has. The only question is —
+                are you building it, or watching it happen? AgentVerse 2.0 is a live, pressured
                 environment for Agentic AI Swarms &amp; MCP Servers.
               </p>
 
@@ -932,8 +932,8 @@ export function AgentVerse2({ mode = "full", registerTriggerRef }: AgentVerse2Pr
               </div>
 
               <p className="av2-desc">
-                The world is not waiting for AI to arrive. It already has. The only question is — are
-                you building it, or watching it happen? AgentVerse 2.0 is a live, pressured
+                The world is not waiting for AI to arrive. It already has. The only question is —
+                are you building it, or watching it happen? AgentVerse 2.0 is a live, pressured
                 environment for Agentic AI Swarms & MCP Servers.
               </p>
             </div>
@@ -1004,7 +1004,9 @@ export function AgentVerse2({ mode = "full", registerTriggerRef }: AgentVerse2Pr
                   </svg>
                 </div>
                 <div>
-                  <div className="av2-callout-title">A Capability Event, Not Just a Certificate</div>
+                  <div className="av2-callout-title">
+                    A Capability Event, Not Just a Certificate
+                  </div>
                   <div className="av2-callout-sub">
                     Top 3 win exclusive prizes. One outstanding builder secures a guaranteed
                     internship.
@@ -1076,11 +1078,17 @@ export function AgentVerse2({ mode = "full", registerTriggerRef }: AgentVerse2Pr
         </div>
       )}
 
-      {!isPreview && showDetails && <AgentVerseDetailsModal onClose={() => setShowDetails(false)} />}
+      {!isPreview && showDetails && (
+        <AgentVerseDetailsModal onClose={() => setShowDetails(false)} />
+      )}
 
-      {!isPreview && showRegister && <AgentVerseRegistrationModal onClose={() => setShowRegister(false)} />}
+      {!isPreview && showRegister && (
+        <AgentVerseRegistrationModal onClose={() => setShowRegister(false)} />
+      )}
 
-      {!isPreview && showPartnership && <AgentVersePartnershipModal onClose={() => setShowPartnership(false)} />}
+      {!isPreview && showPartnership && (
+        <AgentVersePartnershipModal onClose={() => setShowPartnership(false)} />
+      )}
     </>
   );
 }

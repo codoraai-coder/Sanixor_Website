@@ -94,8 +94,8 @@ createRoot(document.getElementById("root")!).render(
               <Route path="/conversational-ux" element={<ConversationalUX />} />
               <Route path="/ai-architecture" element={<AIArchitecture />} />
               <Route path="/events" element={<Events />} />
-                <Route path="/events/agentverse-2" element={<AgentVersePage />} />
-                <Route path="*" element={<NotFound />} />
+              <Route path="/events/agentverse-2" element={<AgentVersePage />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </InitialLoader>
           <Toaster position="top-center" theme="dark" richColors closeButton />
