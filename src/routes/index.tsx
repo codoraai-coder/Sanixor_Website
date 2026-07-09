@@ -1,5 +1,5 @@
 import { ScrollReveal } from "@/components/sanixor/ScrollReveal";
-import { AgentVerse2 } from "@/components/sanixor/AgentVerse2";
+import { AgentVersePreview } from "@/components/events/AgentVersePreview";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -225,7 +225,7 @@ export default function Index() {
           <div className="mx-auto max-w-7xl px-4 md:px-6 mb-8 md:mb-12">
             <SectionHeader label="Events" />
           </div>
-          <AgentVerse2 />
+          <AgentVersePreview />
         </section>
       </ScrollReveal>
 

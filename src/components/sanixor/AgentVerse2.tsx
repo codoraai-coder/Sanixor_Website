@@ -3,30 +3,41 @@ import { AgentVerseDetailsModal } from "./AgentVerseDetailsModal";
 import { AgentVerseRegistrationModal } from "./AgentVerseRegistrationModal";
 import { AgentVersePartnershipModal } from "./AgentVersePartnershipModal";
 
-export function AgentVerse2() {
+interface AgentVerse2Props {
+  mode?: "preview" | "full";
+  registerTriggerRef?: React.RefObject<(() => void) | null>;
+}
+
+export function AgentVerse2({ mode = "full", registerTriggerRef }: AgentVerse2Props) {
+  const isPreview = mode === "preview";
   const [showDetails, setShowDetails] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [showPartnership, setShowPartnership] = useState(false);
 
   useEffect(() => {
+    if (registerTriggerRef) {
+      registerTriggerRef.current = () => setShowRegister(true);
+    }
+  }, [registerTriggerRef]);
+
+  useEffect(() => {
+    if (isPreview) return;
     const params = new URLSearchParams(window.location.search);
     const action = params.get("action");
 
     if (action === "register" || action === "details") {
-      // Scroll to the section manually since React router / modal-locking might prevent native hash scroll
       const section = document.getElementById("event");
       if (section) {
         section.scrollIntoView({ behavior: "smooth" });
       }
 
-      // Delay opening the modal just enough to let the smooth scroll start, preventing body-lock at the top of the page
       setTimeout(() => {
         if (action === "register") setShowRegister(true);
         if (action === "details") setShowDetails(true);
         window.history.replaceState({}, "", "/#event");
       }, 300);
     }
-  }, []);
+  }, [isPreview]);
 
   return (
     <>
@@ -842,174 +853,234 @@ export function AgentVerse2() {
       `}</style>
 
       {/* ── HERO ── */}
-      <div className="av2-root">
-        <div className="av2-dot-grid" />
-        <div className="av2-scanline" />
+      {isPreview ? (
+        /* ── PREVIEW MODE: clickable card, left column only ── */
+        <a
+          href="/events/agentverse-2"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="av2-root"
+          style={{ display: "block", textDecoration: "none", color: "inherit", cursor: "pointer" }}
+        >
+          <div className="av2-dot-grid" />
+          <div className="av2-glow1" />
+          <div className="av2-body">
+            <div className="av2-body-left">
+              <div className="av2-badges">
+                <span className="av2-badge av2-badge-gold">Register Now</span>
+                <span className="av2-badge av2-badge-purple">Season Two</span>
+              </div>
 
-        <div className="av2-glow1" />
-        <div className="av2-body">
-          <div className="av2-body-left">
-            <div className="av2-badges">
-              <span className="av2-badge av2-badge-gold">Register Now</span>
-              <span className="av2-badge av2-badge-purple">Season Two</span>
+              <div className="av2-eyebrow">The Arena for the Next Generation of AI Builders</div>
+              <div className="av2-divider" />
+
+              <div className="av2-title">
+                Agent<em>Verse</em> 2.0
+              </div>
+
+              <p className="av2-desc">
+                The world is not waiting for AI to arrive. It already has. The only question is — are
+                you building it, or watching it happen? AgentVerse 2.0 is a live, pressured
+                environment for Agentic AI Swarms &amp; MCP Servers.
+              </p>
+
+              <div className="av2-actions">
+                <button
+                  className="av2-btn av2-btn-primary"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.open("/events/agentverse-2", "_blank");
+                  }}
+                >
+                  View Details
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 16 16 12 12 8" />
+                    <line x1="8" y1="12" x2="16" y2="12" />
+                  </svg>
+                </button>
+              </div>
             </div>
-
-            <div className="av2-eyebrow">The Arena for the Next Generation of AI Builders</div>
-            <div className="av2-divider" />
-
-            <div className="av2-title">
-              Agent<em>Verse</em> 2.0
-            </div>
-
-            <p className="av2-desc">
-              The world is not waiting for AI to arrive. It already has. The only question is — are
-              you building it, or watching it happen? AgentVerse 2.0 is a live, pressured
-              environment for Agentic AI Swarms & MCP Servers.
-            </p>
           </div>
+        </a>
+      ) : (
+        /* ── FULL MODE: two-column layout with all features, CTAs, modals ── */
+        <div className="av2-root">
+          <div className="av2-dot-grid" />
+          <div className="av2-scanline" />
 
-          <div className="av2-body-right">
-            <div className="av2-features">
-              {[
-                { label: "Agentic AI Swarms", icon: <path d="M13 10V3L4 14h7v7l9-11h-7z" /> },
-                {
-                  label: "MCP Servers",
-                  icon: (
-                    <>
-                      <rect x="2" y="7" width="20" height="14" rx="2" />
-                      <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
-                    </>
-                  ),
-                },
-                {
-                  label: "Full-Day Online",
-                  icon: (
-                    <>
-                      <circle cx="12" cy="12" r="10" />
-                      <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-                    </>
-                  ),
-                },
-                {
-                  label: "Real Competition",
-                  icon: (
-                    <>
-                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                      <circle cx="9" cy="7" r="4" />
-                      <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-                    </>
-                  ),
-                },
-              ].map(({ label, icon }) => (
-                <div className="av2-feat" key={label}>
-                  <div className="av2-feat-ico">
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      {icon}
-                    </svg>
+          <div className="av2-glow1" />
+          <div className="av2-body">
+            <div className="av2-body-left">
+              <div className="av2-badges">
+                <span className="av2-badge av2-badge-gold">Register Now</span>
+                <span className="av2-badge av2-badge-purple">Season Two</span>
+              </div>
+
+              <div className="av2-eyebrow">The Arena for the Next Generation of AI Builders</div>
+              <div className="av2-divider" />
+
+              <div className="av2-title">
+                Agent<em>Verse</em> 2.0
+              </div>
+
+              <p className="av2-desc">
+                The world is not waiting for AI to arrive. It already has. The only question is — are
+                you building it, or watching it happen? AgentVerse 2.0 is a live, pressured
+                environment for Agentic AI Swarms & MCP Servers.
+              </p>
+            </div>
+
+            <div className="av2-body-right">
+              <div className="av2-features">
+                {[
+                  { label: "Agentic AI Swarms", icon: <path d="M13 10V3L4 14h7v7l9-11h-7z" /> },
+                  {
+                    label: "MCP Servers",
+                    icon: (
+                      <>
+                        <rect x="2" y="7" width="20" height="14" rx="2" />
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                      </>
+                    ),
+                  },
+                  {
+                    label: "Full-Day Online",
+                    icon: (
+                      <>
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                      </>
+                    ),
+                  },
+                  {
+                    label: "Real Competition",
+                    icon: (
+                      <>
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+                      </>
+                    ),
+                  },
+                ].map(({ label, icon }) => (
+                  <div className="av2-feat" key={label}>
+                    <div className="av2-feat-ico">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        {icon}
+                      </svg>
+                    </div>
+                    {label}
                   </div>
-                  {label}
-                </div>
-              ))}
-            </div>
-
-            <div className="av2-callout">
-              <div className="av2-callout-ico">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <rect x="2" y="8" width="20" height="8" rx="2" />
-                  <path d="M6 20v-4M18 20v-4M8 12h.01M16 12h.01M12 8V4H8" />
-                </svg>
+                ))}
               </div>
-              <div>
-                <div className="av2-callout-title">A Capability Event, Not Just a Certificate</div>
-                <div className="av2-callout-sub">
-                  Top 3 win exclusive prizes. One outstanding builder secures a guaranteed
-                  internship.
+
+              <div className="av2-callout">
+                <div className="av2-callout-ico">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <rect x="2" y="8" width="20" height="8" rx="2" />
+                    <path d="M6 20v-4M18 20v-4M8 12h.01M16 12h.01M12 8V4H8" />
+                  </svg>
+                </div>
+                <div>
+                  <div className="av2-callout-title">A Capability Event, Not Just a Certificate</div>
+                  <div className="av2-callout-sub">
+                    Top 3 win exclusive prizes. One outstanding builder secures a guaranteed
+                    internship.
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="av2-actions">
-              <button className="av2-btn av2-btn-outline" onClick={() => setShowDetails(true)}>
-                View Details
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <polyline points="12 16 16 12 12 8" />
-                  <line x1="8" y1="12" x2="16" y2="12" />
-                </svg>
-              </button>
-            </div>
+              <div className="av2-actions">
+                <button className="av2-btn av2-btn-outline" onClick={() => setShowDetails(true)}>
+                  View Details
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 16 16 12 12 8" />
+                    <line x1="8" y1="12" x2="16" y2="12" />
+                  </svg>
+                </button>
+              </div>
 
-            <div
-              className="av2-cta-row"
-              style={{
-                opacity: 0,
-                animation: "av2-up .6s .6s cubic-bezier(0.16, 1, 0.3, 1) forwards",
-              }}
-            >
-              <button className="av2-btn av2-btn-flashy" onClick={() => setShowRegister(true)}>
-                Register Now
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
-              </button>
-              <button className="av2-btn av2-btn-glow" onClick={() => setShowPartnership(true)}>
-                Become a Partner
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  style={{ width: 18 }}
-                >
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                  <circle cx="9" cy="7" r="4" />
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-                </svg>
-              </button>
-            </div>
+              <div
+                className="av2-cta-row"
+                style={{
+                  opacity: 0,
+                  animation: "av2-up .6s .6s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+                }}
+              >
+                <button className="av2-btn av2-btn-flashy" onClick={() => setShowRegister(true)}>
+                  Register Now
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </button>
+                <button className="av2-btn av2-btn-glow" onClick={() => setShowPartnership(true)}>
+                  Become a Partner
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    style={{ width: 18 }}
+                  >
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+                  </svg>
+                </button>
+              </div>
 
-            <div className="av2-ribbon">
-              Season Two · <span>Register Now</span>
+              <div className="av2-ribbon">
+                Season Two · <span>Register Now</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
-      {showDetails && <AgentVerseDetailsModal onClose={() => setShowDetails(false)} />}
+      {!isPreview && showDetails && <AgentVerseDetailsModal onClose={() => setShowDetails(false)} />}
 
-      {showRegister && <AgentVerseRegistrationModal onClose={() => setShowRegister(false)} />}
+      {!isPreview && showRegister && <AgentVerseRegistrationModal onClose={() => setShowRegister(false)} />}
 
-      {showPartnership && <AgentVersePartnershipModal onClose={() => setShowPartnership(false)} />}
+      {!isPreview && showPartnership && <AgentVersePartnershipModal onClose={() => setShowPartnership(false)} />}
     </>
   );
 }

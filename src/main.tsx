@@ -31,6 +31,8 @@ import ConversationalUX from "./routes/conversational-ux";
 import AIArchitecture from "./routes/ai-architecture";
 import Achievements from "./routes/achievements";
 import "./styles.css";
+import Events from "./routes/events";
+import AgentVersePage from "./routes/events/agentverse-2";
 
 import StandardScrollToTop from "./components/sanixor/StandardScrollToTop";
 import { InitialLoader } from "./components/sanixor/InitialLoader";
@@ -91,7 +93,9 @@ createRoot(document.getElementById("root")!).render(
               <Route path="/socioai" element={<SocioAi />} />
               <Route path="/conversational-ux" element={<ConversationalUX />} />
               <Route path="/ai-architecture" element={<AIArchitecture />} />
-              <Route path="*" element={<NotFound />} />
+              <Route path="/events" element={<Events />} />
+                <Route path="/events/agentverse-2" element={<AgentVersePage />} />
+                <Route path="*" element={<NotFound />} />
             </Routes>
           </InitialLoader>
           <Toaster position="top-center" theme="dark" richColors closeButton />
