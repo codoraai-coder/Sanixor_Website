@@ -56,6 +56,7 @@ export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
     company: "",
     message: "",
   });
@@ -66,7 +67,7 @@ export default function ContactPage() {
     submit: formService.submitContact,
     successMessage: "Message sent — we'll reply within 24 hours.",
     onSuccess: () => {
-      setFormData({ name: "", email: "", company: "", message: "" });
+      setFormData({ name: "", email: "", phone: "", company: "", message: "" });
       setTimeout(reset, 4000);
     },
     onError: () => {
@@ -83,6 +84,7 @@ export default function ContactPage() {
     await submit({
       name: formData.name,
       email: formData.email,
+      phone: formData.phone || undefined,
       company: formData.company || undefined,
       topic: selectedTopic,
       message: formData.message,
@@ -174,17 +176,32 @@ export default function ContactPage() {
                       </div>
                     </div>
 
-                    <div className="space-y-1.5">
-                      <label className="text-[10px] font-mono uppercase tracking-wider text-white/50 ml-1">
-                        Company (Optional)
-                      </label>
-                      <input
-                        type="text"
-                        name="company"
-                        value={formData.company}
-                        onChange={handleInputChange}
-                        className="w-full rounded-2xl bg-white/[0.03] px-4 py-4 text-sm border border-white/5 text-white focus:border-purple-500/50 focus:bg-white/10 focus:ring-1 focus:ring-purple-500/50 outline-none transition-all duration-300"
-                      />
+                    {/* Company & Phone Row */}
+                    <div className="grid sm:grid-cols-2 gap-6">
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] font-mono uppercase tracking-wider text-white/50 ml-1">
+                          Company (Optional)
+                        </label>
+                        <input
+                          type="text"
+                          name="company"
+                          value={formData.company}
+                          onChange={handleInputChange}
+                          className="w-full rounded-2xl bg-white/[0.03] px-4 py-4 text-sm border border-white/5 text-white focus:border-purple-500/50 focus:bg-white/10 focus:ring-1 focus:ring-purple-500/50 outline-none transition-all duration-300"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] font-mono uppercase tracking-wider text-white/50 ml-1">
+                          Phone Number (Optional)
+                        </label>
+                        <input
+                          type="tel"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          className="w-full rounded-2xl bg-white/[0.03] px-4 py-4 text-sm border border-white/5 text-white focus:border-purple-500/50 focus:bg-white/10 focus:ring-1 focus:ring-purple-500/50 outline-none transition-all duration-300"
+                        />
+                      </div>
                     </div>
 
                     <div className="space-y-1.5 flex-grow flex flex-col">

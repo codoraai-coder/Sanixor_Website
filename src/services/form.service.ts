@@ -24,6 +24,7 @@ export type ContactTopic =
 export interface ContactPayload {
   name: string;
   email: string;
+  phone?: string;
   company?: string;
   topic: ContactTopic;
   message: string;

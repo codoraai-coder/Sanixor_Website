@@ -850,7 +850,7 @@ export function AgentVerse2() {
         <div className="av2-body">
           <div className="av2-body-left">
             <div className="av2-badges">
-              <span className="av2-badge av2-badge-gold">Coming Soon</span>
+              <span className="av2-badge av2-badge-gold">Register Now</span>
               <span className="av2-badge av2-badge-purple">Season Two</span>
             </div>
 
@@ -999,7 +999,7 @@ export function AgentVerse2() {
             </div>
 
             <div className="av2-ribbon">
-              Season Two · <span>Coming Soon</span>
+              Season Two · <span>Register Now</span>
             </div>
           </div>
         </div>
