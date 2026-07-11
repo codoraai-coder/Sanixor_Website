@@ -87,12 +87,12 @@ export default function AgentVersePage() {
     {
       step: 3,
       title: "Participate",
-      description: "Join the event, collaborate with your team, and build innovative AI solutions.",
+      description: "Join the event, build your agents solo, and ship innovative AI solutions.",
     },
     {
       step: 4,
       title: "Win & Grow",
-      description: "Compete for prizes, certificates, and internship opportunities.",
+      description: "Compete for rewards, recognition, and internship opportunities.",
     },
   ];
 
@@ -257,8 +257,8 @@ export default function AgentVersePage() {
                 desc: "Professionals with up to 3 years of industry experience looking to break into Agent systems design.",
               },
               {
-                title: "Individual or Team Registration",
-                desc: "Participate solo or in teams of up to 4 members. Collaboration across roles is highly encouraged.",
+                title: "Individual Participation Only",
+                desc: "AgentVerse 2.0 is a solo competition — each participant registers and builds individually. No team entries.",
               },
               {
                 title: "Technical Requirements",
@@ -292,21 +292,21 @@ export default function AgentVersePage() {
           <div className="grid gap-6 md:grid-cols-3 max-w-5xl mx-auto">
             {[
               {
-                rank: "Winner Swarm",
-                prize: "$1,500 Cash + VIP Swag",
-                desc: "Awarded to the team scoring highest on target task metrics and architectural evaluation.",
+                rank: "Champion",
+                prize: "Free OpenAI Codex Subscription*",
+                desc: "Awarded to the top individual builder scoring highest on target task metrics and architectural evaluation.",
                 border: "border-yellow-500/30",
               },
               {
                 rank: "Runner Up",
-                prize: "$1,000 Cash + Certificates",
-                desc: "Awarded to the second highest scoring intelligent multi-agent framework implementation.",
+                prize: "Codex Subscription + Certificates",
+                desc: "Awarded to the second highest scoring individual multi-agent framework implementation.",
                 border: "border-slate-300/30",
               },
               {
-                rank: "Internship Candidate",
-                prize: "Guaranteed Interview",
-                desc: "One exceptional builder will secure a paid remote AI Architecture internship at Sanixor AI.",
+                rank: "Internship Track",
+                prize: "Top Contestants May Receive Offers",
+                desc: "Standout builders may receive offers for a paid remote AI Architecture internship at Sanixor AI.",
                 border: "border-amber-600/30",
               },
             ].map((p, idx) => (
@@ -324,6 +324,10 @@ export default function AgentVersePage() {
               </div>
             ))}
           </div>
+          <p className="text-center text-xs text-purple-200/40 mt-6 max-w-xl mx-auto">
+            *Reward subscriptions are subject to eligibility and terms; full details will be shared
+            with finalists.
+          </p>
         </section>
 
         {/* FAQs Section */}
@@ -400,8 +404,8 @@ export default function AgentVersePage() {
             <ClipboardCheck className="h-12 w-12 text-purple-400 mx-auto mb-4 animate-bounce" />
             <h2 className="text-3xl font-bold text-white mb-4">Secure Your Seat Today</h2>
             <p className="text-purple-200/60 max-w-xl mx-auto mb-8">
-              Join dozens of developers pushing the boundary of Agentic AI. Team registration or
-              solo entry.
+              Join dozens of developers pushing the boundary of Agentic AI. Individual entry —
+              register and compete solo.
             </p>
             <button
               onClick={triggerRegisterModal}
@@ -421,10 +425,10 @@ export default function AgentVersePage() {
             special accommodation request.
           </p>
           <a
-            href="mailto:events@sanixor.ai"
+            href="mailto:events@sanixor.space"
             className="text-purple-400 hover:underline font-semibold"
           >
-            events@sanixor.ai
+            events@sanixor.space
           </a>
         </section>
       </main>

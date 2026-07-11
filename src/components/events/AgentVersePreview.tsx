@@ -290,7 +290,10 @@ export function AgentVersePreview() {
         .av2-stats-row {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
+          /* Equalize every card's height across all rows, not just within one. */
+          grid-auto-rows: 1fr;
           gap: 12px;
+          align-items: stretch;
         }
         @media (min-width: 480px) {
           .av2-stats-row {
@@ -298,6 +301,12 @@ export function AgentVersePreview() {
           }
         }
         .av2-stat-card {
+          display: flex;
+          flex-direction: column;
+          /* Fill the equalized grid track so all cards match in height. */
+          height: 100%;
+          /* Allow long values to wrap inside the track instead of overflowing. */
+          min-width: 0;
           background: rgba(255, 255, 255, 0.02);
           border: 1px solid rgba(255, 255, 255, 0.05);
           border-radius: 14px;
@@ -317,11 +326,26 @@ export function AgentVersePreview() {
           text-transform: uppercase;
           letter-spacing: 0.05em;
           margin-bottom: 4px;
+          overflow-wrap: anywhere;
         }
         .av2-stat-value {
           font-size: 15px;
           font-weight: 800;
           color: #fff;
+          line-height: 1.25;
+          /* Wrap gracefully; never spill past the card edge. */
+          overflow-wrap: anywhere;
+          text-wrap: balance;
+        }
+        /* Longer values step the font down so they stay readable without
+           growing the card or clipping. */
+        .av2-stat-value--long {
+          font-size: 13px;
+        }
+        .av2-stat-star {
+          margin-left: 1px;
+          color: #a78bfa;
+          font-weight: 800;
         }
 
         /* ── Premium CTA Card ── */
@@ -510,20 +534,25 @@ export function AgentVersePreview() {
           {/* Row of statistic cards */}
           <div className="av2-stats-row">
             <div className="av2-stat-card">
-              <div className="av2-stat-label">Prize Pool</div>
-              <div className="av2-stat-value">$1,500</div>
+              <div className="av2-stat-label">Rewards</div>
+              <div className="av2-stat-value av2-stat-value--long">
+                Free OpenAI Codex Subscription
+                <span className="av2-stat-star">*</span>
+              </div>
             </div>
             <div className="av2-stat-card">
-              <div className="av2-stat-label">Team Size</div>
-              <div className="av2-stat-value">1 - 4</div>
+              <div className="av2-stat-label">Participation</div>
+              <div className="av2-stat-value">Individual Only</div>
             </div>
             <div className="av2-stat-card">
               <div className="av2-stat-label">Duration</div>
               <div className="av2-stat-value">Full-Day</div>
             </div>
             <div className="av2-stat-card">
-              <div className="av2-stat-label">Internship</div>
-              <div className="av2-stat-value">Paid Offer</div>
+              <div className="av2-stat-label">Internship Opportunity</div>
+              <div className="av2-stat-value av2-stat-value--long">
+                Top Contestants May Receive Offers
+              </div>
             </div>
           </div>
 
