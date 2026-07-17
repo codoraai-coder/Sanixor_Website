@@ -32,7 +32,6 @@ export function AgentVerse2({ mode = "full", registerTriggerRef }: AgentVerse2Pr
       }
 
       setTimeout(() => {
-        if (action === "register") setShowRegister(true);
         if (action === "details") setShowDetails(true);
         window.history.replaceState({}, "", "/#event");
       }, 300);
@@ -139,6 +138,19 @@ export function AgentVerse2({ mode = "full", registerTriggerRef }: AgentVerse2Pr
           flex-shrink: 0;
         }
         @keyframes av2-blink { 0%,100%{opacity:1; box-shadow: 0 0 8px #f5c542;} 50%{opacity:.4; box-shadow: 0 0 2px #f5c542;} }
+        .av2-badge-closed {
+          background: rgba(244, 63, 94, 0.08);
+          color: #fb7185;
+          border: 1px solid rgba(244, 63, 94, 0.2);
+          box-shadow: inset 0 1px 1px rgba(255,255,255,0.1);
+        }
+        .av2-badge-closed::before {
+          content: '';
+          width: 6px; height: 6px;
+          border-radius: 50%;
+          background: #fb7185;
+          flex-shrink: 0;
+        }
         .av2-badge-purple {
           background: rgba(139, 92, 246, 0.1);
           color: #c4b5fd;
@@ -385,6 +397,32 @@ export function AgentVerse2({ mode = "full", registerTriggerRef }: AgentVerse2Pr
           color: #fff;
         }
         .av2-btn-glow:active { transform: translateY(0); }
+        .av2-btn-disabled {
+          background: rgba(255, 255, 255, 0.04);
+          color: #71717a;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          cursor: not-allowed;
+          box-shadow: none;
+        }
+        .av2-btn-disabled::after { display: none; }
+        .av2-btn-disabled:hover {
+          transform: none;
+          background: rgba(255, 255, 255, 0.04);
+          box-shadow: none;
+          color: #71717a;
+        }
+        .av2-closed-note {
+          margin-top: 14px;
+          font-size: 13px;
+          color: #a1a1aa;
+          text-align: left;
+        }
+        .av2-closed-note a {
+          color: #c4b5fd;
+          font-weight: 600;
+          text-decoration: none;
+        }
+        .av2-closed-note a:hover { text-decoration: underline; }
         @media (max-width: 520px) {
           .av2-cta-row { flex-direction: column; }
         }
@@ -867,7 +905,7 @@ export function AgentVerse2({ mode = "full", registerTriggerRef }: AgentVerse2Pr
           <div className="av2-body">
             <div className="av2-body-left">
               <div className="av2-badges">
-                <span className="av2-badge av2-badge-gold">Register Now</span>
+                <span className="av2-badge av2-badge-closed">Registrations Closed</span>
                 <span className="av2-badge av2-badge-purple">Season Two</span>
               </div>
 
@@ -920,7 +958,7 @@ export function AgentVerse2({ mode = "full", registerTriggerRef }: AgentVerse2Pr
           <div className="av2-body">
             <div className="av2-body-left">
               <div className="av2-badges">
-                <span className="av2-badge av2-badge-gold">Register Now</span>
+                <span className="av2-badge av2-badge-closed">Registrations Closed</span>
                 <span className="av2-badge av2-badge-purple">Season Two</span>
               </div>
 
@@ -1039,18 +1077,8 @@ export function AgentVerse2({ mode = "full", registerTriggerRef }: AgentVerse2Pr
                   animation: "av2-up .6s .6s cubic-bezier(0.16, 1, 0.3, 1) forwards",
                 }}
               >
-                <button className="av2-btn av2-btn-flashy" onClick={() => setShowRegister(true)}>
-                  Register Now
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
+                <button className="av2-btn av2-btn-disabled" disabled>
+                  Registrations Closed
                 </button>
                 <button className="av2-btn av2-btn-glow" onClick={() => setShowPartnership(true)}>
                   Become a Partner
@@ -1071,7 +1099,12 @@ export function AgentVerse2({ mode = "full", registerTriggerRef }: AgentVerse2Pr
               </div>
 
               <div className="av2-ribbon">
-                Season Two · <span>Register Now</span>
+                Season Two · <span>Registrations Closed</span>
+              </div>
+
+              <div className="av2-closed-note">
+                For any query, message{" "}
+                <a href="mailto:events@sanixor.space">events@sanixor.space</a>
               </div>
             </div>
           </div>

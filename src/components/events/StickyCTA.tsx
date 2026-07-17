@@ -4,11 +4,19 @@ export interface StickyCTAProps {
   label: string;
   statusBadge?: string;
   onClick: () => void;
+  disabled?: boolean;
   heroRef: RefObject<HTMLElement | null>;
   footerRef: RefObject<HTMLElement | null>;
 }
 
-export function StickyCTA({ label, statusBadge, onClick, heroRef, footerRef }: StickyCTAProps) {
+export function StickyCTA({
+  label,
+  statusBadge,
+  onClick,
+  disabled,
+  heroRef,
+  footerRef,
+}: StickyCTAProps) {
   const [visible, setVisible] = useState(false);
 
   const checkVisibility = useCallback(() => {
@@ -105,9 +113,9 @@ export function StickyCTA({ label, statusBadge, onClick, heroRef, footerRef }: S
           font-weight: 700;
           letter-spacing: .1em;
           text-transform: uppercase;
-          background: rgba(245, 197, 66, 0.08);
-          color: #f5c542;
-          border: 1px solid rgba(245, 197, 66, 0.2);
+          background: rgba(244, 63, 94, 0.08);
+          color: #fb7185;
+          border: 1px solid rgba(244, 63, 94, 0.2);
           backdrop-filter: blur(8px);
           white-space: nowrap;
         }
@@ -116,14 +124,8 @@ export function StickyCTA({ label, statusBadge, onClick, heroRef, footerRef }: S
           width: 6px;
           height: 6px;
           border-radius: 50%;
-          background: #f5c542;
-          box-shadow: 0 0 8px #f5c542;
-          animation: av2-sticky-blink 2s ease-in-out infinite;
+          background: #fb7185;
           flex-shrink: 0;
-        }
-        @keyframes av2-sticky-blink {
-          0%, 100% { opacity: 1; box-shadow: 0 0 8px #f5c542; }
-          50% { opacity: 0.4; box-shadow: 0 0 2px #f5c542; }
         }
 
         /* ── Button ── */
@@ -187,6 +189,19 @@ export function StickyCTA({ label, statusBadge, onClick, heroRef, footerRef }: S
         .av2-sticky-btn:hover svg {
           transform: translateX(3px);
         }
+        .av2-sticky-btn-disabled {
+          background: rgba(255, 255, 255, 0.06);
+          color: #71717a;
+          box-shadow: none;
+          cursor: not-allowed;
+          animation: none;
+        }
+        .av2-sticky-btn-disabled::after { display: none; }
+        .av2-sticky-btn-disabled:hover {
+          transform: none;
+          background: rgba(255, 255, 255, 0.06);
+          box-shadow: none;
+        }
 
         /* Mobile: button fills remaining space */
         @media (max-width: 768px) {
@@ -200,18 +215,24 @@ export function StickyCTA({ label, statusBadge, onClick, heroRef, footerRef }: S
 
       <div className={`av2-sticky-wrap ${visible ? "av2-sticky-visible" : "av2-sticky-hidden"}`}>
         {statusBadge && <span className="av2-sticky-badge">{statusBadge}</span>}
-        <button className="av2-sticky-btn" onClick={onClick}>
+        <button
+          className={`av2-sticky-btn ${disabled ? "av2-sticky-btn-disabled" : ""}`}
+          onClick={disabled ? undefined : onClick}
+          disabled={disabled}
+        >
           {label}
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
+          {!disabled && (
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          )}
         </button>
       </div>
     </>

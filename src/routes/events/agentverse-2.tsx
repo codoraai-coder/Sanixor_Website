@@ -401,17 +401,21 @@ export default function AgentVersePage() {
         <section id="register" className="scroll-mt-24 max-w-4xl mx-auto w-full">
           <div className="p-8 md:p-12 rounded-3xl border border-purple-500/20 bg-purple-950/10 backdrop-blur-md text-center relative overflow-hidden">
             <div className="absolute inset-0 bg-radial-gradient(circle at center, rgba(168, 85, 247, 0.1) 0%, transparent 70%) pointer-events-none" />
-            <ClipboardCheck className="h-12 w-12 text-purple-400 mx-auto mb-4 animate-bounce" />
-            <h2 className="text-3xl font-bold text-white mb-4">Secure Your Seat Today</h2>
+            <ClipboardCheck className="h-12 w-12 text-purple-400 mx-auto mb-4" />
+            <h2 className="text-3xl font-bold text-white mb-4">Registrations Closed</h2>
             <p className="text-purple-200/60 max-w-xl mx-auto mb-8">
-              Join dozens of developers pushing the boundary of Agentic AI. Individual entry —
-              register and compete solo.
+              Thank you for the incredible response! Registrations for AgentVerse 2.0 are now
+              closed. For any query, message{" "}
+              <a href="mailto:events@sanixor.space" className="text-purple-400 hover:underline">
+                events@sanixor.space
+              </a>
+              .
             </p>
             <button
-              onClick={triggerRegisterModal}
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-sm font-semibold uppercase tracking-wider text-white bg-purple-600 hover:bg-purple-500 shadow-glow transition-all duration-300"
+              disabled
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-sm font-semibold uppercase tracking-wider text-white/40 bg-white/5 border border-white/10 cursor-not-allowed"
             >
-              Start Registration
+              Registrations Closed
             </button>
           </div>
         </section>
@@ -447,9 +451,10 @@ export default function AgentVersePage() {
       `}</style>
 
       <StickyCTA
-        label="Register Now"
-        statusBadge="Registrations Open"
+        label="Registrations Closed"
+        statusBadge="Registrations Closed"
         onClick={triggerRegisterModal}
+        disabled
         heroRef={heroRef}
         footerRef={footerRef}
       />

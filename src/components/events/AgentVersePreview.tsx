@@ -171,6 +171,15 @@ export function AgentVersePreview() {
           animation: av2-blink 2s ease-in-out infinite;
         }
         @keyframes av2-blink { 0%,100%{opacity:1; } 50%{opacity:.3; } }
+        .av2-status-badge-closed {
+          background: rgba(244, 63, 94, 0.08);
+          color: #fb7185;
+          border-color: rgba(244, 63, 94, 0.2);
+        }
+        .av2-status-badge-closed::before {
+          background: #fb7185;
+          box-shadow: 0 0 8px #fb7185;
+        }
 
         .av2-eyebrow {
           font-size: 13px;
@@ -463,7 +472,7 @@ export function AgentVersePreview() {
       <div className="av2-body">
         {/* Left Column: Eyebrow, Title, Copy, Journey Steps */}
         <div className="av2-body-left">
-          <div className="av2-status-badge">Registrations Open — Only 15 Seats Left</div>
+          <div className="av2-status-badge av2-status-badge-closed">Registrations Closed</div>
           <div className="av2-eyebrow">The Ultimate AI Builder Arena</div>
           <h1 className="av2-title">
             Agent<em>Verse</em> 2.0
