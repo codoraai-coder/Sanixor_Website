@@ -2731,3 +2731,41 @@ html {
     width: 100%;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Reduced motion (WCAG 2.2.2 Pause/Stop/Hide, 2.3.3 Animation from
+   Interactions)
+
+   This site uses smooth-scroll hijacking, parallax and animated 3D. For
+   visitors who have asked their operating system to reduce motion, those
+   effects can cause genuine discomfort — so we cut animation to a
+   near-instant minimum and restore native scrolling.
+
+   Durations are set to 0.01ms rather than 0 so that animationend/
+   transitionend listeners still fire and no UI gets stuck waiting.
+   ═══════════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  /* Lenis is not initialised at all under reduced motion (see
+     useSmoothScroll.ts); neutralise its styles in case they persist. */
+  html.lenis,
+  html.lenis body {
+    height: auto !important;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+}

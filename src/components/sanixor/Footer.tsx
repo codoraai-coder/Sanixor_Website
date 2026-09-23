@@ -1,9 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useConsent } from "@/hooks/useConsent";
 import { ArrowUpRight, Instagram, Linkedin, Twitter } from "lucide-react";
 import { useState } from "react";
 
 export function Footer() {
+  const { openPreferences } = useConsent();
   // State tracking which original columns have been clicked/triggered to reveal smoothly
   const [revealedCols, setRevealedCols] = useState<{ [key: number]: boolean }>({
     1: true,
@@ -266,9 +268,64 @@ export function Footer() {
           transition: all 0.25s ease;
           letter-spacing: 0.05em;
         }
-        .sx-footer-bottom-links a:hover { 
-          color: var(--foreground); 
+        .sx-footer-bottom-links a:hover {
+          color: var(--foreground);
           text-shadow: 0 0 10px color-mix(in srgb, var(--foreground) 80%, transparent);
+        }
+
+        /* Legal & policies row */
+        .sx-footer-legal { padding: 4px 0 2px; }
+        .sx-footer-legal h4 {
+          font-family: 'DM Mono', monospace;
+          font-size: clamp(10px, 1.1vw, 11px);
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: color-mix(in srgb, var(--foreground) 55%, transparent);
+          margin: 0 0 10px;
+          font-weight: 500;
+        }
+        .sx-footer-legal ul {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px clamp(14px, 2vw, 22px);
+        }
+        .sx-footer-legal a {
+          font-family: 'DM Mono', monospace;
+          font-size: clamp(11px, 1.2vw, 12px);
+          color: color-mix(in srgb, var(--foreground) 70%, transparent);
+          text-decoration: none;
+          letter-spacing: 0.03em;
+          transition: color 0.25s ease;
+        }
+        .sx-footer-legal a:hover { color: var(--foreground); }
+        .sx-legal-button {
+          font-family: 'DM Mono', monospace;
+          font-size: clamp(11px, 1.2vw, 12px);
+          color: color-mix(in srgb, var(--foreground) 70%, transparent);
+          letter-spacing: 0.03em;
+          background: none;
+          border: none;
+          padding: 0;
+          cursor: pointer;
+          transition: color 0.25s ease;
+        }
+        .sx-legal-button:hover { color: var(--foreground); }
+        .sx-legal-button:focus-visible {
+          outline: 2px solid color-mix(in srgb, var(--foreground) 60%, transparent);
+          outline-offset: 3px;
+          border-radius: 2px;
+        }
+        .sx-footer-legal a:focus-visible {
+          outline: 2px solid color-mix(in srgb, var(--foreground) 60%, transparent);
+          outline-offset: 3px;
+          border-radius: 2px;
+        }
+        @media (max-width: 480px) {
+          .sx-footer-legal ul { gap: 8px 14px; }
+          .sx-footer-legal a { font-size: 12px; padding: 2px 0; }
         }
         
         /* EXACT MOBILE QUERIES FROM YOUR ORIGINAL SHIPPED GRAPHIC */
@@ -445,6 +502,59 @@ export function Footer() {
 
           <div className="sx-footer-divider"></div>
 
+          {/* Legal & policy — every published policy is reachable from here. */}
+          <nav className="sx-footer-legal" aria-label="Legal and policies">
+            <h4>Legal &amp; Policies</h4>
+            <ul>
+              <li>
+                <a href="/privacy">Privacy Policy</a>
+              </li>
+              <li>
+                <a href="/terms">Terms of Service</a>
+              </li>
+              <li>
+                <a href="/refund-policy">Refund &amp; Cancellation</a>
+              </li>
+              <li>
+                <a href="/cookie-policy">Cookie Policy</a>
+              </li>
+              <li>
+                <a href="/security">Security</a>
+              </li>
+              <li>
+                <a href="/accessibility">Accessibility</a>
+              </li>
+              <li>
+                <a href="/subprocessors">Subprocessors</a>
+              </li>
+              <li>
+                <a href="/data-rights">Your Data Rights</a>
+              </li>
+              <li>
+                <a href="/data-deletion">Data Deletion</a>
+              </li>
+              <li>
+                <a href="/grievance">Grievance Redressal</a>
+              </li>
+              <li>
+                <a href="/acceptable-use">Acceptable Use</a>
+              </li>
+              <li>
+                <a href="/intellectual-property">Intellectual Property</a>
+              </li>
+              <li>
+                <a href="/disclaimer">Disclaimer</a>
+              </li>
+              <li>
+                <button type="button" onClick={openPreferences} className="sx-legal-button">
+                  Cookie Preferences
+                </button>
+              </li>
+            </ul>
+          </nav>
+
+          <div className="sx-footer-divider"></div>
+
           <div className="sx-footer-bottom">
             <p className="sx-copyright">
               &copy; 2025 <span>Sanixor AI</span>. Built for the next generation.
@@ -452,7 +562,9 @@ export function Footer() {
             <div className="sx-footer-bottom-links">
               <a href="/contact">Contact Us</a>
               <a href="/privacy">Privacy Policy</a>
-              <a href="/terms">Terms & Conditions</a>
+              <a href="/terms">Terms of Service</a>
+              <a href="/refund-policy">Refunds</a>
+              <a href="/grievance">Grievance</a>
             </div>
           </div>
         </div>

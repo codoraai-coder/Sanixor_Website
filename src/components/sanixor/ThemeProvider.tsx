@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { useConsent } from "@/hooks/useConsent";
 
 export type Theme = "midnight";
 
@@ -41,18 +42,35 @@ function applyTheme(t: Theme) {
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>("midnight");
+  const { allows } = useConsent();
+  const mayPersist = allows("functional");
 
   useEffect(() => {
-    // Read from localStorage if available
-    const saved = localStorage.getItem("sanixor-theme") as Theme;
-    const initial: Theme = THEMES.find((t) => t.id === saved) ? saved : "midnight";
-    setThemeState(initial);
-    applyTheme(initial);
-  }, []);
+    // Only read the stored preference if functional storage was consented
+    // to. Without consent the theme simply starts at the default each
+    // visit — the site works, it just does not remember.
+    if (!mayPersist) {
+      applyTheme("midnight");
+      return;
+    }
+    try {
+      const saved = localStorage.getItem("sanixor-theme") as Theme;
+      const initial: Theme = THEMES.find((t) => t.id === saved) ? saved : "midnight";
+      setThemeState(initial);
+      applyTheme(initial);
+    } catch {
+      applyTheme("midnight");
+    }
+  }, [mayPersist]);
 
   const setTheme = (t: Theme) => {
     setThemeState(t);
     applyTheme(t);
+
+    // Applying the theme for this session is always fine; persisting it
+    // across visits is what needs consent.
+    if (!mayPersist) return;
+
     try {
       localStorage.setItem("sanixor-theme", t);
     } catch {

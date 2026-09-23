@@ -4,6 +4,8 @@ import { Navbar } from "@/components/sanixor/Navbar";
 import { Footer } from "@/components/sanixor/Footer";
 import { RegistrationTimeline } from "@/components/events/RegistrationTimeline";
 import { StickyCTA } from "@/components/events/StickyCTA";
+import { Link } from "react-router-dom";
+import { EVENTS, formatFee } from "@/config/events.config";
 import { SmartScrollNav } from "@/components/events/SmartScrollNav";
 import {
   Calendar,
@@ -101,6 +103,7 @@ export default function AgentVersePage() {
     { id: "agenda", label: "Agenda" },
     { id: "timeline", label: "Timeline" },
     { id: "tracks", label: "Tracks" },
+    { id: "pricing", label: "Pricing" },
     { id: "eligibility", label: "Eligibility" },
     { id: "prizes", label: "Prizes" },
     { id: "faqs", label: "FAQs" },
@@ -233,6 +236,71 @@ export default function AgentVersePage() {
                 <p className="text-sm text-purple-200/60 leading-relaxed">{track.desc}</p>
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* Pricing — published because Razorpay merchant terms and the
+            Consumer Protection (E-Commerce) Rules, 2020 both require the
+            price and the refund terms to be visible BEFORE purchase. The
+            amount is read from events.config.ts, which verify-compliance
+            checks against the backend constant Razorpay is charged with. */}
+        <section id="pricing" className="scroll-mt-24">
+          <div className="text-center mb-12">
+            <p className="text-sm font-medium uppercase tracking-[0.2em] text-purple-400">
+              What It Costs
+            </p>
+            <h2 className="text-3xl font-bold tracking-tight text-white md:text-5xl mt-2">
+              Registration Fee
+            </h2>
+          </div>
+
+          <div className="max-w-2xl mx-auto">
+            <div className="p-8 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-md text-center">
+              <p className="text-5xl font-black text-white tracking-tight">
+                {formatFee(EVENTS["agentverse-2"].feePaise).replace("INR ", "₹")}
+              </p>
+              <p className="mt-2 text-sm text-purple-200/60">
+                One-time registration fee · Same price for students and professionals
+              </p>
+              <p className="mt-4 text-xs text-white/50 leading-relaxed">
+                Inclusive of applicable taxes. Paid securely through Razorpay — we never see your
+                card details. Your place is confirmed only once payment is verified and a
+                registration ID is issued.
+              </p>
+
+              <div className="mt-6 pt-6 border-t border-white/10 flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs">
+                <Link
+                  to="/events/agentverse-2/refund"
+                  className="text-purple-300 hover:text-purple-200 underline underline-offset-4"
+                >
+                  Refund &amp; cancellation rules
+                </Link>
+                <Link
+                  to="/events/agentverse-2/terms"
+                  className="text-purple-300 hover:text-purple-200 underline underline-offset-4"
+                >
+                  Event terms
+                </Link>
+                <Link
+                  to="/events/agentverse-2/code-of-conduct"
+                  className="text-purple-300 hover:text-purple-200 underline underline-offset-4"
+                >
+                  Code of conduct
+                </Link>
+                <Link
+                  to="/events/agentverse-2/privacy"
+                  className="text-purple-300 hover:text-purple-200 underline underline-offset-4"
+                >
+                  Privacy notice
+                </Link>
+              </div>
+
+              <p className="mt-5 text-[11px] text-white/40 leading-relaxed">
+                Registration fees are non-refundable if you cancel or cannot attend. You receive a
+                full refund if we cancel the event, postpone it to a date you cannot make, or if you
+                are charged more than once.
+              </p>
+            </div>
           </div>
         </section>
 

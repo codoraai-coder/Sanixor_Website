@@ -11,6 +11,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { Layout } from "@/components/sanixor/Layout";
+import { FormPrivacyNotice } from "@/components/legal/FormPrivacyNotice";
 import { useFormSubmission } from "@/hooks/useFormSubmission";
 import { formService } from "@/services/form.service";
 import { Spinner } from "@/components/ui/spinner";
@@ -373,6 +374,8 @@ export default function HiringPage() {
                 />
               </div>
             </div>
+            <FormPrivacyNotice variant="hiring" className="mb-4" />
+
             <button
               type="submit"
               disabled={isSubmitting}

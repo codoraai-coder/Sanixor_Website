@@ -12,6 +12,22 @@ import type { RazorpayOptions, RazorpaySuccessResponse } from "@/types/razorpay"
  */
 
 /** Paid tiers only — institution is deferred (no online payment). */
+/**
+ * Proof of what the registrant accepted, recorded against the order.
+ * DPDP Act, 2023 s.6 requires consent to be informed and demonstrable; the
+ * versions let us show exactly which notice text was accepted.
+ */
+export interface ConsentRecord {
+  /** Version of the Terms of Service accepted. */
+  termsVersion: string;
+  /** Version of the Privacy Policy accepted. */
+  privacyVersion: string;
+  /** ISO timestamp of acceptance. */
+  acceptedAt: string;
+  /** The registrant confirmed they are 18 or older. */
+  ageConfirmed: boolean;
+}
+
 export type CreateOrderPayload =
   | {
       userType: "student";
@@ -21,6 +37,7 @@ export type CreateOrderPayload =
       rollNo: string;
       college: string;
       website?: string;
+      consent: ConsentRecord;
     }
   | {
       userType: "professional";
@@ -30,6 +47,7 @@ export type CreateOrderPayload =
       experience: number;
       organization: string;
       website?: string;
+      consent: ConsentRecord;
     };
 
 /** What the backend returns for a created order. */

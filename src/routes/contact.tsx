@@ -1,4 +1,8 @@
 import { Layout } from "@/components/sanixor/Layout";
+import { FormPrivacyNotice } from "@/components/legal/FormPrivacyNotice";
+import { CompanyFact } from "@/components/legal/CompanyFact";
+import { Link } from "react-router-dom";
+import { COMPANY } from "@/config/company.config";
 import { Check, Clock, Loader2, Mail, MapPin, Send, Zap } from "lucide-react";
 import { useState } from "react";
 import { useFormSubmission } from "@/hooks/useFormSubmission";
@@ -16,12 +20,12 @@ const contactInfo = [
   {
     icon: Mail,
     label: "Email",
-    value: "team@sanixor.space",
+    value: COMPANY.contact.support,
   },
   {
     icon: MapPin,
-    label: "Office",
-    value: "Noida, India",
+    label: "Registered",
+    value: "Ambedkar Nagar, UP",
   },
   {
     icon: Clock,
@@ -217,6 +221,8 @@ export default function ContactPage() {
                       />
                     </div>
 
+                    <FormPrivacyNotice variant="contact" className="mb-4" />
+
                     <button
                       type="submit"
                       disabled={status === "loading" || status === "success"}
@@ -250,25 +256,37 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              {/* BENTO BLOCK 2: THE MAP (Spans 4 columns, 1 row) */}
-              <div className="lg:col-span-4 lg:row-span-1 relative group h-[280px] lg:h-auto overflow-hidden rounded-[2.5rem]">
-                <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/30 to-transparent rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl pointer-events-none" />
-                <div className="relative h-full bg-white/[0.02] backdrop-blur-[40px] border border-white/10 rounded-[2.5rem] overflow-hidden transition-colors duration-500 hover:border-white/20">
-                  <div className="absolute inset-0 shadow-[inset_0_0_80px_rgba(0,0,0,1)] z-20 pointer-events-none" />
-                  <div className="absolute inset-0 bg-purple-900/30 mix-blend-overlay z-10 pointer-events-none transition-colors duration-500 group-hover:bg-purple-900/10" />
-                  <iframe
-                    title="Sanixor.AI Global Hub"
-                    src="https://www.openstreetmap.org/export/embed.html?bbox=77.26%2C28.47%2C77.38%2C28.59&layer=mapnik&marker=28.5355%2C77.3910"
-                    className="absolute inset-0 w-full h-full border-0 grayscale opacity-40 group-hover:opacity-70 transition-all duration-700 ease-out scale-125 pointer-events-none filter sepia-[0.3] hue-rotate-[250deg]"
-                    loading="lazy"
-                  />
+              {/* BENTO BLOCK 2: REGISTERED ADDRESS (Spans 4 columns, 1 row)
 
-                  {/* Floating Overlay Label */}
-                  <div className="absolute bottom-6 left-6 z-30">
-                    <div className="px-3 py-1.5 rounded-full bg-black/80 backdrop-blur-md border border-white/20 text-[10px] font-mono uppercase tracking-widest text-white/80">
-                      Coordinates Locked
-                    </div>
-                  </div>
+                  Previously an OpenStreetMap iframe pinned to Noida
+                  coordinates. Replaced because (a) the only verified address
+                  on the Udyam certificate is in Ambedkar Nagar, so the pin
+                  was an unverified location claim, and (b) the embed sent
+                  every visitor's IP to a third party on page load. The
+                  address is now plain text, which is also more accessible
+                  than a map. */}
+              <div className="lg:col-span-4 lg:row-span-1 relative group">
+                <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/20 to-transparent rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-xl pointer-events-none" />
+                <div className="relative h-full bg-white/[0.02] backdrop-blur-[40px] border border-white/10 rounded-[2.5rem] p-6 sm:p-8 flex flex-col justify-between transition-colors duration-500 hover:bg-white/[0.04] hover:border-white/20">
+                  <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-purple-400 mb-5">
+                    Registered Address
+                  </h3>
+
+                  <address className="not-italic flex-grow">
+                    <p className="text-base font-semibold text-white/90">
+                      <CompanyFact path="legalName" />
+                    </p>
+                    <p className="mt-1 text-xs font-mono uppercase tracking-wider text-purple-300/70">
+                      <CompanyFact path="entityType" />
+                    </p>
+                    <p className="mt-4 text-sm leading-relaxed text-white/65">
+                      <CompanyFact path="registeredAddress" />
+                    </p>
+                  </address>
+
+                  <p className="mt-6 text-[10px] font-mono uppercase tracking-widest text-white/40">
+                    Udyam <CompanyFact path="udyam" />
+                  </p>
                 </div>
               </div>
 
@@ -354,6 +372,117 @@ export default function ContactPage() {
                   </div>
                 </div>
               </div>
+            </div>
+          </section>
+
+          {/* ── Business information ──
+              Published because the Consumer Protection (E-Commerce) Rules,
+              2020 require an e-commerce entity to display its legal name,
+              registered address, customer-care contact and the name,
+              designation and contact of its grievance officer. */}
+          <section className="mx-auto max-w-5xl px-6 pb-24">
+            <div className="rounded-2xl border border-foreground/[0.08] bg-foreground/[0.02] p-6 sm:p-8">
+              <h2 className="text-xl font-semibold tracking-tight">Business Information</h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Statutory disclosures under the Consumer Protection (E-Commerce) Rules, 2020.
+              </p>
+
+              <dl className="mt-6 grid gap-x-8 gap-y-5 sm:grid-cols-2">
+                <div>
+                  <dt className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
+                    Legal entity
+                  </dt>
+                  <dd className="mt-1.5 text-sm text-foreground/85">
+                    <CompanyFact path="legalName" />
+                    <br />
+                    <span className="text-muted-foreground">
+                      <CompanyFact path="entityType" /> · Proprietor:{" "}
+                      <CompanyFact path="proprietor" />
+                    </span>
+                  </dd>
+                </div>
+                <div>
+                  <dt className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
+                    Registered office
+                  </dt>
+                  <dd className="mt-1.5 text-sm text-foreground/85">
+                    <CompanyFact path="registeredAddress" />
+                  </dd>
+                </div>
+                <div>
+                  <dt className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
+                    Customer support
+                  </dt>
+                  <dd className="mt-1.5 text-sm text-foreground/85">
+                    <a
+                      href={`mailto:${COMPANY.contact.support}`}
+                      className="text-primary underline-offset-4 hover:underline"
+                    >
+                      {COMPANY.contact.support}
+                    </a>
+                    <br />
+                    <CompanyFact path="contact.phone" />
+                    <br />
+                    <span className="text-muted-foreground">{COMPANY.contact.hours}</span>
+                  </dd>
+                </div>
+                <div>
+                  <dt className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
+                    Grievance officer
+                  </dt>
+                  <dd className="mt-1.5 text-sm text-foreground/85">
+                    <CompanyFact path="grievanceOfficer.name" />
+                    <br />
+                    <CompanyFact path="grievanceOfficer.designation" />
+                    <br />
+                    <a
+                      href={`mailto:${COMPANY.contact.grievance}`}
+                      className="text-primary underline-offset-4 hover:underline"
+                    >
+                      {COMPANY.contact.grievance}
+                    </a>
+                  </dd>
+                </div>
+                <div>
+                  <dt className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
+                    Registrations
+                  </dt>
+                  <dd className="mt-1.5 text-sm text-foreground/85">
+                    Udyam (MSME): <CompanyFact path="udyam" />
+                    <br />
+                    <span className="text-muted-foreground">
+                      <CompanyFact path="enterpriseType" />
+                    </span>
+                    <br />
+                    GSTIN: <CompanyFact path="gstin" />
+                  </dd>
+                </div>
+                <div>
+                  <dt className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
+                    Policies
+                  </dt>
+                  <dd className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1 text-sm">
+                    <Link to="/terms" className="text-primary underline-offset-4 hover:underline">
+                      Terms
+                    </Link>
+                    <Link to="/privacy" className="text-primary underline-offset-4 hover:underline">
+                      Privacy
+                    </Link>
+                    <Link
+                      to="/refund-policy"
+                      className="text-primary underline-offset-4 hover:underline"
+                    >
+                      Refunds
+                    </Link>
+                    <Link
+                      to="/grievance"
+                      className="text-primary underline-offset-4 hover:underline"
+                    >
+                      Grievance
+                    </Link>
+                  </dd>
+                </div>
+              </dl>
             </div>
           </section>
         </div>

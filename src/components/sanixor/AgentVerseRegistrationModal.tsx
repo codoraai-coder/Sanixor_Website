@@ -1,5 +1,8 @@
 import React, { useRef, useState } from "react";
 import { toast } from "sonner";
+import { Link } from "react-router-dom";
+import { PRIVACY_VERSION, TERMS_VERSION } from "@/config/policies.config";
+import { EVENTS, formatFee } from "@/config/events.config";
 import {
   paymentService,
   type CreateOrderPayload,
@@ -36,6 +39,9 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
   const [errorMessage, setErrorMessage] = useState("");
   const [registrationId, setRegistrationId] = useState("");
   const [userType, setUserType] = useState<SelectedType>("");
+  // Explicit, recorded acceptance — required before payment can start.
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [confirmedAge, setConfirmedAge] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -58,6 +64,14 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
   ) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
 
   /** Build the typed create-order payload for the selected paid profile. */
+  /** Snapshot of exactly what the registrant accepted, sent with the order. */
+  const buildConsent = () => ({
+    termsVersion: TERMS_VERSION,
+    privacyVersion: PRIVACY_VERSION,
+    acceptedAt: new Date().toISOString(),
+    ageConfirmed: confirmedAge,
+  });
+
   const buildPayload = (currentForm: typeof form, type: PaidUserType): CreateOrderPayload => {
     if (type === "student") {
       return {
@@ -67,6 +81,7 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
         phone: currentForm.phone,
         rollNo: currentForm.rollNo,
         college: currentForm.college,
+        consent: buildConsent(),
       };
     }
     return {
@@ -76,6 +91,7 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
       phone: currentForm.phone,
       experience: Number(currentForm.experience),
       organization: currentForm.organization,
+      consent: buildConsent(),
     };
   };
 
@@ -104,7 +120,7 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
       const message =
         err instanceof ApiError
           ? err.message
-          : "We couldn't verify your payment. If any amount was deducted, it will be refunded.";
+          : "We couldn't verify your payment. If any amount was deducted, email team@sanixor.space with your order ID and we will reconcile and refund it — see the Refund Policy for timelines.";
       console.warn("[AgentVerse] Payment verification failed");
       setErrorMessage(message);
       setPhase("failed");
@@ -158,6 +174,14 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
     // Only the paid tiers reach payment; guard against duplicate/invalid submits.
     if (phase !== "form") return;
     if (userType !== "student" && userType !== "professional") return;
+
+    // Consent is a precondition of payment, not a formality.
+    if (!acceptedTerms || !confirmedAge) {
+      setErrorMessage(
+        "Please confirm your age and accept the Terms of Service and Privacy Policy to continue.",
+      );
+      return;
+    }
 
     setPhase("redirecting");
     try {
@@ -333,7 +357,7 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
               <div className="text-lg font-bold text-white">Payment verification failed</div>
               <p className="text-[13px] text-muted-foreground max-w-[320px]">
                 {errorMessage ||
-                  "We couldn't verify your payment. If any amount was deducted, it will be refunded automatically."}
+                  "We couldn't verify your payment. If any amount was deducted, email team@sanixor.space with your order ID and we will reconcile and refund it."}
               </p>
               <button
                 type="button"
@@ -652,7 +676,76 @@ export function AgentVerseRegistrationModal({ onClose }: Props) {
                 </>
               )}
 
-              <button type="submit" className="av2-submit">
+              {/* Fee shown before the consent block, so the amount is
+                  visible at the moment of acceptance rather than first
+                  appearing on the Razorpay checkout. */}
+              <div className="av2-fee">
+                <span className="av2-fee-label">Registration fee</span>
+                <span className="av2-fee-amount">
+                  {formatFee(EVENTS["agentverse-2"].feePaise).replace("INR ", "₹")}
+                </span>
+              </div>
+
+              {/* ── Consent: DPDP s.5 notice + explicit acceptance ── */}
+              <div className="av2-consent">
+                <label className="av2-consent-row">
+                  <input
+                    type="checkbox"
+                    checked={confirmedAge}
+                    onChange={(e) => setConfirmedAge(e.target.checked)}
+                    required
+                  />
+                  <span>
+                    I confirm I am <strong>18 years of age or older</strong>. If you are under 18, a
+                    parent or guardian must register on your behalf.
+                  </span>
+                </label>
+
+                <label className="av2-consent-row">
+                  <input
+                    type="checkbox"
+                    checked={acceptedTerms}
+                    onChange={(e) => setAcceptedTerms(e.target.checked)}
+                    required
+                  />
+                  <span>
+                    I accept the{" "}
+                    <Link to="/events/agentverse-2/terms" target="_blank">
+                      Event Terms
+                    </Link>
+                    ,{" "}
+                    <Link to="/events/agentverse-2/code-of-conduct" target="_blank">
+                      Code of Conduct
+                    </Link>
+                    ,{" "}
+                    <Link to="/events/agentverse-2/refund" target="_blank">
+                      Refund Rules
+                    </Link>{" "}
+                    and the{" "}
+                    <Link to="/privacy" target="_blank">
+                      Privacy Policy
+                    </Link>
+                    .
+                  </span>
+                </label>
+
+                <p className="av2-consent-note">
+                  We collect your name, email, phone and eligibility details to register you, take
+                  payment and issue your ticket, and record your IP address to prevent fraud.
+                  Payment is handled by Razorpay — we never see your card details. You can access,
+                  correct or delete your data at any time via{" "}
+                  <Link to="/data-rights" target="_blank">
+                    your data rights
+                  </Link>
+                  .
+                </p>
+              </div>
+
+              <button
+                type="submit"
+                className="av2-submit"
+                disabled={!acceptedTerms || !confirmedAge}
+              >
                 Proceed to Payment
                 <svg
                   viewBox="0 0 24 24"

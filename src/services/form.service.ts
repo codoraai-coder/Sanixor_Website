@@ -102,3 +102,63 @@ export const formService = {
   submitAgentVerse: (payload: AgentVersePayload) =>
     apiClient.post<SubmissionResult>(API_ENDPOINTS.agentverse, payload),
 };
+
+/* ────────────────────────────────────────────────────────────────────────
+   Data-subject rights and grievance intake
+   ──────────────────────────────────────────────────────────────────────── */
+
+export type PrivacyRequestType =
+  | "access"
+  | "correction"
+  | "erasure"
+  | "withdraw-consent"
+  | "nomination";
+
+export interface PrivacyRequestPayload {
+  requestType: PrivacyRequestType;
+  name: string;
+  email: string;
+  details?: string;
+  /** The requester confirms the data is their own. */
+  confirmOwnData: true;
+  website?: string;
+}
+
+export type GrievanceCategory =
+  | "privacy"
+  | "payment-or-refund"
+  | "event"
+  | "accessibility"
+  | "content-or-conduct"
+  | "other";
+
+export interface GrievancePayload {
+  category: GrievanceCategory;
+  name: string;
+  email: string;
+  reference?: string;
+  description: string;
+  website?: string;
+}
+
+/**
+ * What the backend returns for either intake. Deliberately contains no
+ * personal data: the requester's identity has not been verified at the point
+ * this responds, so it confirms receipt and nothing more.
+ */
+export interface RequestReceipt {
+  requestId: string;
+  persisted: boolean;
+  acknowledgementHours: number;
+  resolutionDays: number;
+}
+
+export const privacyService = {
+  /** Record a data-subject rights request. Intake only — nothing is acted on. */
+  submitPrivacyRequest: (payload: PrivacyRequestPayload) =>
+    apiClient.post<RequestReceipt>(API_ENDPOINTS.privacyRequest, payload),
+
+  /** Record a grievance for redressal. */
+  submitGrievance: (payload: GrievancePayload) =>
+    apiClient.post<RequestReceipt>(API_ENDPOINTS.grievance, payload),
+};

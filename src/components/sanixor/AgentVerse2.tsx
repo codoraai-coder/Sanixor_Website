@@ -754,6 +754,81 @@ export function AgentVerse2({ mode = "full", registerTriggerRef }: AgentVerse2Pr
         }
         .av2-submit:hover svg { transform: translateX(4px); }
         .av2-submit:active { transform: translateY(0); box-shadow: 0 5px 15px rgba(124, 58, 237, 0.4); }
+        .av2-submit:disabled {
+          opacity: 0.45;
+          cursor: not-allowed;
+          filter: grayscale(0.4);
+          box-shadow: none;
+          transform: none;
+        }
+        .av2-submit:disabled:hover { transform: none; box-shadow: none; }
+
+        /* ── Registration fee ── */
+        .av2-fee {
+          display: flex;
+          align-items: baseline;
+          justify-content: space-between;
+          gap: 16px;
+          margin: 20px 0 0;
+          padding: 14px 16px;
+          border: 1px solid rgba(168, 85, 247, 0.25);
+          border-radius: 12px;
+          background: rgba(168, 85, 247, 0.06);
+        }
+        .av2-fee-label {
+          font-size: 13px;
+          font-weight: 500;
+          color: rgba(255, 255, 255, 0.75);
+        }
+        .av2-fee-amount {
+          font-size: 22px;
+          font-weight: 800;
+          color: #fff;
+          letter-spacing: -0.02em;
+        }
+
+        /* ── Consent block (DPDP s.5 notice + explicit acceptance) ── */
+        .av2-consent {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          margin: 20px 0 18px;
+          padding: 16px;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 12px;
+          background: rgba(255, 255, 255, 0.02);
+        }
+        .av2-consent-row {
+          display: flex;
+          align-items: flex-start;
+          gap: 10px;
+          cursor: pointer;
+          font-size: 13px;
+          line-height: 1.55;
+          color: rgba(255, 255, 255, 0.78);
+        }
+        .av2-consent-row input[type="checkbox"] {
+          margin-top: 3px;
+          width: 16px;
+          height: 16px;
+          flex-shrink: 0;
+          accent-color: #a855f7;
+          cursor: pointer;
+        }
+        .av2-consent-row input[type="checkbox"]:focus-visible {
+          outline: 2px solid #a855f7;
+          outline-offset: 2px;
+        }
+        .av2-consent-row a { color: #c084fc; text-decoration: underline; text-underline-offset: 2px; }
+        .av2-consent-row a:hover { color: #d8b4fe; }
+        .av2-consent-row strong { color: rgba(255, 255, 255, 0.95); font-weight: 600; }
+        .av2-consent-note {
+          font-size: 11.5px;
+          line-height: 1.6;
+          color: rgba(255, 255, 255, 0.5);
+          margin: 2px 0 0;
+        }
+        .av2-consent-note a { color: rgba(192, 132, 252, 0.9); text-decoration: underline; }
         .av2-success { text-align: center; padding: 36px 20px; }
         .av2-success-ico {
           width: 60px; height: 60px;

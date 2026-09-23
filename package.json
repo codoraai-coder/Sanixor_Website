@@ -13,7 +13,8 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "deploy": "npm run build && wrangler deploy",
-    "cf:preview": "npm run build && wrangler dev"
+    "cf:preview": "npm run build && wrangler dev",
+    "verify:compliance": "node scripts/verify-compliance.mjs"
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.25.5",

@@ -4,16 +4,17 @@ import { StrictMode, type ReactNode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "./components/sanixor/ThemeProvider";
+import { ConsentProvider } from "./components/consent/ConsentProvider";
+import { ConsentBanner } from "./components/consent/ConsentBanner";
+import { PreferenceCentre } from "./components/consent/PreferenceCentre";
 import { Toaster } from "./components/ui/sonner";
 import { useSmoothScroll } from "./hooks/useSmoothScroll";
 import ScrollToTop from "./components/ScrollToTop";
 import Contact from "./routes/contact";
 import Hiring from "./routes/hiring";
 import Index from "./routes/index";
-import Privacy from "./routes/privacy";
 import Products from "./routes/products";
 import Team from "./routes/team";
-import Terms from "./routes/terms";
 import Training from "./routes/training";
 import HackEval from "./routes/hackeval";
 import BitBench from "./routes/bitbench";
@@ -33,6 +34,22 @@ import Achievements from "./routes/achievements";
 import "./styles.css";
 import Events from "./routes/events";
 import AgentVersePage from "./routes/events/agentverse-2";
+import {
+  AcceptableUse,
+  AccessibilityStatement,
+  CookiePolicy,
+  DataDeletion,
+  DataRights,
+  Disclaimer,
+  Grievance,
+  IntellectualProperty,
+  Privacy,
+  RefundPolicy,
+  SecurityPolicy,
+  Subprocessors,
+  Terms,
+} from "./routes/legal";
+import { EventPolicyPage } from "./routes/events/event-policy";
 
 import StandardScrollToTop from "./components/sanixor/StandardScrollToTop";
 import { InitialLoader } from "./components/sanixor/InitialLoader";
@@ -63,44 +80,75 @@ function NotFound() {
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ThemeProvider>
-      <BrowserRouter>
-        <SmoothScrollProvider>
-          <InitialLoader>
-            <ScrollToTop />
+    <ConsentProvider>
+      <ThemeProvider>
+        <BrowserRouter>
+          <SmoothScrollProvider>
+            <InitialLoader>
+              <ScrollToTop />
 
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/products" element={<Products />} />
-              <Route path="/team" element={<Team />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/training" element={<Training />} />
-              <Route path="/privacy" element={<Privacy />} />
-              <Route path="/terms" element={<Terms />} />
-              <Route path="/hiring" element={<Hiring />} />
-              <Route path="/achievements" element={<Achievements />} />
-              <Route path="/hackeval" element={<HackEval />} />
-              <Route path="/bitbench" element={<BitBench />} />
-              <Route path="/sanixor-studio" element={<SanixorStudio />} />
-              <Route path="/lexai" element={<LexAI />} />
-              <Route path="/autodash" element={<AutoDash />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/agent-as-a-service" element={<AgentAsAService />} />
-              <Route path="/custom-agent-dev" element={<CustomAgentDev />} />
-              <Route path="/api-integration" element={<APIIntegration />} />
-              <Route path="/event-automation" element={<EventAutomation />} />
-              <Route path="/nyayai" element={<NyayAi />} />
-              <Route path="/socioai" element={<SocioAi />} />
-              <Route path="/conversational-ux" element={<ConversationalUX />} />
-              <Route path="/ai-architecture" element={<AIArchitecture />} />
-              <Route path="/events" element={<Events />} />
-              <Route path="/events/agentverse-2" element={<AgentVersePage />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </InitialLoader>
-          <Toaster position="top-center" theme="dark" richColors closeButton />
-        </SmoothScrollProvider>
-      </BrowserRouter>
-    </ThemeProvider>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/products" element={<Products />} />
+                <Route path="/team" element={<Team />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/training" element={<Training />} />
+                {/* ── Legal & policy ── */}
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/terms" element={<Terms />} />
+                <Route path="/refund-policy" element={<RefundPolicy />} />
+                <Route path="/cookie-policy" element={<CookiePolicy />} />
+                <Route path="/security" element={<SecurityPolicy />} />
+                <Route path="/accessibility" element={<AccessibilityStatement />} />
+                <Route path="/subprocessors" element={<Subprocessors />} />
+                <Route path="/data-rights" element={<DataRights />} />
+                <Route path="/data-deletion" element={<DataDeletion />} />
+                <Route path="/grievance" element={<Grievance />} />
+                <Route path="/acceptable-use" element={<AcceptableUse />} />
+                <Route path="/intellectual-property" element={<IntellectualProperty />} />
+                <Route path="/disclaimer" element={<Disclaimer />} />
+                <Route path="/hiring" element={<Hiring />} />
+                <Route path="/achievements" element={<Achievements />} />
+                <Route path="/hackeval" element={<HackEval />} />
+                <Route path="/bitbench" element={<BitBench />} />
+                <Route path="/sanixor-studio" element={<SanixorStudio />} />
+                <Route path="/lexai" element={<LexAI />} />
+                <Route path="/autodash" element={<AutoDash />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/agent-as-a-service" element={<AgentAsAService />} />
+                <Route path="/custom-agent-dev" element={<CustomAgentDev />} />
+                <Route path="/api-integration" element={<APIIntegration />} />
+                <Route path="/event-automation" element={<EventAutomation />} />
+                <Route path="/nyayai" element={<NyayAi />} />
+                <Route path="/socioai" element={<SocioAi />} />
+                <Route path="/conversational-ux" element={<ConversationalUX />} />
+                <Route path="/ai-architecture" element={<AIArchitecture />} />
+                <Route path="/events" element={<Events />} />
+                <Route path="/events/agentverse-2" element={<AgentVersePage />} />
+                {/* ── Event-scoped policies (generic across all events) ── */}
+                <Route path="/events/:eventSlug/terms" element={<EventPolicyPage kind="terms" />} />
+                <Route
+                  path="/events/:eventSlug/code-of-conduct"
+                  element={<EventPolicyPage kind="code-of-conduct" />}
+                />
+                <Route path="/events/:eventSlug/rules" element={<EventPolicyPage kind="rules" />} />
+                <Route
+                  path="/events/:eventSlug/refund"
+                  element={<EventPolicyPage kind="refund" />}
+                />
+                <Route
+                  path="/events/:eventSlug/privacy"
+                  element={<EventPolicyPage kind="privacy" />}
+                />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </InitialLoader>
+            <Toaster position="top-center" theme="dark" richColors closeButton />
+            <ConsentBanner />
+            <PreferenceCentre />
+          </SmoothScrollProvider>
+        </BrowserRouter>
+      </ThemeProvider>
+    </ConsentProvider>
   </StrictMode>,
 );

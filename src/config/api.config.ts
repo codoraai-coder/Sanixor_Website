@@ -28,5 +28,7 @@ export const API_ENDPOINTS = {
   agentverse: "/api/agentverse",
   paymentsCreateOrder: "/api/payments/create-order",
   paymentsVerify: "/api/payments/verify",
+  privacyRequest: "/api/privacy-request",
+  grievance: "/api/grievance",
   health: "/health",
 } as const;

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { formService } from "@/services/form.service";
 import { ApiError } from "@/utils/apiError";
+import { FormPrivacyNotice } from "@/components/legal/FormPrivacyNotice";
+import { useConsent } from "@/hooks/useConsent";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -77,12 +79,21 @@ export function BookDemoModal({ isOpen, onClose, productType }: BookDemoModalPro
   // ── Security / duplicate-request check ─────────────────────────────────────
   // Read localStorage once on mount so the flag is available for SSR-safe rendering.
   const [alreadyBooked, setAlreadyBooked] = useState<boolean>(false);
+  const { allows } = useConsent();
+  const allowsFunctional = allows("functional");
 
   useEffect(() => {
-    if (localStorage.getItem("sanixor_demo_booked") === "true") {
-      setAlreadyBooked(true);
+    // Without functional consent we do not read the flag, so a returning
+    // visitor is simply not recognised. The form still works.
+    if (!allowsFunctional) return;
+    try {
+      if (localStorage.getItem("sanixor_demo_booked") === "true") {
+        setAlreadyBooked(true);
+      }
+    } catch {
+      /* storage blocked — treat as not previously booked */
     }
-  }, []);
+  }, [allowsFunctional]);
 
   // ── Submission UI state ─────────────────────────────────────────────────────
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
@@ -125,7 +136,8 @@ export function BookDemoModal({ isOpen, onClose, productType }: BookDemoModalPro
       });
 
       // ✅ Success — persist flag and show the confirmation screen.
-      localStorage.setItem("sanixor_demo_booked", "true");
+      // Remembering the booking across visits needs functional consent.
+      if (allowsFunctional) localStorage.setItem("sanixor_demo_booked", "true");
       setAlreadyBooked(true);
       setSubmitStatus("success");
       toast.success("Demo request received — we'll be in touch within 1 business day.");
@@ -771,6 +783,8 @@ export function BookDemoModal({ isOpen, onClose, productType }: BookDemoModalPro
                       placeholder={`Tell us about your use-case for ${productType}. What problem are you looking to solve?`}
                     />
                   </div>
+
+                  <FormPrivacyNotice variant="demo" className="mb-4" />
 
                   {/* Submit */}
                   <button type="submit" className="bdm-submit" disabled={isSubmitting}>
