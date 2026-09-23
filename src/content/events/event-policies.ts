@@ -459,7 +459,7 @@ export function buildEventRefund(event: EventMeta): LegalDocument {
           },
           {
             type: "p",
-            text: "Refunds are reviewed and initiated by a person on our team through Razorpay — they are not automatic. We acknowledge within 48 hours, decide within 7 business days, and initiate approved refunds within 3 business days. Your bank then typically takes 5–7 business days.",
+            text: "Refunds are reviewed and initiated by a person on our team through Razorpay — they are not automatic. We acknowledge within 2 business days, decide within 7 business days, and initiate approved refunds within 3 business days. Your bank then typically takes 5–7 business days.",
           },
         ],
       },

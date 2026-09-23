@@ -140,8 +140,21 @@ export const COMPANY = {
     designation: "Grievance Officer",
     email: "dsrishabh23@gmail.com",
     phone: "+91 99848 45854",
-    /** Acknowledge within 48 hours; redress within 1 month (Rules, 2020). */
-    acknowledgementHours: 48,
+    /**
+     * Acknowledgement target, in BUSINESS days.
+     *
+     * The Consumer Protection (E-Commerce) Rules, 2020 reference 48 hours.
+     * Sanixor currently has one named Grievance Officer and no deputy, so a
+     * 48-hour clock that runs across weekends and absences is a commitment
+     * the business cannot reliably meet. Publishing 2 business days is a
+     * deliberate, documented deviation: it is slightly longer than the Rules
+     * reference, and it is one we can actually honour.
+     *
+     * A published SLA that is quietly missed is worse than a slightly longer
+     * one that is met. FLAGGED FOR COUNSEL — see docs/compliance/gap-report.
+     * Revert to 48 hours the moment a backup officer is appointed.
+     */
+    acknowledgementBusinessDays: 2,
     redressalDays: 30,
   },
 

@@ -248,17 +248,15 @@ export const privacyDocument: LegalDocument = {
           blocks: [
             {
               type: "p",
-              text: "One third party receives your IP address simply because your browser fetches content from it when a page loads. This is a normal consequence of how the web works, but you should know about it:",
-            },
-            {
-              type: "ul",
-              items: [
-                "**Google Fonts** — typefaces are loaded from Google's servers on every page. Google receives your IP address as part of that request.",
-              ],
+              text: "**None, except the payment checkout.** Every asset this site needs — including all its typefaces — is served from our own domain, so simply browsing sanixor.space does not cause your browser to contact any other company.",
             },
             {
               type: "p",
-              text: "It is not used to track you across sites and sets no advertising cookie for us. We are working to remove this dependency by serving typefaces from our own domain. We previously embedded a third-party map on the contact page; that has been removed, and our address is now published as plain text. See the [Cookie Policy](/cookie-policy) for the current position.",
+              text: "The one exception is **Razorpay's checkout**, which loads only at the moment you choose to pay. That is what keeps your card details away from our servers entirely, and it is a deliberate trade.",
+            },
+            {
+              type: "note",
+              text: "This was not always true. We previously loaded typefaces from Google's servers and embedded a third-party map on the contact page, both of which shared your IP address with another company on every page load. Both have been removed. See the [Cookie Policy](/cookie-policy).",
             },
           ],
         },
@@ -409,7 +407,7 @@ export const privacyDocument: LegalDocument = {
         },
         {
           type: "p",
-          text: "To raise a formal complaint, contact our Grievance Officer, {{grievanceOfficer.name}} ({{grievanceOfficer.designation}}), at {{contact.grievance}}. We acknowledge complaints within 48 hours and aim to resolve them within 30 days — the full process is on the [Grievance Redressal](/grievance) page.",
+          text: "To raise a formal complaint, contact our Grievance Officer, {{grievanceOfficer.name}} ({{grievanceOfficer.designation}}), at {{contact.grievance}}. We acknowledge complaints within 2 business days and aim to resolve them within 30 days — the full process is on the [Grievance Redressal](/grievance) page.",
         },
         {
           type: "p",

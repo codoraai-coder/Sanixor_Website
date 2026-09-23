@@ -30,5 +30,6 @@ export const API_ENDPOINTS = {
   paymentsVerify: "/api/payments/verify",
   privacyRequest: "/api/privacy-request",
   grievance: "/api/grievance",
+  refundRequest: "/api/refund-request",
   health: "/health",
 } as const;

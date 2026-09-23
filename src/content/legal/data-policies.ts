@@ -59,13 +59,11 @@ export const subprocessorsDocument: LegalDocument = {
       blocks: [
         {
           type: "p",
-          text: "These parties do not process data on our behalf, but your browser contacts them directly when it loads our pages, so they receive your IP address:",
+          text: "**None.** Every asset the site needs is served from our own domain, so browsing sanixor.space causes your browser to contact no other company. We previously loaded typefaces from Google and embedded a third-party map; both have been removed.",
         },
         {
-          type: "ul",
-          items: [
-            "**Google Fonts** — serves the typefaces used on the site. Loaded on every page. We are migrating to self-hosted fonts.",
-          ],
+          type: "p",
+          text: "The only exception is **Razorpay's checkout**, which loads at the moment you choose to pay — and that is what keeps your card details off our servers.",
         },
         {
           type: "p",
@@ -194,7 +192,7 @@ export const dataRightsDocument: LegalDocument = {
           type: "table",
           headers: ["Stage", "Timeline"],
           rows: [
-            ["We acknowledge your request", "Within **48 hours**"],
+            ["We acknowledge your request", "Within **2 business days**"],
             ["We complete it, or explain why we cannot", "Within **30 days**"],
             [
               "If it is genuinely complex",
@@ -293,7 +291,7 @@ export const dataDeletionDocument: LegalDocument = {
           type: "table",
           headers: ["Stage", "Timeline", "What we do"],
           rows: [
-            ["Acknowledgement", "Within **48 hours**", "We confirm we have your request"],
+            ["Acknowledgement", "Within **2 business days**", "We confirm we have your request"],
             [
               "Verification",
               "Usually immediate",
@@ -435,10 +433,7 @@ export const grievanceDocument: LegalDocument = {
           type: "table",
           headers: ["Stage", "Timeline"],
           rows: [
-            [
-              "We acknowledge your complaint",
-              "Within **48 hours** of receiving it, as the E-Commerce Rules require",
-            ],
+            ["We acknowledge your complaint", "Within **2 business days** of receiving it"],
             ["We investigate and respond substantively", "Within **30 days**"],
             [
               "If it will take longer",

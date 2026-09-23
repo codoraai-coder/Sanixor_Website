@@ -214,7 +214,7 @@ export const intellectualPropertyDocument: LegalDocument = {
         },
         {
           type: "p",
-          text: "We acknowledge within **48 hours** and investigate promptly. If material is infringing we will remove it. If we think it is not, we will tell you why.",
+          text: "We acknowledge within **2 business days** and investigate promptly. If material is infringing we will remove it. If we think it is not, we will tell you why.",
         },
       ],
     },

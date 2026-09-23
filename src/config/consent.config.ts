@@ -16,8 +16,11 @@
  *                         `ui/sidebar.tsx`, which is imported nowhere.
  *   • localStorage:       two keys, both first-party and functional.
  *   • sessionStorage:     none.
- *   • third-party loads:  Google Fonts. (The OpenStreetMap embed was
- *                         removed from the contact page in this phase.)
+ *   • third-party loads:  NONE. Typefaces are self-hosted (Phase 4) and the
+ *                         OpenStreetMap embed was removed (Phase 2). The
+ *                         only third-party origin the browser ever contacts
+ *                         is Razorpay's checkout, and only at the moment a
+ *                         visitor chooses to pay.
  *
  * ── WHY THERE ARE NO ANALYTICS OR MARKETING ENTRIES ────────────────────
  * Because the site runs none. Presenting an "Analytics" toggle that governs
@@ -32,11 +35,7 @@
  */
 
 export type ConsentCategory =
-  | "necessary"
-  | "functional"
-  | "analytics"
-  | "marketing"
-  | "third-party-content";
+  "necessary" | "functional" | "analytics" | "marketing" | "third-party-content";
 
 export interface CategoryMeta {
   id: ConsentCategory;
@@ -130,32 +129,22 @@ export const TECHNOLOGY_REGISTRY: TechnologyEntry[] = [
     provider: "Sanixor AI",
     firstParty: true,
   },
-  {
-    id: "google-fonts",
-    category: "third-party-content",
-    name: "Google Fonts",
-    purpose:
-      "Serves the typefaces used across the site. Google receives your IP address as part of that request.",
-    identifier: "fonts.googleapis.com, fonts.gstatic.com",
-    mechanism: "network-request",
-    duration: "Per page load",
-    provider: "Google LLC",
-    firstParty: false,
-  },
 ];
 
 /**
- * Google Fonts is loaded from a stylesheet link in `index.html`, which the
- * browser fetches before any script runs — so it cannot be gated behind a
- * consent choice made in the app.
+ * Technologies the browser loads before any script runs, which therefore
+ * cannot be gated behind an in-app consent choice.
  *
- * Rather than pretend otherwise with a toggle that does nothing, it is
- * declared here as un-gateable and shown in the preference centre as
- * information, not as a control. The real fix is to self-host the fonts,
- * which removes the third party entirely; that is tracked as engineering
- * work in the Phase 2 report.
+ * **Currently empty.** Google Fonts used to sit here: it loaded from a
+ * stylesheet link in `index.html` and could only be disclosed, not
+ * controlled. Phase 4 self-hosted the typefaces, which removed the third
+ * party entirely rather than continuing to explain why it could not be
+ * switched off.
+ *
+ * Keep this list empty if at all possible. An entry here is an admission
+ * that we are telling people about something they cannot decline.
  */
-export const UNGATEABLE_TECHNOLOGY_IDS = ["google-fonts"];
+export const UNGATEABLE_TECHNOLOGY_IDS: string[] = [];
 
 /**
  * Bump when the categories, the technologies or the banner wording change

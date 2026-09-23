@@ -1,0 +1,24 @@
+# Security contact information for sanixor.space
+# https://www.rfc-editor.org/rfc/rfc9116
+
+Contact: mailto:team@sanixor.space
+Contact: https://sanixor.space/security
+
+Expires: 2027-09-23T00:00:00.000Z
+
+Preferred-Languages: en, hi
+
+Canonical: https://sanixor.space/.well-known/security.txt
+
+Policy: https://sanixor.space/security
+
+# We acknowledge security reports within 2 business days and will credit you
+# publicly if you would like us to and the report is valid.
+#
+# Please give us a reasonable chance to fix an issue before disclosing it.
+# Do not access, modify or delete data that is not yours, do not run
+# denial-of-service tests, and do not use social engineering against our
+# staff or users.
+#
+# We do not currently operate a paid bug-bounty programme, and we say so
+# rather than implying one exists.

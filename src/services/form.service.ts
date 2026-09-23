@@ -108,11 +108,7 @@ export const formService = {
    ──────────────────────────────────────────────────────────────────────── */
 
 export type PrivacyRequestType =
-  | "access"
-  | "correction"
-  | "erasure"
-  | "withdraw-consent"
-  | "nomination";
+  "access" | "correction" | "erasure" | "withdraw-consent" | "nomination";
 
 export interface PrivacyRequestPayload {
   requestType: PrivacyRequestType;
@@ -125,12 +121,7 @@ export interface PrivacyRequestPayload {
 }
 
 export type GrievanceCategory =
-  | "privacy"
-  | "payment-or-refund"
-  | "event"
-  | "accessibility"
-  | "content-or-conduct"
-  | "other";
+  "privacy" | "payment-or-refund" | "event" | "accessibility" | "content-or-conduct" | "other";
 
 export interface GrievancePayload {
   category: GrievanceCategory;
@@ -149,7 +140,7 @@ export interface GrievancePayload {
 export interface RequestReceipt {
   requestId: string;
   persisted: boolean;
-  acknowledgementHours: number;
+  acknowledgementBusinessDays: number;
   resolutionDays: number;
 }
 
@@ -161,4 +152,42 @@ export const privacyService = {
   /** Record a grievance for redressal. */
   submitGrievance: (payload: GrievancePayload) =>
     apiClient.post<RequestReceipt>(API_ENDPOINTS.grievance, payload),
+};
+
+export type RefundReason =
+  | "duplicate-payment"
+  | "payment-taken-no-registration"
+  | "event-cancelled"
+  | "event-postponed"
+  | "changed-mind"
+  | "cannot-attend"
+  | "exceptional-circumstances";
+
+export interface RefundRequestPayload {
+  reasonCategory: RefundReason;
+  name: string;
+  email: string;
+  registrationId?: string;
+  orderId?: string;
+  paymentId?: string;
+  reason: string;
+  website?: string;
+}
+
+/**
+ * Receipt for a refund request. Contains no payment data — the request is
+ * recorded and reviewed by a person; nothing is disclosed back at intake.
+ */
+export interface RefundReceipt {
+  refundId: string;
+  status: string;
+  persisted: boolean;
+  decisionBusinessDays: number;
+  initiationBusinessDays: number;
+}
+
+export const refundService = {
+  /** Record a refund request. No money moves here. */
+  submitRefundRequest: (payload: RefundRequestPayload) =>
+    apiClient.post<RefundReceipt>(API_ENDPOINTS.refundRequest, payload),
 };

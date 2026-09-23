@@ -70,8 +70,9 @@ function Receipt({ receipt, kind }: { receipt: RequestReceipt; kind: "request" |
         {receipt.requestId}
       </p>
       <p className="mt-4 text-sm leading-relaxed text-foreground/80">
-        We will acknowledge this within <strong>{receipt.acknowledgementHours} hours</strong> and
-        respond within <strong>{receipt.resolutionDays} days</strong>.
+        We will acknowledge this within{" "}
+        <strong>{receipt.acknowledgementBusinessDays} business days</strong> and respond within{" "}
+        <strong>{receipt.resolutionDays} days</strong>.
       </p>
       <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
         We may need to confirm your identity before we act — usually just by checking you control
@@ -352,8 +353,8 @@ export function GrievanceForm() {
         We record your name, email, what you told us and your IP address in order to investigate and
         keep an audit trail. Your complaint goes to {COMPANY.grievanceOfficer.name},{" "}
         {COMPANY.grievanceOfficer.designation}. We acknowledge within{" "}
-        {COMPANY.grievanceOfficer.acknowledgementHours} hours and aim to resolve within{" "}
-        {COMPANY.grievanceOfficer.redressalDays} days.
+        {COMPANY.grievanceOfficer.acknowledgementBusinessDays} business days and aim to resolve
+        within {COMPANY.grievanceOfficer.redressalDays} days.
       </p>
 
       <button

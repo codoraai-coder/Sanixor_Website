@@ -8,6 +8,7 @@
  */
 import { LegalPage } from "@/components/legal/LegalPage";
 import { GrievanceForm, PrivacyRequestForm } from "@/components/legal/PrivacyRequestForm";
+import { RefundRequestForm } from "@/components/legal/RefundRequestForm";
 import { POLICIES } from "@/config/policies.config";
 
 import { privacyDocument } from "@/content/legal/privacy";
@@ -39,7 +40,14 @@ export function Terms() {
 }
 
 export function RefundPolicy() {
-  return <LegalPage meta={POLICIES["refund-policy"]} document={refundDocument} />;
+  return (
+    <LegalPage
+      meta={POLICIES["refund-policy"]}
+      document={refundDocument}
+      slotHeading="Request a refund"
+      slot={<RefundRequestForm />}
+    />
+  );
 }
 
 export function CookiePolicy() {

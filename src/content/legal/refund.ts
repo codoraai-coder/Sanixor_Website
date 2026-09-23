@@ -150,7 +150,7 @@ export const refundDocument: LegalDocument = {
           type: "table",
           headers: ["Stage", "Timeline"],
           rows: [
-            ["We acknowledge your request", "Within **48 hours**"],
+            ["We acknowledge your request", "Within **2 business days**"],
             ["We decide, and tell you the outcome", "Within **7 business days** of your request"],
             [
               "We initiate the refund with Razorpay, once approved",

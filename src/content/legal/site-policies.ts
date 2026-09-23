@@ -119,18 +119,12 @@ export const cookieDocument: LegalDocument = {
       blocks: [
         {
           type: "p",
-          text: "Although we set no cookies, some pages load content from third parties. Those parties receive your IP address as an unavoidable part of serving that request, and may set their own cookies under their own policies. We keep this list as short as we can — the map embed that used to appear on our contact page has been removed for exactly this reason.",
+          text: "**Only one**, and only when you choose to use it.",
         },
         {
           type: "table",
           headers: ["Provider", "What it serves", "Where", "Status"],
           rows: [
-            [
-              "**Google Fonts**",
-              "The typefaces used across the site",
-              "Every page",
-              "Being migrated to self-hosted fonts to remove this dependency",
-            ],
             [
               "**Razorpay**",
               "The hosted payment checkout",
@@ -141,7 +135,7 @@ export const cookieDocument: LegalDocument = {
         },
         {
           type: "p",
-          text: "Razorpay's checkout is loaded only at the moment you choose to pay. It is not present on any other page.",
+          text: "Razorpay's checkout is loaded only at the moment you choose to pay. It is not present on any other page. Everything else the site needs — including every typeface — is served from our own domain, so browsing this site contacts no other company at all. We removed the Google Fonts dependency and the embedded map for exactly this reason.",
         },
       ],
     },
@@ -200,7 +194,7 @@ export const securityDocument: LegalDocument = {
           items: [
             {
               term: "Our commitment to you",
-              text: "We acknowledge security reports within **48 hours**, keep you updated on our assessment, and will credit you publicly if you would like us to and the report is valid.",
+              text: "We acknowledge security reports within **2 business days**, keep you updated on our assessment, and will credit you publicly if you would like us to and the report is valid.",
             },
             {
               term: "What we ask of you",

@@ -250,7 +250,7 @@ export const termsDocument: LegalDocument = {
         },
         {
           type: "p",
-          text: "**Before starting proceedings, please talk to us.** Most disputes can be resolved quickly. Raise it through [Grievance Redressal](/grievance) — we acknowledge within 48 hours and aim to resolve within 30 days. Nothing here affects your right to approach a consumer forum under the Consumer Protection Act, 2019.",
+          text: "**Before starting proceedings, please talk to us.** Most disputes can be resolved quickly. Raise it through [Grievance Redressal](/grievance) — we acknowledge within 2 business days and aim to resolve within 30 days. Nothing here affects your right to approach a consumer forum under the Consumer Protection Act, 2019.",
         },
       ],
     },

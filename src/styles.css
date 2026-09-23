@@ -1,3 +1,26 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   Self-hosted typefaces
+
+   Previously loaded from fonts.googleapis.com, which sent every visitor's
+   IP address to Google on every page load — a third-party transfer that
+   could not be gated behind a consent choice, because the browser fetches
+   the stylesheet before any script runs.
+
+   Serving them from our own domain removes that transfer entirely, which
+   is why the Cookie Policy can now say there is no third-party content at
+   all. It also removes a render-blocking cross-origin round trip.
+
+   Variable fonts cover the full 300–800 range the design uses in a single
+   file each; DM Mono has no variable build, so its two weights are
+   imported explicitly.
+   ═══════════════════════════════════════════════════════════════════════ */
+@import "@fontsource-variable/dm-sans";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/space-grotesk";
+@import "@fontsource-variable/syne";
+@import "@fontsource/dm-mono/400.css";
+@import "@fontsource/dm-mono/500.css";
+
 /* Fonts loaded via index.html */
 @import "tailwindcss" source(none);
 @source "../src";
