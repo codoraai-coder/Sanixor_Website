@@ -18,7 +18,7 @@ import { HeroParallax } from "@/components/sanixor/HeroParallax";
 import { Footer } from "@/components/sanixor/Footer";
 import { InteractiveConsole } from "@/components/sanixor/InteractiveConsole";
 import { Navbar } from "@/components/sanixor/Navbar";
-import InteractiveSelector from "@/components/ui/interactive-selector";
+import { ProductSection } from "@/components/sanixor/product-showcase/ProductSection";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -203,18 +203,8 @@ export default function Index() {
       <Navbar />
       <HeroParallax />
 
-      {/* Products */}
-      <ScrollReveal>
-        <section
-          id="products"
-          className="relative z-10 bg-transparent pt-16 md:pt-32 pb-16 md:pb-32"
-        >
-          <div className="mx-auto max-w-7xl px-4 md:px-6">
-            <SectionHeader label="Products" title="Every tool is an AI agent." />
-          </div>
-          <InteractiveSelector />
-        </section>
-      </ScrollReveal>
+      {/* Products — scroll-driven Sanixor signal display */}
+      <ProductSection />
 
       {/* Services — 3D Cube */}
       <ServicesCube services={services} />
