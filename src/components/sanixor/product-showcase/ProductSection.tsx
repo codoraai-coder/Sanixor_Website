@@ -1,183 +1,202 @@
-import { useCallback, useRef, useState, type CSSProperties } from "react";
-import { ArrowDown, ArrowUpRight, RadioTower } from "lucide-react";
-import { useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { Link } from "react-router-dom";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
+import { ArrowDown } from "lucide-react";
+import { useMotionValueEvent, useReducedMotion, useScroll } from "framer-motion";
 import { lenisInstance } from "@/hooks/useSmoothScroll";
-import { ChannelIndicator } from "./ChannelIndicator";
-import { ChannelTransition } from "./ChannelTransition";
-import { ProductScene } from "./ProductScene";
-import { ProductVisual } from "./ProductVisual";
-import { PRODUCT_CHANNELS } from "./products";
+import { CRTTelevision } from "./CRTTelevision";
+import { ChannelPresets, ChannelReadout } from "./ChannelIndicator";
+import { TelevisionScreen } from "./TelevisionScreen";
+import { channelNumber, PRODUCT_CHANNELS } from "./products";
+import { detentAngle, readDial } from "./tuning";
+import { useChannelTuner } from "./useChannelTuner";
 import "./product-showcase.css";
 
-function ReducedProductSection() {
-  return (
-    <section id="products" className="products-reduced" aria-labelledby="products-heading-reduced">
-      <div className="products-reduced-heading">
-        <span>Product signal</span>
-        <h2 id="products-heading-reduced">Every tool is an AI agent.</h2>
-        <p>Five purpose-built systems. Explore every Sanixor product channel.</p>
-      </div>
-      <div className="products-reduced-list">
-        {PRODUCT_CHANNELS.map((product, index) => (
-          <article
-            className="products-reduced-card"
-            key={product.id}
-            style={
-              {
-                "--product-accent": product.accent,
-                "--product-accent-rgb": product.accentRgb,
-              } as CSSProperties
-            }
-          >
-            <div className="products-reduced-copy">
-              <small>
-                CH {String(index + 1).padStart(2, "0")} · {product.category}
-              </small>
-              <h3>{product.name}</h3>
-              <p>{product.description}</p>
-              <Link to={product.path}>
-                Explore {product.name}
-                <ArrowUpRight aria-hidden="true" />
-              </Link>
-            </div>
-            <ProductVisual product={product} shouldLoad />
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
+const COUNT = PRODUCT_CHANNELS.length;
 
+/**
+ * Products as television channels. A tall section gives each channel an
+ * equal slice of the scroll timeline; a sticky viewport holds the set still
+ * while scrolling turns its channel knob.
+ */
 export function ProductSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const reduceMotion = useReducedMotion();
+  const stickyRef = useRef<HTMLDivElement>(null);
+  const screenRef = useRef<HTMLDivElement>(null);
+  const knobRef = useRef<HTMLDivElement>(null);
+  const needleRef = useRef<HTMLSpanElement>(null);
+
+  const reduceMotion = useReducedMotion() ?? false;
+  const [target, setTarget] = useState(0);
+  const [powered, setPowered] = useState(false);
+  const [inView, setInView] = useState(false);
+  const { shown, phase, tuneCount } = useChannelTuner(target, reduceMotion);
+
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end end"],
   });
-  const signalStrength = useTransform(scrollYProgress, (value) => {
-    const position = value * (PRODUCT_CHANNELS.length - 1);
-    const fraction = position - Math.floor(position);
-    return Math.pow(Math.sin(fraction * Math.PI), 4);
-  });
 
-  useMotionValueEvent(scrollYProgress, "change", (value) => {
-    const nextIndex = Math.min(
-      PRODUCT_CHANNELS.length - 1,
-      Math.max(0, Math.round(value * (PRODUCT_CHANNELS.length - 1))),
-    );
-    setActiveIndex((current) => (current === nextIndex ? current : nextIndex));
-  });
+  // Per-scroll work is a few style writes, each skipped when unchanged, and
+  // a state update only when a channel boundary is crossed. `--tune` goes
+  // straight to the two signal layers that read it, so a scroll frame never
+  // restyles the broadcast underneath.
+  const lastWrite = useRef({ knob: "", needle: "", tune: "" });
+  const applyDial = useCallback((progress: number) => {
+    const dial = readDial(progress, COUNT);
+    const last = lastWrite.current;
+    setTarget((current) => (current === dial.channel ? current : dial.channel));
 
-  const selectChannel = useCallback((index: number) => {
-    const section = sectionRef.current;
-    if (!section) return;
-    const rect = section.getBoundingClientRect();
-    const sectionTop = window.scrollY + rect.top;
-    const scrollableDistance = Math.max(0, rect.height - window.innerHeight);
-    const target = sectionTop + (index / (PRODUCT_CHANNELS.length - 1)) * scrollableDistance;
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (lenisInstance && !prefersReduced) {
-      lenisInstance.scrollTo(target, { duration: 1.05 });
-    } else {
-      window.scrollTo({ top: target, behavior: prefersReduced ? "auto" : "smooth" });
+    const knob = `rotate(${detentAngle(dial.knob, COUNT).toFixed(1)}deg)`;
+    if (knob !== last.knob && knobRef.current) {
+      knobRef.current.style.transform = knob;
+      last.knob = knob;
+    }
+    const needle = `${(dial.needle * 100).toFixed(1)}%`;
+    if (needle !== last.needle && needleRef.current) {
+      needleRef.current.style.left = needle;
+      last.needle = needle;
+    }
+    const tune = dial.tune.toFixed(2);
+    if (tune !== last.tune && screenRef.current) {
+      screenRef.current
+        .querySelectorAll<HTMLElement>("[data-tune]")
+        .forEach((layer) => layer.style.setProperty("--tune", tune));
+      last.tune = tune;
     }
   }, []);
 
-  if (reduceMotion) return <ReducedProductSection />;
+  useMotionValueEvent(scrollYProgress, "change", applyDial);
+  useEffect(() => applyDial(scrollYProgress.get()), [applyDial, scrollYProgress]);
 
-  const activeProduct = PRODUCT_CHANNELS[activeIndex];
+  // Switch the set on the first time it is properly in view, and pause the
+  // picture whenever it is off screen.
+  useEffect(() => {
+    const sticky = stickyRef.current;
+    if (!sticky || typeof IntersectionObserver === "undefined") {
+      setPowered(true);
+      setInView(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setInView(entry.isIntersecting);
+        if (entry.intersectionRatio >= 0.4) setPowered(true);
+      },
+      { threshold: [0, 0.4] },
+    );
+    observer.observe(sticky);
+    return () => observer.disconnect();
+  }, []);
+
+  // Warm the cache with every channel's poster frame once the set is on, so
+  // a new channel never lands on an empty picture while its video loads.
+  useEffect(() => {
+    if (!powered) return;
+    PRODUCT_CHANNELS.forEach((product) => {
+      if (product.footage.type === "video") new Image().src = product.footage.poster;
+    });
+  }, [powered]);
+
+  const selectChannel = useCallback(
+    (index: number) => {
+      const section = sectionRef.current;
+      if (!section) return;
+      const rect = section.getBoundingClientRect();
+      const top = window.scrollY + rect.top;
+      const distance = Math.max(0, rect.height - window.innerHeight);
+      const y = top + ((index + 0.5) / COUNT) * distance;
+
+      if (lenisInstance && !reduceMotion) {
+        lenisInstance.scrollTo(y, { duration: 1.1 });
+      } else {
+        window.scrollTo({ top: y, behavior: "auto" });
+      }
+    },
+    [reduceMotion],
+  );
+
+  const product = PRODUCT_CHANNELS[shown];
   const sectionStyle = {
-    "--product-count": PRODUCT_CHANNELS.length,
-    "--product-accent": activeProduct.accent,
-    "--product-accent-rgb": activeProduct.accentRgb,
+    "--channels": COUNT,
+    "--ch": product.accent,
+    "--ch-rgb": product.accentRgb,
   } as CSSProperties;
 
   return (
     <section
       id="products"
       ref={sectionRef}
-      className="products-broadcast"
+      className="tvx"
       style={sectionStyle}
+      data-motion={reduceMotion ? "reduced" : "full"}
       aria-labelledby="products-heading"
     >
-      <div className="products-sticky">
-        <div className="products-ambient" aria-hidden="true">
-          <div className="products-ambient-grid" />
-          <div className="products-ambient-orbit products-ambient-orbit-one" />
-          <div className="products-ambient-orbit products-ambient-orbit-two" />
+      <div ref={stickyRef} className="tvx-sticky" data-inview={inView ? "true" : "false"}>
+        <div className="tvx-env" aria-hidden="true">
+          <div className="tvx-haze" />
+          <div className="tvx-spill" />
+          <div className="tvx-floor" />
         </div>
 
-        <div className="products-shell">
-          <header className="products-heading">
-            <div className="products-heading-label">
-              <RadioTower aria-hidden="true" /> Product signal
-            </div>
-            <h2 id="products-heading">Every tool is an AI agent.</h2>
-            <p>Scroll to tune into the next product.</p>
-          </header>
+        <div className="tvx-layout">
+          {/* The set speaks for itself visually; the title stays for assistive tech. */}
+          <h2 id="products-heading" className="sr-only">
+            Sanixor products: {COUNT} channels. Scroll to change the channel.
+          </h2>
 
-          <div className="crt-layout">
-            <div className="crt-frame">
-              <div className="crt-frame-highlight" aria-hidden="true" />
-              <div className="crt-screen">
-                <div className="crt-screen-glow" aria-hidden="true" />
-                {PRODUCT_CHANNELS.map((product, index) => {
-                  // Keep only the channels that can participate in the current
-                  // transition. Far-away scenes must never remain in the CRT's
-                  // compositor stack as faint residual images.
-                  if (Math.abs(index - activeIndex) > 1) return null;
-
-                  return (
-                    <ProductScene
-                      key={product.id}
-                      product={product}
-                      index={index}
-                      count={PRODUCT_CHANNELS.length}
-                      progress={scrollYProgress}
-                      isActive={index === activeIndex}
-                      activeIndex={activeIndex}
-                    />
-                  );
-                })}
-                <div className="crt-scanlines" aria-hidden="true" />
-                <div className="crt-vignette" aria-hidden="true" />
-                <ChannelTransition strength={signalStrength} />
-              </div>
-              <div className="crt-hardware" aria-hidden="true">
-                <span>
-                  <i /> SANIXOR SIGNAL ARRAY
-                </span>
-                <span>AI / {String(activeIndex + 1).padStart(2, "0")}</span>
-              </div>
-            </div>
-
-            <ChannelIndicator
-              products={PRODUCT_CHANNELS}
-              activeIndex={activeIndex}
-              onSelect={selectChannel}
+          <div className="tvx-stage">
+            <CRTTelevision
+              channelCount={COUNT}
+              knobRef={knobRef}
+              powered={powered}
+              screen={
+                <TelevisionScreen
+                  screenRef={screenRef}
+                  products={PRODUCT_CHANNELS}
+                  shown={shown}
+                  phase={phase}
+                  tuneCount={tuneCount}
+                  powered={powered}
+                  playing={powered && inView}
+                />
+              }
+              readout={
+                <ChannelReadout products={PRODUCT_CHANNELS} tuned={target} needleRef={needleRef} />
+              }
+              presets={
+                <ChannelPresets
+                  products={PRODUCT_CHANNELS}
+                  tuned={target}
+                  onSelect={selectChannel}
+                />
+              }
             />
-          </div>
 
-          <div className="products-scroll-cue" aria-hidden="true">
-            <span>
-              {activeIndex === PRODUCT_CHANNELS.length - 1 ? "Continue" : "Change channel"}
-            </span>
-            <ArrowDown />
+            <div className="tvx-caption" aria-hidden="true">
+              <span className="tvx-caption-ch">
+                CH {channelNumber(target)} — {PRODUCT_CHANNELS[target].name}
+              </span>
+              <span className="tvx-caption-hint">
+                {target === COUNT - 1 ? "Keep scrolling to continue" : "Scroll to change channel"}
+                <ArrowDown />
+              </span>
+            </div>
           </div>
         </div>
+
+        <p className="sr-only" aria-live="polite">
+          Now showing channel {shown + 1} of {COUNT}: {product.name}
+        </p>
       </div>
 
       <div className="sr-only">
-        <h3>Sanixor product directory</h3>
-        {PRODUCT_CHANNELS.map((product) => (
-          <p key={product.id}>
-            <Link to={product.path}>{product.name}</Link>: {product.description}
-          </p>
-        ))}
+        <h3>All Sanixor product channels</h3>
+        <ul>
+          {PRODUCT_CHANNELS.map((item, index) => (
+            <li key={item.id}>
+              Channel {index + 1}, {item.name} ({item.category}): {item.description}
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

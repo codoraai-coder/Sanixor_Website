@@ -1,4 +1,7 @@
-export type ProductVisual = { type: "demo"; src: string } | { type: "socio" } | { type: "nyay" };
+export type ProductFootage =
+  | { type: "video"; webm: string; mp4: string; poster: string }
+  | { type: "socio" }
+  | { type: "nyay" };
 
 export type ProductChannel = {
   id: string;
@@ -8,9 +11,10 @@ export type ProductChannel = {
   features: string[];
   metric: string;
   path: string;
+  /** Channel tint — taken from each product page's own brand colour. */
   accent: string;
   accentRgb: string;
-  visual: ProductVisual;
+  footage: ProductFootage;
 };
 
 export const PRODUCT_CHANNELS: ProductChannel[] = [
@@ -23,9 +27,14 @@ export const PRODUCT_CHANNELS: ProductChannel[] = [
     features: ["Multi-agent judging", "Bias-free scoring", "Live leaderboards"],
     metric: "98% evaluation accuracy",
     path: "/hackeval",
-    accent: "#42d9ee",
-    accentRgb: "66, 217, 238",
-    visual: { type: "demo", src: "/videos/hackeval.gif" },
+    accent: "#22d3ee",
+    accentRgb: "34, 211, 238",
+    footage: {
+      type: "video",
+      webm: "/videos/hackeval.webm",
+      mp4: "/videos/hackeval.mp4",
+      poster: "/videos/hackeval-poster.jpg",
+    },
   },
   {
     id: "bitbench",
@@ -36,9 +45,14 @@ export const PRODUCT_CHANNELS: ProductChannel[] = [
     features: ["Model benchmarking", "Comparative analytics", "Regression monitoring"],
     metric: "One benchmark. Every model.",
     path: "/bitbench",
-    accent: "#a78bfa",
-    accentRgb: "167, 139, 250",
-    visual: { type: "demo", src: "/videos/bitbench.gif" },
+    accent: "#34d399",
+    accentRgb: "52, 211, 153",
+    footage: {
+      type: "video",
+      webm: "/videos/bitbench.webm",
+      mp4: "/videos/bitbench.mp4",
+      poster: "/videos/bitbench-poster.jpg",
+    },
   },
   {
     id: "autodash",
@@ -49,9 +63,14 @@ export const PRODUCT_CHANNELS: ProductChannel[] = [
     features: ["Instant dashboards", "Predictive analytics", "Anomaly detection"],
     metric: "Raw data to decisions",
     path: "/autodash",
-    accent: "#e879f9",
-    accentRgb: "232, 121, 249",
-    visual: { type: "demo", src: "/videos/autodash.gif" },
+    accent: "#c084fc",
+    accentRgb: "192, 132, 252",
+    footage: {
+      type: "video",
+      webm: "/videos/autodash.webm",
+      mp4: "/videos/autodash.mp4",
+      poster: "/videos/autodash-poster.jpg",
+    },
   },
   {
     id: "socioai",
@@ -62,9 +81,9 @@ export const PRODUCT_CHANNELS: ProductChannel[] = [
     features: ["Omnichannel linking", "Unified profiles", "Automated engagement"],
     metric: "Every conversation, unified",
     path: "/socioai",
-    accent: "#818cf8",
-    accentRgb: "129, 140, 248",
-    visual: { type: "socio" },
+    accent: "#e879f9",
+    accentRgb: "232, 121, 249",
+    footage: { type: "socio" },
   },
   {
     id: "nyayai",
@@ -75,8 +94,10 @@ export const PRODUCT_CHANNELS: ProductChannel[] = [
     features: ["Contract analysis", "Compliance monitoring", "Legal knowledge graph"],
     metric: "Risk surfaced in context",
     path: "/nyayai",
-    accent: "#c084fc",
-    accentRgb: "192, 132, 252",
-    visual: { type: "nyay" },
+    accent: "#818cf8",
+    accentRgb: "129, 140, 248",
+    footage: { type: "nyay" },
   },
 ];
+
+export const channelNumber = (index: number) => String(index + 1).padStart(2, "0");
