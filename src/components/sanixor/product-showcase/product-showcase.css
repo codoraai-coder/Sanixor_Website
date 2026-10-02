@@ -13,7 +13,9 @@
    (idle → lose → static → acquire) and the scroll-driven `--tune` (0–1).
    ========================================================================== */
 
-.tvx {
+/* Shared by the product set and the menu's preview set (.navtv). */
+.tvx,
+.navtv {
   --violet: #a78bfa;
   --violet-rgb: 167, 139, 250;
   /* The shared button styles read these; the homepage has no .snx-page scope. */
@@ -22,7 +24,9 @@
   --tv-mono: "DM Mono", ui-monospace, monospace;
   --tv-head: "Space Grotesk Variable", "Space Grotesk", "Inter Variable", "Inter", sans-serif;
   --tv-body: "DM Sans Variable", "DM Sans", "Inter Variable", "Inter", sans-serif;
+}
 
+.tvx {
   position: relative;
   height: calc(var(--channels, 5) * 64svh + 100svh);
 }
@@ -76,7 +80,9 @@
   display: grid;
   grid-template-rows: minmax(0, 1fr);
   height: 100%;
-  padding: 70px 2vw 10px;
+  /* The header slides away while scrolling down, so the set can use the
+     full height; only the antenna reaches into the top edge. */
+  padding: 6px 12px 4px;
 }
 
 .tvx-stage {
@@ -110,7 +116,7 @@
   align-items: center;
   justify-content: center;
   gap: 22px;
-  margin-top: 10px;
+  margin-top: 7px;
   font-family: var(--tv-mono);
   font-size: 11px;
   letter-spacing: 0.18em;
@@ -134,11 +140,11 @@
 /* The set's size is decided here; everything inside scales off its width.
    Landscape body ≈ 1.62 : 1, plus antenna, top surface and feet. */
 .crt {
-  --tv-w: min(100%, 1640px, calc((100svh - 120px) * 1.4));
+  --tv-w: min(calc(100vw - 24px), 1880px, calc((100svh - 40px) * 1.61));
   position: relative;
   width: var(--tv-w);
   container-type: inline-size;
-  margin-top: calc(var(--tv-w) * 0.075);
+  margin-top: calc(var(--tv-w) * 0.06);
 }
 
 /* ==========================================================================
@@ -149,7 +155,7 @@
   position: absolute;
   left: 50%;
   bottom: calc(100% + 1.2cqw);
-  width: 22cqw;
+  width: 19cqw;
   transform: translateX(-62%);
   pointer-events: none;
 }
@@ -160,7 +166,7 @@
   left: 0;
   right: 0;
   bottom: 100%;
-  height: 1.6cqw;
+  height: 1.05cqw;
   background: linear-gradient(180deg, #121116 0%, #26242c 100%);
   clip-path: polygon(2.4% 0, 97.6% 0, 100% 100%, 0 100%);
   box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.1);
@@ -169,11 +175,11 @@
 .crt-cabinet {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 19.5cqw;
-  gap: 2cqw;
-  aspect-ratio: 1.62;
-  padding: 2.4cqw 2.3cqw 2.2cqw 2.5cqw;
-  border-radius: 1.6cqw 1.6cqw 2cqw 2cqw;
+  grid-template-columns: minmax(0, 1fr) 15.75cqw;
+  gap: 0.9cqw;
+  aspect-ratio: 1.82;
+  padding: 1.05cqw 1cqw 0.95cqw 1.1cqw;
+  border-radius: 1.05cqw 1.05cqw 1.35cqw 1.35cqw;
   background:
     radial-gradient(120% 90% at 16% -12%, rgba(255, 255, 255, 0.075), transparent 55%),
     radial-gradient(70% 60% at 108% 112%, rgba(var(--violet-rgb), 0.1), transparent 62%),
@@ -208,7 +214,7 @@
 .crt-front {
   display: flex;
   flex-direction: column;
-  gap: 1cqw;
+  gap: 0.45cqw;
   min-width: 0;
   min-height: 0;
 }
@@ -216,8 +222,8 @@
   position: relative;
   flex: 1;
   min-height: 0;
-  padding: 1.9cqw;
-  border-radius: 3.2cqw / 3.8cqw;
+  padding: 0.62cqw;
+  border-radius: 2.25cqw / 2.7cqw;
   /* Inner walls of the recess: top in shadow, bottom catching light. */
   background: linear-gradient(180deg, #08070a 0%, #141318 55%, #25232b 100%);
   box-shadow:
@@ -244,7 +250,7 @@
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  padding: 0 2.2cqw;
+  padding: 0 0.85cqw;
   line-height: 1;
 }
 .crt-nameplate span {
@@ -273,10 +279,10 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 1.3cqw;
+  gap: 1cqw;
   min-height: 0;
-  padding: 1.5cqw 1.3cqw 1.3cqw;
-  border-radius: 1.2cqw;
+  padding: 1.05cqw 0.9cqw 0.9cqw;
+  border-radius: 0.9cqw;
   background:
     repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.012) 0 1px, transparent 1px 3px),
     linear-gradient(180deg, #1c1b21 0%, #151419 100%);
@@ -383,7 +389,7 @@
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 0.6cqw;
+  gap: 0.45cqw;
 }
 .crt-dial {
   position: relative;
@@ -404,9 +410,9 @@
   position: absolute;
   top: 0;
   left: 50%;
-  width: 12.4cqw;
+  width: 11.4cqw;
   aspect-ratio: 1;
-  translate: -50% -1.55cqw;
+  translate: -50% -1.4cqw;
   pointer-events: none;
 }
 .crt-dial-ring span {
@@ -416,7 +422,7 @@
   width: 1.4cqw;
   height: 1.4cqw;
   margin: -0.7cqw 0 0 -0.7cqw;
-  transform: rotate(var(--a)) translateY(-5.7cqw) rotate(calc(var(--a) * -1));
+  transform: rotate(var(--a)) translateY(-5.2cqw) rotate(calc(var(--a) * -1));
   color: rgba(255, 255, 255, 0.4);
   font-family: var(--tv-mono);
   font-size: max(6px, 0.72cqw);
@@ -443,12 +449,12 @@
   pointer-events: none;
 }
 .crt-knob-large {
-  width: 9.2cqw;
+  width: 8.4cqw;
   aspect-ratio: 1;
   padding: 0.45cqw;
 }
 .crt-knob-small {
-  width: 4.6cqw;
+  width: 4.1cqw;
   aspect-ratio: 1;
   padding: 0.35cqw;
 }
@@ -646,10 +652,10 @@
   height: 100%;
   overflow: hidden;
   isolation: isolate;
-  border-radius: 7% / 9.5%;
+  border-radius: 5.5% / 7.5%;
   background: radial-gradient(ellipse at 50% 45%, #111217 0%, #07070a 75%);
   box-shadow:
-    0 0 0 0.25cqw #030305,
+    0 0 0 0.14cqw #030305,
     0 0 2.6cqw rgba(var(--ch-rgb), 0.22);
   container-type: inline-size;
   transform: translateZ(0);
@@ -1879,7 +1885,7 @@
     display: none;
   }
   .crt {
-    --tv-w: min(100%, calc((100svh - 100px) * 1.5));
+    --tv-w: min(100%, calc((100svh - 92px) * 1.58));
     margin-top: 1.8cqw;
   }
 }
@@ -1891,16 +1897,134 @@
 
 .tvx[data-motion="reduced"] *,
 .tvx[data-motion="reduced"] *::before,
-.tvx[data-motion="reduced"] *::after {
+.tvx[data-motion="reduced"] *::after,
+.navtv[data-motion="reduced"] *,
+.navtv[data-motion="reduced"] *::before,
+.navtv[data-motion="reduced"] *::after {
   animation: none !important;
   transition: none !important;
 }
-.tvx[data-motion="reduced"] .tv-snow {
+.tvx[data-motion="reduced"] .tv-snow,
+.navtv[data-motion="reduced"] .tv-snow {
   opacity: 0.04;
 }
-.tvx[data-motion="reduced"] .tv-rollbar {
+.tvx[data-motion="reduced"] .tv-rollbar,
+.navtv[data-motion="reduced"] .tv-rollbar {
   display: none;
 }
 .tvx[data-motion="reduced"] .bc-crawl-window {
   mask-image: none;
+}
+
+/* ==========================================================================
+   Menu preview set — the same CRT, smaller, tuned by hovering menu links.
+   Each channel is a capture of the destination, slowly "scrolled" like a
+   page preview.
+   ========================================================================== */
+
+.navtv {
+  position: relative;
+  display: block;
+  width: min(46vw, 900px);
+  color: inherit;
+  text-decoration: none;
+}
+.navtv .crt {
+  --tv-w: 100%;
+  width: 100%;
+  margin-top: calc(min(46vw, 900px) * 0.07);
+}
+.navtv .tv-tube {
+  --rgb-split: url(#navtv-rgb-split);
+}
+/* The closed menu is only clipped away, so nothing may keep animating. */
+.navtv[data-on="false"] *,
+.navtv[data-on="false"] *::before,
+.navtv[data-on="false"] *::after {
+  animation-play-state: paused !important;
+}
+/* Here the dial is turned by hover, not scroll: let it travel and settle. */
+.navtv .crt-knob {
+  transition: transform 0.45s cubic-bezier(0.3, 1.45, 0.5, 1);
+}
+.navtv .tv-vfd-needle {
+  transition: left 0.4s cubic-bezier(0.3, 1.2, 0.5, 1);
+}
+.navtv .crt::after {
+  /* No floor in the menu — keep only a soft contact shadow. */
+  background: radial-gradient(50% 30% at 50% 22%, rgba(0, 0, 0, 0.8), transparent 100%);
+}
+.navtv-shot {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #07060d;
+}
+.navtv-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* Captures of a dark site read as murky behind scanlines; lift them. */
+  filter: brightness(1.35) saturate(1.15);
+  animation: navtv-pan 16s ease-in-out infinite alternate;
+  will-change: transform;
+}
+/* The capture is two screens tall; drift from the first to the second. */
+@keyframes navtv-pan {
+  0%,
+  14% {
+    transform: translate3d(0, 0, 0);
+  }
+  86%,
+  100% {
+    transform: translate3d(0, -46%, 0);
+  }
+}
+/* A solid chyron band, so the capture's own headings never collide with
+   the channel title. */
+.navtv .bc-lower-third {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  padding: 2.6cqw 7cqw 4.4cqw;
+  border-top: 1px solid rgba(var(--ch-rgb), 0.45);
+  background: linear-gradient(180deg, rgba(8, 7, 14, 0.94), rgba(5, 4, 10, 0.98));
+  box-shadow: 0 -2cqw 4cqw rgba(0, 0, 0, 0.45);
+}
+.navtv .bc-title {
+  margin: 0.8cqw 0 0.6cqw;
+  font-size: 5.6cqw;
+}
+.navtv .bc-desc {
+  max-width: 70cqw;
+  font-size: max(12px, 1.6cqw);
+}
+.navtv .bc-scrim {
+  background: linear-gradient(180deg, rgba(4, 3, 8, 0.35) 0%, transparent 16%);
+}
+.navtv-hint {
+  position: absolute;
+  right: 7cqw;
+  bottom: 4.6cqw;
+}
+.navtv-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7cqw;
+  color: rgb(var(--ch-rgb));
+  font-family: var(--tv-mono);
+  font-size: max(9px, 1.25cqw);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.navtv-hint svg {
+  width: 1.1em;
+  height: 1.1em;
+}
+/* Portrait-screen layout rules for the product set must not reshape this one. */
+@media (max-aspect-ratio: 1/1), (max-width: 700px) {
+  .navtv {
+    display: none;
+  }
 }

@@ -11,7 +11,7 @@ export function ChannelReadout({
   tuned,
   needleRef,
 }: {
-  products: ProductChannel[];
+  products: Pick<ProductChannel, "id" | "name">[];
   tuned: number;
   needleRef: Ref<HTMLSpanElement>;
 }) {
